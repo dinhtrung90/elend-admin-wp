@@ -36,7 +36,7 @@ const TheSidebar = () => {
           name="logo-negative"
           height={35}
         /> */}
-        <h4>Athena</h4>
+        <h4>Elend Center</h4>
         <CIcon
           className="c-sidebar-brand-minimized"
           name="sygnet"
