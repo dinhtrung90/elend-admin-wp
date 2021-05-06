@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 import {
   CHeader,
   CToggler,
@@ -24,6 +25,12 @@ import {
 } from './index';
 
 const TheHeader = () => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
   const dispatch = useDispatch();
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
 
@@ -70,6 +77,12 @@ const TheHeader = () => {
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
+        <button type="button" onClick={() => changeLanguage('en')}>
+          en
+        </button>
+        <button type="button" onClick={() => changeLanguage('vi')}>
+          vi
+        </button>
         <TheHeaderDropdownNotif />
         <TheHeaderDropdownTasks />
         <TheHeaderDropdownMssg />

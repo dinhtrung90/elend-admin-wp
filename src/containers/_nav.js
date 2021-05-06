@@ -5,6 +5,7 @@ const _nav = [
   {
     _tag: 'CSidebarNavItem',
     name: 'Dashboard',
+    translateName: 'theSidebar.Dashboard',
     to: '/dashboard',
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
     badge: {
@@ -18,15 +19,33 @@ const _nav = [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Employers',
+    name: 'Clients',
+    translateName: 'theSidebar.Clients',
     to: '/population/employers',
     icon: 'cil-people',
   },
   {
-    _tag: 'CSidebarNavItem',
-    name: 'Eligible Population',
-    to: '/population/eligibility',
+    _tag: 'CSidebarNavDropdown',
+    name: 'Users',
+    route: '/population/users',
     icon: 'cil-user',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Employee',
+        to: '/population/users/employee',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Customer',
+        to: '/population/users/customer',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'User Role',
+        to: '/population/users/role',
+      }
+    ]
   },
   {
     _tag: 'CSidebarNavTitle',
