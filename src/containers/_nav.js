@@ -33,16 +33,19 @@ const _nav = [
       {
         _tag: 'CSidebarNavItem',
         name: 'Employee',
+        translateName: 'theSidebar.Employee',
         to: '/population/users/employee',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Customer',
+        translateName: 'theSidebar.Customer',
         to: '/population/users/customer',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'User Role',
+        translateName: 'theSidebar.UserRole',
         to: '/population/users/role',
       }
     ]

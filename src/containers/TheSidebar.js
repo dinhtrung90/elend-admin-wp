@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useTranslation, withTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import {
   CCreateElement,
   CSidebar,
@@ -19,14 +19,21 @@ import CIcon from '@coreui/icons-react'
 import navigation from './_nav'
 
 const TheSidebar = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const dispatch = useDispatch()
-  const show = useSelector(state => state.changeState.sidebarShow)
-
+  const show = useSelector(state => state.changeState.sidebarShow);
+  console.log('navigation=' + JSON.stringify(navigation));
   navigation.forEach(item => {
     if (item.translateName) {
       item.name = t(item.translateName);
+    }
+    if (item._children && item._children.length > 0) {
+      item._children.forEach(childItem => {
+        if (childItem.translateName) {
+          childItem.name = t(childItem.translateName);
+        }
+      });
     }
   });
 

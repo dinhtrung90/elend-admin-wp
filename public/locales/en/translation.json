@@ -2,6 +2,9 @@
   "theSidebar": {
     "title": "Elend Center",
     "Dashboard": "Dashboard",
-    "Clients": "Clients"
+    "Clients": "Clients",
+    "Employee": "Employee",
+    "Customer": "Customer",
+    "UserRole": "User Role"
   }
 }

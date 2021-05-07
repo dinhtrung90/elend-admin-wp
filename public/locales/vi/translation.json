@@ -1,7 +1,10 @@
 {
   "theSidebar": {
     "title": "Elend Center",
-    "Dashboard": "Bảng Điều Khiển",
-    "Clients": "Doanh Nghiệp"
+    "Dashboard": "Trang chủ",
+    "Clients": "Doanh Nghiệp",
+    "Employee": "Quản lý Nhân Viên",
+    "Customer": "Quản lý Khách hàng",
+    "UserRole": "Phân Quyền "
   }
 }
