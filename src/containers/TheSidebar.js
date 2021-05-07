@@ -23,7 +23,7 @@ const TheSidebar = () => {
 
   const dispatch = useDispatch()
   const show = useSelector(state => state.changeState.sidebarShow);
-  console.log('navigation=' + JSON.stringify(navigation));
+  // console.log('navigation=' + JSON.stringify(navigation));
   navigation.forEach(item => {
     if (item.translateName) {
       item.name = t(item.translateName);
