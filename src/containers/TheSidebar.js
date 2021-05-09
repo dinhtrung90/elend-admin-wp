@@ -52,7 +52,7 @@ const TheSidebar = () => {
           name="logo-negative"
           height={35}
         /> */}
-        <h4>{t('theSidebar.title')}</h4>
+        <h4 className="c-sidebar-brand-full">{t('theSidebar.title')}</h4>
         <CIcon
           className="c-sidebar-brand-minimized"
           name="sygnet"

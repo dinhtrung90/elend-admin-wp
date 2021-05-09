@@ -17,32 +17,32 @@ const _nav = [
     _tag: 'CSidebarNavItem',
     name: 'Clients',
     translateName: 'theSidebar.Clients',
-    to: '/population/employers',
+    to: '/employers',
     icon: 'cil-people',
   },
   {
     _tag: 'CSidebarNavDropdown',
     name: 'Users',
-    route: '/population/users',
+    route: '/users',
     icon: 'cil-user',
     _children: [
       {
         _tag: 'CSidebarNavItem',
         name: 'Employee',
         translateName: 'theSidebar.Employee',
-        to: '/population/users/employee',
+        to: '/users',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'Customer',
         translateName: 'theSidebar.Customer',
-        to: '/population/users/customer',
+        to: '/customers',
       },
       {
         _tag: 'CSidebarNavItem',
         name: 'User Role',
         translateName: 'theSidebar.UserRole',
-        to: '/population/users/role',
+        to: '/users/role',
       }
     ]
   },

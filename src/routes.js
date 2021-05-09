@@ -128,7 +128,9 @@ const routes = [
     component: Employers,
     exact: true,
   },
-  { path: '/population/employers', name: 'Employers', component: Employers },
+  { path: '/employers', name: 'Employers', component: Employers },
+  { path: '/users/employee', name: 'Users', component: Users },
+  { path: '/users/customer', name: 'Employers', component: Employers },
 
   {
     path: '/employers/create',

@@ -1,6 +1,7 @@
 {
   "theHeader": {
-    "Dashboard": "Dashboard"
+    "Dashboard": "Dashboard",
+    "Employee": "Employee"
   },
   "theSidebar": {
     "title": "Elend Center",

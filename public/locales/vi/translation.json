@@ -1,6 +1,7 @@
 {
   "theHeader": {
-    "Dashboard": "Trang chủ"
+    "Dashboard": "Trang chủ",
+    "Employee": "Quản lý Nhân Viên"
   },
   "theSidebar": {
     "title": "Elend Center",

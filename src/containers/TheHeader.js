@@ -69,7 +69,7 @@ const TheHeader = () => {
           <CHeaderNavLink to="/dashboard">{t('theHeader.Dashboard')}</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/users">Users</CHeaderNavLink>
+          <CHeaderNavLink to="/users">{t('theHeader.Employee')}</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink>Settings</CHeaderNavLink>
