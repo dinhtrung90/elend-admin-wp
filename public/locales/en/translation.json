@@ -1,7 +1,8 @@
 {
   "theHeader": {
     "Dashboard": "Dashboard",
-    "Employee": "Employee"
+    "Employee": "Employee",
+    "Settings": "Settings"
   },
   "theSidebar": {
     "title": "Elend Center",
@@ -10,5 +11,21 @@
     "Employee": "Employee",
     "Customer": "Customer",
     "UserRole": "User Role"
+  },
+  "view": {
+    "Users": {
+      "title": {
+        "Employee": "Employee",
+        "Customers": "Customers"
+      },
+      "fields": {
+        "PersonInfo": "Person Info",
+        "CustomerInfo": "Person Info",
+        "Username": "Username",
+        "Registered": "Registered",
+        "Role": "Role",
+        "Status": "Status"
+      }
+    }
   }
 }

@@ -32,7 +32,7 @@ const getBadge = (status) => {
   }
 };
 
-const Users = () => {
+const Customers = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
@@ -41,7 +41,7 @@ const Users = () => {
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/users?page=${newPage}`);
+      history.push(`/customers?page=${newPage}`);
   };
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const Users = () => {
             <CRow>
               <CCol sm="5">
                 <h4 id="traffic" className="card-title mb-0">
-                  {t('theHeader.Employee')}
+                  {t('view.Users.title.Customers')}
                 </h4>
               </CCol>
               <CCol sm="7" className="d-none d-md-block">
@@ -77,10 +77,9 @@ const Users = () => {
             <CDataTable
                 items={usersData}
                 fields={[
-                  { key: 'name', _classes: 'font-weight-bold', label: t('view.Users.fields.PersonInfo') },
+                  { key: 'name', _classes: 'font-weight-bold', label: t('view.Users.fields.CustomerInfo') },
                   { key: 'username', label: t('view.Users.fields.Username') },
                   { key: 'registered', label: t('view.Users.fields.Registered') },
-                  { key: 'role', label: t('view.Users.fields.Role') },
                   { key: 'status', label: t('view.Users.fields.Status') },
                 ]}
                 hover
@@ -89,24 +88,6 @@ const Users = () => {
                 activePage={page}
                 clickableRows
                 onRowClick={(item) => history.push(`/users/${item.id}`)}
-                scopedSlots = {{
-                  'name':
-                      (item)=>(
-                        <td>
-                          <p class="text-primary m-0">{item.name}</p>
-                          <p class="m-0">{item.email}</p>
-                          <p class="m-0">{item.phone}</p>
-                        </td>
-                      ),
-                  'status':
-                      (item)=>(
-                          <td>
-                            <CBadge color={getBadge(item.status)}>
-                              {item.status}
-                            </CBadge>
-                          </td>
-                      )
-                }}
             />
             <CPagination
               activePage={page}
@@ -122,4 +103,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Customers;

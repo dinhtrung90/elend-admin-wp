@@ -1,7 +1,8 @@
 {
   "theHeader": {
     "Dashboard": "Trang chủ",
-    "Employee": "Quản lý Nhân Viên"
+    "Employee": "Quản lý Nhân Viên",
+    "Settings": "Cài đặt"
   },
   "theSidebar": {
     "title": "Elend Center",
@@ -10,5 +11,21 @@
     "Employee": "Quản lý Nhân Viên",
     "Customer": "Quản lý Khách hàng",
     "UserRole": "Phân Quyền "
+  },
+  "view": {
+    "Users": {
+      "title": {
+        "Employee": "Quản lý Nhân Viên",
+        "Customers": "Quản lý Khách hàng"
+      },
+      "fields": {
+        "PersonInfo": "Tên nhân viên",
+        "CustomerInfo": "Tên khách hàng",
+        "Username": "Tên đăng nhập",
+        "Registered": "Ngày đăng ký",
+        "Role": "Phân quyền",
+        "Status": "Trạng thái"
+      }
+    }
   }
 }

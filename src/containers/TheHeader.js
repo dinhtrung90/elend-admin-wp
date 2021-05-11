@@ -72,7 +72,7 @@ const TheHeader = () => {
           <CHeaderNavLink to="/users">{t('theHeader.Employee')}</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink>Settings</CHeaderNavLink>
+          <CHeaderNavLink>{t('theHeader.Settings')}</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
 
