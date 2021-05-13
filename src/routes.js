@@ -59,6 +59,7 @@ const Typography = React.lazy(() =>
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const UserRoles = React.lazy(() => import('./views/users/UserRoles'));
+const EditUserRole = React.lazy(() => import('./views/users/UserRole'));
 const Customers = React.lazy(() => import('./views/users/Customers'));
 const User = React.lazy(() => import('./views/users/User'));
 const Employers = React.lazy(() => import('./views/employers/employers'));
@@ -127,7 +128,7 @@ const routes = [
   { path: '/customers', exact: true, name: 'Customers', component: Customers },
   { path: '/customers/edit/:id', exact: true, name: 'Customers Details', component: User },
   { path: '/users/role', exact: true, name: 'User Roles', component: UserRoles },
-  { path: '/users/role/edit/:id', exact: true, name: 'User Roles', component: UserRoles },
+  { path: '/users/role/edit/:id', exact: true, name: 'Edit User Roles', component: EditUserRole },
   { path: '/employers', name: 'Employers', component: Employers },
   // { path: '/users/employee', name: 'Users', component: Users },
   // { path: '/users/customer', name: 'Customers', component: Customers },

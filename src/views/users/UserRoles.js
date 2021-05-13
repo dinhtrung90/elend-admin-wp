@@ -9,7 +9,7 @@ import {
     CDataTable,
     CRow,
     CPagination,
-    CButton,
+    CButton, CBadge,
 } from '@coreui/react';
 
 import usersData from './UserRoleData';
@@ -63,13 +63,30 @@ const UserRoles = () => {
                             fields={[
                                 { key: 'roleName', _classes: 'font-weight-bold', label: t('view.UserRoles.UserRoleName') },
                                 { key: 'description', label: t('common.Description') },
-                                { key: 'createdDate', label: t('common.CreatedDate') }
+                                { key: 'createdDate', label: t('common.CreatedDate') },
+                                { key: 'action'}
                             ]}
                             hover
                             striped
                             itemsPerPage={5}
                             activePage={page}
-                            clickableRows
+                            scopedSlots={{
+                                action: (item) => (
+                                    <td>
+                                        <CButton
+                                            className="mr-1"
+                                            color="primary"
+                                            onClick={() => history.push(`/users/role/edit/${item.id}`)}>
+                                            <CIcon name="cil-pencil" />
+                                        </CButton>
+                                        <CButton
+                                            color="danger"
+                                            onClick={() => history.push(`/users/role/delete/${item.id}`)}>
+                                            <CIcon name="cil-trash" />
+                                        </CButton>
+                                    </td>
+                                ),
+                            }}
                         />
                         <CPagination
                             activePage={page}

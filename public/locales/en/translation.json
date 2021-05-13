@@ -36,6 +36,7 @@
     },
     "UserRoles": {
       "title": "User Roles",
+      "EditUserRole": "Edit User Role",
       "UserRoleName": "User Role Name"
     }
   }

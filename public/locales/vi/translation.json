@@ -36,6 +36,7 @@
     },
     "UserRoles": {
       "title": "Phân Quyền",
+      "EditUserRole": "Cập Nhật Phân Quyền",
       "UserRoleName": "Tên phân quyền"
     }
   }
