@@ -1,7 +1,8 @@
 {
   "common": {
     "CreatedDate": "Created Date",
-    "Description": "Description"
+    "Description": "Description",
+    "Permission": "Permission"
   },
   "theHeader": {
     "Dashboard": "Dashboard",

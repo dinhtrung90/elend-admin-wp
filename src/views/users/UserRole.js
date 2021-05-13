@@ -1,37 +1,33 @@
 import React from 'react'
-import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
+import {CCard, CCardBody, CCardHeader, CCol, CFormGroup, CInput, CLabel, CRow} from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { useTranslation } from 'react-i18next';
 import usersData from './UserRoleData'
 
 const UserRole = ({match}) => {
   const { t } = useTranslation()
-  const user = usersData.find( user => user.id.toString() === match.params.id)
-  const userDetails = user ? Object.entries(user) : 
-    [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
+  const userRoleData = usersData.find( user => user.id.toString() === match.params.id)
 
   return (
     <CRow>
-      <CCol lg={6}>
+      <CCol>
         <CCard>
           <CCardHeader>
               {t('view.UserRoles.EditUserRole')}
           </CCardHeader>
           <CCardBody>
-              <table className="table table-striped table-hover">
-                <tbody>
-                  {
-                    userDetails.map(([key, value], index) => {
-                      return (
-                        <tr key={index.toString()}>
-                          <td>{`${key}:`}</td>
-                          <td><strong>{value}</strong></td>
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </table>
+              <CFormGroup>
+                  <CLabel htmlFor="userRoleName">{t('view.UserRoles.UserRoleName')}</CLabel>
+                  <CInput id="userRoleName" defaultValue={userRoleData.roleName} />
+              </CFormGroup>
+              <CFormGroup>
+                  <CLabel htmlFor="description">{t('common.Description')}</CLabel>
+                  <CInput id="description" defaultValue={userRoleData.description} />
+              </CFormGroup>
+              <CFormGroup>
+                  <CLabel htmlFor="permission">{t('common.Permission')}</CLabel>
+
+              </CFormGroup>
           </CCardBody>
         </CCard>
       </CCol>
