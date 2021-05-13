@@ -1,4 +1,8 @@
 {
+  "common": {
+    "CreatedDate": "Created Date",
+    "Description": "Description"
+  },
   "theHeader": {
     "Dashboard": "Dashboard",
     "Employee": "Employee",
@@ -13,6 +17,9 @@
     "UserRole": "User Role"
   },
   "view": {
+    "Clients": {
+      "title": "Employers"
+    },
     "Users": {
       "title": {
         "Employee": "Employee",
@@ -26,6 +33,10 @@
         "Role": "Role",
         "Status": "Status"
       }
+    },
+    "UserRoles": {
+      "title": "User Roles",
+      "UserRoleName": "User Role Name"
     }
   }
 }

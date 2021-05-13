@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   CBadge,
   CCard,
@@ -32,6 +33,7 @@ const getBadge = (status) => {
 };
 
 const Employers = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
@@ -39,7 +41,7 @@ const Employers = () => {
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/population/employers?page=${newPage}`);
+      history.push(`/employers?page=${newPage}`);
   };
 
   useEffect(() => {
@@ -58,7 +60,7 @@ const Employers = () => {
             <CRow>
               <CCol sm="5">
                 <h4 id="traffic" className="card-title mb-0">
-                  Employers
+                  {t('view.Clients.title')}
                 </h4>
               </CCol>
               <CCol sm="7" className="d-none d-md-block">
@@ -78,12 +80,9 @@ const Employers = () => {
                 { key: 'name', _classes: 'font-weight-bold' },
                 'employerKey',
                 'address',
-                'longitude',
-                'latitude',
-                'createdBy',
-                'lastModifiedBy',
                 'lastModifiedDate',
                 'createdDate',
+                'status'
               ]}
               hover
               striped
@@ -91,7 +90,7 @@ const Employers = () => {
               activePage={page}
               clickableRows
               onRowClick={(item) =>
-                history.push(`/population/employers/${item.id}`)
+                history.push(`/employers/${item.id}`)
               }
               scopedSlots={{
                 status: (item) => (

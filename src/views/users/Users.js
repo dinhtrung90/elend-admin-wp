@@ -88,14 +88,14 @@ const Users = () => {
                 itemsPerPage={5}
                 activePage={page}
                 clickableRows
-                onRowClick={(item) => history.push(`/users/${item.id}`)}
+                onRowClick={(item) => history.push(`/users/edit/${item.id}`)}
                 scopedSlots = {{
                   'name':
                       (item)=>(
                         <td>
-                          <p class="text-primary m-0">{item.name}</p>
-                          <p class="m-0">{item.email}</p>
-                          <p class="m-0">{item.phone}</p>
+                          <p className="text-primary m-0">{item.name}</p>
+                          <p className="m-0">{item.email}</p>
+                          <p className="m-0">{item.phone}</p>
                         </td>
                       ),
                   'status':

@@ -23,15 +23,14 @@ const TheSidebar = () => {
 
   const dispatch = useDispatch()
   const show = useSelector(state => state.changeState.sidebarShow);
-  // console.log('navigation=' + JSON.stringify(navigation));
   navigation.forEach(item => {
-    if (item.translateName) {
-      item.name = t(item.translateName);
+    if (item.translatename) {
+      item.name = t(item.translatename);
     }
     if (item._children && item._children.length > 0) {
       item._children.forEach(childItem => {
-        if (childItem.translateName) {
-          childItem.name = t(childItem.translateName);
+        if (childItem.translatename) {
+          childItem.name = t(childItem.translatename);
         }
       });
     }

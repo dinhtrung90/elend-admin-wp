@@ -4,7 +4,7 @@ import CIcon from '@coreui/icons-react'
 
 import usersData from './UsersData'
 
-const Users = ({match}) => {
+const User = ({match}) => {
   const user = usersData.find( user => user.id.toString() === match.params.id)
   const userDetails = user ? Object.entries(user) : 
     [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
@@ -38,4 +38,4 @@ const Users = ({match}) => {
   )
 }
 
-export default Users
+export default User

@@ -1,4 +1,8 @@
 {
+  "common": {
+    "CreatedDate": "Ngày tạo",
+    "Description": "Mô tả"
+  },
   "theHeader": {
     "Dashboard": "Trang chủ",
     "Employee": "Quản lý Nhân Viên",
@@ -13,6 +17,9 @@
     "UserRole": "Phân Quyền "
   },
   "view": {
+    "Clients": {
+      "title": "Doanh Nghiệp"
+    },
     "Users": {
       "title": {
         "Employee": "Quản lý Nhân Viên",
@@ -26,6 +33,10 @@
         "Role": "Phân quyền",
         "Status": "Trạng thái"
       }
+    },
+    "UserRoles": {
+      "title": "Phân Quyền",
+      "UserRoleName": "Tên phân quyền"
     }
   }
 }

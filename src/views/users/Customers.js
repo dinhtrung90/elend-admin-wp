@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  CBadge,
   CCard,
   CCardBody,
   CCardHeader,
@@ -16,21 +15,6 @@ import {
 import usersData from './UsersData';
 
 import CIcon from '@coreui/icons-react';
-
-const getBadge = (status) => {
-  switch (status) {
-    case 'Active':
-      return 'success';
-    case 'Inactive':
-      return 'secondary';
-    case 'Pending':
-      return 'warning';
-    case 'Banned':
-      return 'danger';
-    default:
-      return 'primary';
-  }
-};
 
 const Customers = () => {
   const { t } = useTranslation();
@@ -87,7 +71,7 @@ const Customers = () => {
                 itemsPerPage={5}
                 activePage={page}
                 clickableRows
-                onRowClick={(item) => history.push(`/users/${item.id}`)}
+                onRowClick={(item) => history.push(`/users/edit/${item.id}`)}
             />
             <CPagination
               activePage={page}
