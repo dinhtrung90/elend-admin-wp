@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux'
 import {
     CCard,
     CCardBody,
@@ -12,13 +13,16 @@ import {
     CButton, CBadge,
 } from '@coreui/react';
 
-import usersData from './UserRoleData';
+import {userActions} from '../actions';
 
 import CIcon from '@coreui/icons-react';
 
 const UserRoles = () => {
     const { t } = useTranslation();
     const history = useHistory();
+    const dispatch = useDispatch();
+    const usersData = useSelector(state => state.users.userRoles);
+
     const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
     const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
     const [page, setPage] = useState(currentPage);
@@ -29,6 +33,7 @@ const UserRoles = () => {
     };
 
     useEffect(() => {
+        dispatch(userActions.getAllUserRoles());
         currentPage !== page && setPage(currentPage);
     }, [currentPage, page]);
 

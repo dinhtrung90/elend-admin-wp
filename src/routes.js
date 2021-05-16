@@ -57,11 +57,11 @@ const Typography = React.lazy(() =>
   import('./views/theme/typography/Typography')
 );
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
-const Users = React.lazy(() => import('./views/users/Users'));
-const UserRoles = React.lazy(() => import('./views/users/UserRoles'));
-const EditUserRole = React.lazy(() => import('./views/users/UserRole'));
-const Customers = React.lazy(() => import('./views/users/Customers'));
-const User = React.lazy(() => import('./views/users/User'));
+const Users = React.lazy(() => import('./views/users/components/Users'));
+const UserRoles = React.lazy(() => import('./views/users/components/UserRoles'));
+const EditUserRole = React.lazy(() => import('./views/users/components/UserRole'));
+const Customers = React.lazy(() => import('./views/users/components/Customers'));
+const User = React.lazy(() => import('./views/users/components/User'));
 const Employers = React.lazy(() => import('./views/employers/employers'));
 const EmployerCreation = React.lazy(() =>
   import('./views/employers/employer.creation')

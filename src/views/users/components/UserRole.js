@@ -1,12 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {CCard, CCardBody, CCardHeader, CCol, CFormGroup, CInput, CLabel, CRow} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
 import { useTranslation } from 'react-i18next';
-import usersData from './UserRoleData'
+import { useDispatch, useSelector } from 'react-redux';
+import {userActions} from '../actions';
 
 const UserRole = ({match}) => {
-  const { t } = useTranslation()
-  const userRoleData = usersData.find( user => user.id.toString() === match.params.id)
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const userRoleData = useSelector(state => state.users.userRoleDetail) || {};
+  console.log('userRoleData==', userRoleData);
+
+  useEffect(() => {
+    dispatch(userActions.getUserRoleDetail(match.params.id));
+  });
 
   return (
     <CRow>
