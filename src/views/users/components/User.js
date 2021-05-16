@@ -1,14 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-
-import usersData from './UsersData'
+import {userActions} from "../actions";
 
 const User = ({match}) => {
-  const user = usersData.find( user => user.id.toString() === match.params.id)
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.users.userDetail);
+
   const userDetails = user ? Object.entries(user) : 
     [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
 
+  useEffect(() => {
+    dispatch(userActions.getUserDetail(match.params.id));
+  }, );
   return (
     <CRow>
       <CCol lg={6}>

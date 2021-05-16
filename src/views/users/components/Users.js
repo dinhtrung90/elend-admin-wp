@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   CBadge,
   CCard,
@@ -13,7 +14,7 @@ import {
   CButton,
 } from '@coreui/react';
 
-import usersData from './UsersData';
+import {userActions} from '../actions';
 
 import CIcon from '@coreui/icons-react';
 
@@ -35,6 +36,9 @@ const getBadge = (status) => {
 const Users = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const usersData = useSelector(state => state.users.users);
+
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
@@ -45,6 +49,7 @@ const Users = () => {
   };
 
   useEffect(() => {
+    dispatch(userActions.getAllUsers());
     currentPage !== page && setPage(currentPage);
   }, [currentPage, page]);
 

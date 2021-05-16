@@ -1,17 +1,43 @@
 import * as t from './actionTypes';
 
 // fake data
-import usersData from './components/UserRoleData';
+import usersData from './components/UsersData';
+import userRolesData from './components/UserRoleData';
 
 export const userActions = {
+    getAllUsers,
+    getUserDetail,
     getAllUserRoles,
     getUserRoleDetail
 };
 
-function getAllUserRoles() {
+function getAllUsers() {
     return dispatch => {
         dispatch(request());
         dispatch(success(usersData));
+    };
+
+    function request() { return { type: t.USERS_GET_ALL_REQUEST } }
+    function success(users) { return { type: t.USERS_GET_ALL_SUCCESS, users } }
+    function failure(error) { return { type: t.USERS_GET_ALL_FAILURE, error } }
+}
+
+function getUserDetail(userId) {
+    const item = usersData.find( user => user.id.toString() === userId);
+    return dispatch => {
+        dispatch(request());
+        dispatch(success(item));
+    };
+
+    function request() { return { type: t.USER_DETAIL_GET_REQUEST } }
+    function success(userDetail) { return { type: t.USER_DETAIL_GET_SUCCESS, userDetail } }
+    function failure(error) { return { type: t.USER_DETAIL_GET_FAILURE, error } }
+}
+
+function getAllUserRoles() {
+    return dispatch => {
+        dispatch(request());
+        dispatch(success(userRolesData));
     };
 
     function request() { return { type: t.USER_ROLES_GET_ALL_REQUEST } }
@@ -20,10 +46,10 @@ function getAllUserRoles() {
 }
 
 function getUserRoleDetail(userRoleId) {
-    const userRoleData = usersData.find( user => user.id.toString() === userRoleId)
+    const item = userRolesData.find( userRole => userRole.id.toString() === userRoleId);
     return dispatch => {
         dispatch(request());
-        dispatch(success(userRoleData));
+        dispatch(success(item));
     };
 
     function request() { return { type: t.USER_ROLE_DETAIL_GET_REQUEST } }
