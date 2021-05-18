@@ -1,6 +1,7 @@
 import * as t from './actionTypes';
 
 // fake data
+import customersData from './components/UsersData';
 import usersData from './components/UsersData';
 import userRolesData from './components/UserRoleData';
 
@@ -8,7 +9,9 @@ export const userActions = {
     getAllUsers,
     getUserDetail,
     getAllUserRoles,
-    getUserRoleDetail
+    getUserRoleDetail,
+    getAllCustomers,
+    getCustomerDetail
 };
 
 function getAllUsers() {
@@ -20,6 +23,29 @@ function getAllUsers() {
     function request() { return { type: t.USERS_GET_ALL_REQUEST } }
     function success(users) { return { type: t.USERS_GET_ALL_SUCCESS, users } }
     function failure(error) { return { type: t.USERS_GET_ALL_FAILURE, error } }
+}
+
+function getAllCustomers() {
+    return dispatch => {
+        dispatch(request());
+        dispatch(success(customersData));
+    };
+
+    function request() { return { type: t.CUSTOMERS_GET_ALL_REQUEST } }
+    function success(customers) { return { type: t.CUSTOMERS_GET_ALL_SUCCESS, customers } }
+    function failure(error) { return { type: t.CUSTOMERS_GET_ALL_FAILURE, error } }
+}
+
+function getCustomerDetail(customerId) {
+    const item = customersData.find( user => user.id.toString() === customerId);
+    return dispatch => {
+        dispatch(request());
+        dispatch(success(item));
+    };
+
+    function request() { return { type: t.CUSTOMER_DETAIL_GET_REQUEST } }
+    function success(customer) { return { type: t.CUSTOMER_DETAIL_GET_SUCCESS, customer } }
+    function failure(error) { return { type: t.CUSTOMER_DETAIL_GET_FAILURE, error } }
 }
 
 function getUserDetail(userId) {

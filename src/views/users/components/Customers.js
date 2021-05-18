@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   CCard,
   CCardBody,
@@ -12,13 +13,16 @@ import {
   CButton,
 } from '@coreui/react';
 
-import usersData from './UsersData';
-
 import CIcon from '@coreui/icons-react';
+import {userActions} from "../actions";
 
 const Customers = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const usersData = useSelector(state => state.users.customers);
+  console.log('usersData=', usersData);
+
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
@@ -29,6 +33,7 @@ const Customers = () => {
   };
 
   useEffect(() => {
+    dispatch(userActions.getAllCustomers());
     currentPage !== page && setPage(currentPage);
   }, [currentPage, page]);
 
