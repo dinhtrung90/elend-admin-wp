@@ -5,6 +5,8 @@ import customersData from './components/UsersData';
 import usersData from './components/UsersData';
 import userRolesData from './components/UserRoleData';
 
+import { userService } from "../../services/user.service";
+
 export const userActions = {
     getAllUsers,
     getUserDetail,
@@ -63,7 +65,11 @@ function getUserDetail(userId) {
 function getAllUserRoles() {
     return dispatch => {
         dispatch(request());
-        dispatch(success(userRolesData));
+        userService.getAllUserRoles().then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            failure(error);
+        });
     };
 
     function request() { return { type: t.USER_ROLES_GET_ALL_REQUEST } }

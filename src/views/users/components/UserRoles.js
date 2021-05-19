@@ -68,7 +68,7 @@ const UserRoles = () => {
                             fields={[
                                 { key: 'roleName', _classes: 'font-weight-bold', label: t('view.UserRoles.UserRoleName') },
                                 { key: 'description', label: t('common.Description') },
-                                { key: 'createdDate', label: t('common.CreatedDate') },
+                                { key: 'createDate', label: t('common.CreatedDate') },
                                 { key: 'action'}
                             ]}
                             hover
