@@ -29,7 +29,7 @@ const UserRoles = () => {
 
     const pageChange = (newPage) => {
         currentPage !== newPage &&
-        history.push(`/userroles?page=${newPage}`);
+        history.push(`/users/role?page=${newPage}`);
     };
 
     useEffect(() => {
