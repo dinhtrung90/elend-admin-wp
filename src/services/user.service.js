@@ -9,6 +9,11 @@ const getAllUserRoles = () => {
   return axios.get(SERVICE_DOMAIN + '/api/member-roles/get-roles');
 }
 
+
+const getUserRoleDetail = (roleName) => {
+  return axios.get(SERVICE_DOMAIN + `/api/member-roles?roleName=${roleName}`);
+}
+
 const getAllPermissions = () => {
   return axios.get(SERVICE_DOMAIN + '/api/permissions');
 }
@@ -16,5 +21,6 @@ const getAllPermissions = () => {
 export const userService = {
   getAllPermissions,
   getAllUserRoles,
+  getUserRoleDetail,
   syncAccount,
 };

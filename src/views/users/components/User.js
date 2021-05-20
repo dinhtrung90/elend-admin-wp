@@ -13,7 +13,7 @@ const User = ({match}) => {
 
   useEffect(() => {
     dispatch(userActions.getUserDetail(match.params.id));
-  }, );
+  }, []);
   return (
     <CRow>
       <CCol lg={6}>

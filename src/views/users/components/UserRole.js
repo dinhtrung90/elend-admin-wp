@@ -7,12 +7,14 @@ import {userActions} from '../actions';
 const UserRole = ({match}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const userRoleData = useSelector(state => state.users.userRoleDetail) || {};
-  console.log('userRoleData==', userRoleData);
+  const userRoleData = {}
+  const permissions = useSelector(state => state.users.permissions) || [];
+  console.log('permissions=', permissions);
 
   useEffect(() => {
-    dispatch(userActions.getUserRoleDetail(match.params.id));
-  });
+    // dispatch(userActions.getUserRoleDetail(match.params.id));
+    dispatch(userActions.getAllPermissions());
+  }, []);
 
   return (
     <CRow>

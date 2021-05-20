@@ -3,8 +3,6 @@ import * as t from './actionTypes';
 // fake data
 import customersData from './components/UsersData';
 import usersData from './components/UsersData';
-import userRolesData from './components/UserRoleData';
-
 import { userService } from "../../services/user.service";
 
 export const userActions = {
@@ -12,6 +10,7 @@ export const userActions = {
     getUserDetail,
     getAllUserRoles,
     getUserRoleDetail,
+    getAllPermissions,
     getAllCustomers,
     getCustomerDetail
 };
@@ -30,7 +29,7 @@ function getAllUsers() {
 function getAllCustomers() {
     return dispatch => {
         dispatch(request());
-        dispatch(success(customersData));
+        return dispatch(success(customersData));
     };
 
     function request() { return { type: t.CUSTOMERS_GET_ALL_REQUEST } }
@@ -65,10 +64,10 @@ function getUserDetail(userId) {
 function getAllUserRoles() {
     return dispatch => {
         dispatch(request());
-        userService.getAllUserRoles().then(response => {
+        return userService.getAllUserRoles().then(response => {
             dispatch(success(response.data));
         }).catch(error => {
-            failure(error);
+            dispatch(failure(error));
         });
     };
 
@@ -77,14 +76,32 @@ function getAllUserRoles() {
     function failure(error) { return { type: t.USER_ROLES_GET_ALL_FAILURE, error } }
 }
 
-function getUserRoleDetail(userRoleId) {
-    const item = userRolesData.find( userRole => userRole.id.toString() === userRoleId);
+function getUserRoleDetail(roleName) {
     return dispatch => {
         dispatch(request());
-        dispatch(success(item));
+        return userService.getUserRoleDetail(roleName).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
     };
 
     function request() { return { type: t.USER_ROLE_DETAIL_GET_REQUEST } }
     function success(userRole) { return { type: t.USER_ROLE_DETAIL_GET_SUCCESS, userRole } }
     function failure(error) { return { type: t.USER_ROLE_DETAIL_GET_FAILURE, error } }
+}
+
+function getAllPermissions() {
+    return dispatch => {
+        dispatch(request());
+        return userService.getAllPermissions().then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.PERMISSION_GET_ALL_REQUEST} }
+    function success(permissions) { return { type: t.PERMISSION_GET_ALL_SUCCESS, permissions } }
+    function failure(error) { return { type: t.PERMISSION_GET_ALL_FAILURE, error } }
 }

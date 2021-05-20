@@ -22,6 +22,7 @@ const UserRoles = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const usersData = useSelector(state => state.users.userRoles);
+    const maxPage = usersData.length % 5 + 1;
 
     const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
     const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
@@ -81,12 +82,12 @@ const UserRoles = () => {
                                         <CButton
                                             className="mr-1"
                                             color="primary"
-                                            onClick={() => history.push(`/users/role/edit/${item.id}`)}>
+                                            onClick={() => history.push(`/users/role/edit/${item.roleName}`)}>
                                             <CIcon name="cil-pencil" />
                                         </CButton>
                                         <CButton
                                             color="danger"
-                                            onClick={() => history.push(`/users/role/delete/${item.id}`)}>
+                                            onClick={() => history.push(`/users/role/delete/${item.roleName}`)}>
                                             <CIcon name="cil-trash" />
                                         </CButton>
                                     </td>
@@ -96,7 +97,7 @@ const UserRoles = () => {
                         <CPagination
                             activePage={page}
                             onActivePageChange={pageChange}
-                            pages={5}
+                            pages={maxPage}
                             doubleArrows={false}
                             align="center"
                         />

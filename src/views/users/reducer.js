@@ -7,6 +7,7 @@ const initialState = {
     userDetail: null,
     userRoles: [],
     userRoleDetail: null,
+    permissions: [],
     isFetched: false,
     isFetching: false,
     isSaving: false,
@@ -99,6 +100,21 @@ export default (state = initialState, action) => {
                 userRoleDetail: action.userRole
             })
         case t.USER_ROLE_DETAIL_GET_FAILURE:
+            return Object.assign({}, state, {
+                errorFetch: action.error
+            });
+        case t.PERMISSION_GET_ALL_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isFetched: false
+            });
+        case t.PERMISSION_GET_ALL_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true,
+                permissions: action.permissions
+            })
+        case t.PERMISSION_GET_ALL_FAILURE:
             return Object.assign({}, state, {
                 errorFetch: action.error
             });
