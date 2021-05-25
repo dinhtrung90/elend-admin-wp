@@ -128,6 +128,7 @@ const routes = [
   { path: '/customers', exact: true, name: 'Customers', component: Customers },
   { path: '/customers/edit/:id', exact: true, name: 'Customers Details', component: User },
   { path: '/users/role', exact: true, name: 'User Roles', component: UserRoles },
+  { path: '/users/role/create', exact: true, name: 'New User Roles', component: EditUserRole },
   { path: '/users/role/edit/:id', exact: true, name: 'Edit User Roles', component: EditUserRole },
   { path: '/employers', name: 'Employers', component: Employers },
   // { path: '/users/employee', name: 'Users', component: Users },

@@ -39,8 +39,8 @@ const UserRoles = () => {
         currentPage !== page && setPage(currentPage);
     }, [currentPage, page]);
 
-    const navigationToEmployerCreation = () => {
-        history.push(`/employers/create`);
+    const navigationToUserRoleCreation = () => {
+        history.push(`/users/role/create`);
     };
 
     return (
@@ -58,7 +58,7 @@ const UserRoles = () => {
                                 <CButton
                                     color="primary"
                                     className="float-right"
-                                    onClick={navigationToEmployerCreation}>
+                                    onClick={navigationToUserRoleCreation}>
                                     <CIcon name="cil-pencil" />
                                 </CButton>
                             </CCol>

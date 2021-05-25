@@ -11,7 +11,9 @@ const UserRole = ({match}) => {
   const permissions = useSelector(state => state.users.permissions) || [];
 
   useEffect(() => {
-    dispatch(userActions.getUserRoleDetail(match.params.id));
+    if (match.params.id) {
+      dispatch(userActions.getUserRoleDetail(match.params.id));
+    }
     dispatch(userActions.getAllPermissions());
   }, []);
 
@@ -20,7 +22,7 @@ const UserRole = ({match}) => {
       <CCol>
         <CCard>
           <CCardHeader>
-              {t('view.UserRoles.EditUserRole')}
+              {match.params.id ? t('view.UserRoles.EditUserRole') : t('view.UserRoles.NewUserRole')}
           </CCardHeader>
           <CCardBody>
               <CFormGroup>

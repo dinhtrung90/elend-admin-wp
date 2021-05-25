@@ -2,7 +2,7 @@
   "common": {
     "CreatedDate": "Ngày tạo",
     "Description": "Mô tả",
-    "Permission": "Danh sách Phân Quyền"
+    "Permission": "Danh sách phân quyền"
   },
   "theHeader": {
     "Dashboard": "Trang chủ",
@@ -37,6 +37,7 @@
     },
     "UserRoles": {
       "title": "Phân Quyền",
+      "NewUserRole": "Tạo Mới Phân Quyền",
       "EditUserRole": "Cập Nhật Phân Quyền",
       "UserRoleName": "Tên phân quyền"
     }

@@ -37,6 +37,7 @@
     },
     "UserRoles": {
       "title": "User Roles",
+      "NewUserRole": "New User Role",
       "EditUserRole": "Edit User Role",
       "UserRoleName": "User Role Name"
     }
