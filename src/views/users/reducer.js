@@ -6,7 +6,7 @@ const initialState = {
     users: [],
     userDetail: null,
     userRoles: [],
-    userRoleDetail: null,
+    userRoleDetail: {},
     permissions: [],
     isFetched: false,
     isFetching: false,
@@ -85,6 +85,7 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true,
+                userRoleDetail: {}, // reset detail item
                 userRoles: action.userRoles.items,
                 totalPages: action.userRoles.totalPage
             })
