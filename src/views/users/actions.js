@@ -61,10 +61,10 @@ function getUserDetail(userId) {
     function failure(error) { return { type: t.USER_DETAIL_GET_FAILURE, error } }
 }
 
-function getAllUserRoles() {
+function getAllUserRoles(data) {
     return dispatch => {
         dispatch(request());
-        return userService.getAllUserRoles().then(response => {
+        return userService.getAllUserRoles(data).then(response => {
             dispatch(success(response.data));
         }).catch(error => {
             dispatch(failure(error));

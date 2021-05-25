@@ -22,7 +22,8 @@ const UserRoles = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const usersData = useSelector(state => state.users.userRoles);
-    const maxPage = usersData.length % 5 + 1;
+    const itemsPerPage = useSelector(state => state.users.itemsPerPage);
+    const maxPage = useSelector(state => state.users.totalPages);
 
     const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
     const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
@@ -30,11 +31,11 @@ const UserRoles = () => {
 
     const pageChange = (newPage) => {
         currentPage !== newPage &&
-        history.push(`/users/role?page=${newPage}`);
+        history.push(`/users/role?page=${newPage === 0 ? 1 : newPage}`);
     };
 
     useEffect(() => {
-        dispatch(userActions.getAllUserRoles());
+        dispatch(userActions.getAllUserRoles({page: currentPage > 1? currentPage - 1 : 0, size: itemsPerPage}));
         currentPage !== page && setPage(currentPage);
     }, [currentPage, page]);
 
@@ -74,8 +75,7 @@ const UserRoles = () => {
                             ]}
                             hover
                             striped
-                            itemsPerPage={5}
-                            activePage={page}
+                            itemsPerPage={itemsPerPage}
                             scopedSlots={{
                                 action: (item) => (
                                     <td>

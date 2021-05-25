@@ -5,8 +5,8 @@ const syncAccount = () => {
   return axios.post(SERVICE_DOMAIN + '/api/users/sync');
 };
 
-const getAllUserRoles = () => {
-  return axios.get(SERVICE_DOMAIN + '/api/member-roles/get-roles');
+const getAllUserRoles = (data) => {
+  return axios.get(SERVICE_DOMAIN + `/api/member-roles/get-roles?page=${data.page}&size=${data.size}`);
 }
 
 

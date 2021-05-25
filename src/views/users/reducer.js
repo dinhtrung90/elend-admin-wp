@@ -13,7 +13,9 @@ const initialState = {
     isSaving: false,
     errorFetch: null,
     errorUpdate: null,
-    selectedId: 'all'
+    selectedId: 'all',
+    itemsPerPage: 5,
+    totalPages: 0
 }
 
 export default (state = initialState, action) => {
@@ -83,7 +85,8 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true,
-                userRoles: action.userRoles
+                userRoles: action.userRoles.items,
+                totalPages: action.userRoles.totalPage
             })
         case t.USER_ROLES_GET_ALL_FAILURE:
             return Object.assign({}, state, {
