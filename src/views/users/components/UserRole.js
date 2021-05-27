@@ -1,8 +1,20 @@
 import React, {useState, useEffect} from 'react'
-import {CCard, CCardBody, CCardHeader, CCol, CFormGroup, CInput, CInputCheckbox, CLabel, CRow} from '@coreui/react'
+import {
+    CButton,
+    CCard,
+    CCardBody,
+    CCardHeader,
+    CCol,
+    CFormGroup,
+    CInput,
+    CInputCheckbox,
+    CLabel,
+    CRow
+} from '@coreui/react'
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {userActions} from '../actions';
+import CIcon from "@coreui/icons-react";
 
 const UserRole = ({match}) => {
   const { t } = useTranslation();
@@ -23,6 +35,9 @@ const UserRole = ({match}) => {
         <CCard>
           <CCardHeader>
               {match.params.id ? t('view.UserRoles.EditUserRole') : t('view.UserRoles.NewUserRole')}
+              <button className="float-right btn btn-primary btn-sm">
+                  <CIcon name="cil-save"  alt="btn-save" />
+              </button>
           </CCardHeader>
           <CCardBody>
               <CFormGroup>
@@ -51,6 +66,9 @@ const UserRole = ({match}) => {
               </CFormGroup>
           </CCardBody>
         </CCard>
+        <div className="text-center mb-3">
+          <CButton type="submit" color="primary" className="text-center">{t('common.Save')}</CButton>
+        </div>
       </CCol>
     </CRow>
   )

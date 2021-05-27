@@ -2,7 +2,8 @@
   "common": {
     "CreatedDate": "Created Date",
     "Description": "Description",
-    "Permission": "Permission"
+    "Permission": "Permission",
+    "Save": "Save"
   },
   "theHeader": {
     "Dashboard": "Dashboard",

@@ -2,7 +2,8 @@
   "common": {
     "CreatedDate": "Ngày tạo",
     "Description": "Mô tả",
-    "Permission": "Danh sách phân quyền"
+    "Permission": "Danh sách phân quyền",
+    "Save": "Lưu"
   },
   "theHeader": {
     "Dashboard": "Trang chủ",
