@@ -60,6 +60,7 @@ const UserRoles = () => {
                                     className="float-right"
                                     onClick={navigationToUserRoleCreation}>
                                     <CIcon name="cil-plus" />
+                                    New User Role
                                 </CButton>
                             </CCol>
                         </CRow>

@@ -107,6 +107,19 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 errorFetch: action.error
             });
+        case t.CREATE_USER_ROLES_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        case t.CREATE_USER_ROLES_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true
+            })
+        case t.CREATE_USER_ROLES_FAILURE:
+            return Object.assign({}, state, {
+                errorFetch: action.error
+            });
         case t.PERMISSION_GET_ALL_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true,

@@ -19,8 +19,10 @@ import CIcon from "@coreui/icons-react";
 const UserRole = ({match}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const userRoleData = useSelector(state => state.users.userRoleDetail);
+
+  let userRoleData = useSelector(state => state.users.userRoleDetail);
   const permissions = useSelector(state => state.users.permissions) || [];
+  const [userRoleDetail, setUserRoleDetail] = useState(userRoleData);
 
   useEffect(() => {
     if (match.params.id) {
@@ -28,6 +30,15 @@ const UserRole = ({match}) => {
     }
     dispatch(userActions.getAllPermissions());
   }, []);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setUserRoleDetail((userRoleDetail) => ({ ...userRoleDetail, [name]: value }));
+  }
+
+  const handCreateUserRoleClick = (e) => {
+      console.log('handCreateUserRoleClick=', userRoleDetail);
+  }
 
   return (
     <CRow>
@@ -42,7 +53,7 @@ const UserRole = ({match}) => {
           <CCardBody>
               <CFormGroup>
                   <CLabel htmlFor="userRoleName">{t('view.UserRoles.UserRoleName')}</CLabel>
-                  <CInput id="userRoleName" defaultValue={userRoleData.roleName} />
+                  <CInput id="userRoleName" value={userRoleData.roleName} />
               </CFormGroup>
               <CFormGroup>
                   <CLabel htmlFor="description">{t('common.Description')}</CLabel>
@@ -67,7 +78,7 @@ const UserRole = ({match}) => {
           </CCardBody>
         </CCard>
         <div className="text-center mb-3">
-          <CButton type="submit" color="primary" className="text-center">{t('common.Save')}</CButton>
+          <CButton type="submit" color="primary" className="text-center" onClick={handCreateUserRoleClick}>{t('common.Save')}</CButton>
         </div>
       </CCol>
     </CRow>

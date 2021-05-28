@@ -8,6 +8,7 @@ import { userService } from "../../services/user.service";
 export const userActions = {
     getAllUsers,
     getUserDetail,
+    createUserRole,
     getAllUserRoles,
     getUserRoleDetail,
     getAllPermissions,
@@ -59,6 +60,21 @@ function getUserDetail(userId) {
     function request() { return { type: t.USER_DETAIL_GET_REQUEST } }
     function success(userDetail) { return { type: t.USER_DETAIL_GET_SUCCESS, userDetail } }
     function failure(error) { return { type: t.USER_DETAIL_GET_FAILURE, error } }
+}
+
+function createUserRole(userRole) {
+    return dispatch => {
+        dispatch(request(userRole));
+        return userService.createUserRole(userRole).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.CREATE_USER_ROLES_REQUEST } }
+    function success(userRoles) { return { type: t.CREATE_USER_ROLES_SUCCESS, userRoles } }
+    function failure(error) { return { type: t.CREATE_USER_ROLES_FAILURE, error } }
 }
 
 function getAllUserRoles(data) {
