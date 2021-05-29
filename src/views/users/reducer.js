@@ -15,14 +15,15 @@ const initialState = {
     errorUpdate: null,
     selectedId: 'all',
     itemsPerPage: 5,
-    totalPages: 0
+    totalPages: 0,
+    isRedirect: false
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case t.USERS_GET_ALL_REQUEST:
             return Object.assign({}, state, {
-                isFetching: true
+                isFetching: true,
             });
         case t.USERS_GET_ALL_SUCCESS:
             return Object.assign({}, state, {
@@ -95,7 +96,8 @@ export default (state = initialState, action) => {
             });
         case t.USER_ROLE_DETAIL_GET_REQUEST:
             return Object.assign({}, state, {
-                isFetching: true
+                isFetching: true,
+                isRedirect: false
             });
         case t.USER_ROLE_DETAIL_GET_SUCCESS:
             return Object.assign({}, state, {
@@ -109,12 +111,14 @@ export default (state = initialState, action) => {
             });
         case t.CREATE_USER_ROLES_REQUEST:
             return Object.assign({}, state, {
-                isFetching: true
+                isFetching: true,
+                isRedirect: false
             });
         case t.CREATE_USER_ROLES_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
-                isFetched: true
+                isFetched: true,
+                isRedirect: true
             })
         case t.CREATE_USER_ROLES_FAILURE:
             return Object.assign({}, state, {

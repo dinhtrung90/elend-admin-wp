@@ -15,12 +15,14 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {userActions} from '../actions';
 import CIcon from "@coreui/icons-react";
+import {Redirect} from "react-router-dom";
 
 const UserRole = ({match}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  let userRoleData = useSelector(state => state.users.userRoleDetail);
+  const userRoleData = useSelector(state => state.users.userRoleDetail);
+  const isRedirect = useSelector(state => state.users.isRedirect);
   const permissions = useSelector(state => state.users.permissions) || [];
   const [userRoleDetail, setUserRoleDetail] = useState(userRoleData);
 
@@ -37,10 +39,24 @@ const UserRole = ({match}) => {
   }
 
   const handCreateUserRoleClick = (e) => {
-      console.log('handCreateUserRoleClick=', userRoleDetail);
+      e.preventDefault();
+      userRoleDetail.permissionDetails = [
+          {
+              "permissionName": "USER_MANAGEMENT",
+              "permissionId": 1,
+              "permissionDesc": "User Management",
+              "operations": [
+                  "CREATE",
+                  "READ",
+                  "UPDATE",
+                  "DELETE"
+              ]
+          }
+      ];
+      dispatch(userActions.createUserRole(userRoleDetail));
   }
 
-  return (
+  return isRedirect ? <Redirect to={{ pathname: '/users/role' }}/> : (
     <CRow>
       <CCol>
         <CCard>
@@ -53,11 +69,11 @@ const UserRole = ({match}) => {
           <CCardBody>
               <CFormGroup>
                   <CLabel htmlFor="userRoleName">{t('view.UserRoles.UserRoleName')}</CLabel>
-                  <CInput id="userRoleName" value={userRoleData.roleName} />
+                  <CInput id="userRoleName" name="roleName" value={userRoleData.roleName} onChange={handleChange}  />
               </CFormGroup>
               <CFormGroup>
                   <CLabel htmlFor="description">{t('common.Description')}</CLabel>
-                  <CInput id="description" defaultValue={userRoleData.description} />
+                  <CInput id="description" name="description" value={userRoleData.description} onChange={handleChange} />
               </CFormGroup>
               <CFormGroup>
                   <CLabel htmlFor="permission">{t('common.Permission')}</CLabel>

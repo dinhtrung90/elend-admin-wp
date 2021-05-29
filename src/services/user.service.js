@@ -10,7 +10,7 @@ const getAllUserRoles = (data) => {
 }
 
 const createUserRole = (data) => {
-  return axios.post(SERVICE_DOMAIN + 'api/member-roles/create-roles', data);
+  return axios.post(SERVICE_DOMAIN + '/api/member-roles/create-roles', data);
 }
 
 const getUserRoleDetail = (roleName) => {
