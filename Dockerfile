@@ -1,16 +1,17 @@
-# build environment
-FROM node:lts-alpine as build
+FROM node:lts AS development
+ENV PORT=3000
 WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
-COPY package.json ./
-COPY package-lock.json ./
-RUN yarn install
-COPY . ./
-RUN yarn build
+COPY package.json /app/package.json
+COPY package-lock.json /app/package-lock.json
+COPY . /app
 
-# production environment
+CMD [ "yarn", "run", "start" ]
+
+FROM development AS builder
+
+RUN npm run build
+
 FROM nginx:stable-alpine
-COPY etc/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 3000
-CMD ["nginx", "-g", "daemon off;"]
+
+COPY --from=builder /app/build /usr/share/nginx/html
+EXPOSE 8088
