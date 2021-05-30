@@ -57,8 +57,11 @@ const Typography = React.lazy(() =>
   import('./views/theme/typography/Typography')
 );
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
-const Users = React.lazy(() => import('./views/users/Users'));
-const User = React.lazy(() => import('./views/users/User'));
+const Users = React.lazy(() => import('./views/users/components/Users'));
+const UserRoles = React.lazy(() => import('./views/users/components/UserRoles'));
+const EditUserRole = React.lazy(() => import('./views/users/components/UserRole'));
+const Customers = React.lazy(() => import('./views/users/components/Customers'));
+const User = React.lazy(() => import('./views/users/components/User'));
 const Employers = React.lazy(() => import('./views/employers/employers'));
 const EmployerCreation = React.lazy(() =>
   import('./views/employers/employer.creation')
@@ -121,14 +124,15 @@ const routes = [
   { path: '/notifications/toaster', name: 'Toaster', component: Toaster },
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/users', exact: true, name: 'Users', component: Users },
-  { path: '/users/:id', exact: true, name: 'User Details', component: User },
-  {
-    path: '/population',
-    name: 'population',
-    component: Employers,
-    exact: true,
-  },
-  { path: '/population/employers', name: 'Employers', component: Employers },
+  { path: '/users/edit/:id', exact: true, name: 'User Details', component: User },
+  { path: '/customers', exact: true, name: 'Customers', component: Customers },
+  { path: '/customers/edit/:id', exact: true, name: 'Customers Details', component: User },
+  { path: '/users/role', exact: true, name: 'User Roles', component: UserRoles },
+  { path: '/users/role/create', exact: true, name: 'New User Roles', component: EditUserRole },
+  { path: '/users/role/edit/:id', exact: true, name: 'Edit User Roles', component: EditUserRole },
+  { path: '/employers', name: 'Employers', component: Employers },
+  // { path: '/users/employee', name: 'Users', component: Users },
+  // { path: '/users/customer', name: 'Customers', component: Customers },
 
   {
     path: '/employers/create',

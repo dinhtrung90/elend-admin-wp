@@ -1,0 +1,46 @@
+{
+  "common": {
+    "CreatedDate": "Ngày tạo",
+    "Description": "Mô tả",
+    "Permission": "Danh sách phân quyền",
+    "Save": "Lưu"
+  },
+  "theHeader": {
+    "Dashboard": "Trang chủ",
+    "Employee": "Quản lý Nhân Viên",
+    "Settings": "Cài đặt"
+  },
+  "theSidebar": {
+    "title": "Elend Center",
+    "Dashboard": "Trang chủ",
+    "Clients": "Doanh Nghiệp",
+    "Employee": "Quản lý Nhân Viên",
+    "Customer": "Quản lý Khách hàng",
+    "UserRole": "Phân Quyền "
+  },
+  "view": {
+    "Clients": {
+      "title": "Doanh Nghiệp"
+    },
+    "Users": {
+      "title": {
+        "Employee": "Quản lý Nhân Viên",
+        "Customers": "Quản lý Khách hàng"
+      },
+      "fields": {
+        "PersonInfo": "Tên nhân viên",
+        "CustomerInfo": "Tên khách hàng",
+        "Username": "Tên đăng nhập",
+        "Registered": "Ngày đăng ký",
+        "Role": "Phân quyền",
+        "Status": "Trạng thái"
+      }
+    },
+    "UserRoles": {
+      "title": "Phân Quyền",
+      "NewUserRole": "Tạo Mới Phân Quyền",
+      "EditUserRole": "Cập Nhật Phân Quyền",
+      "UserRoleName": "Tên phân quyền"
+    }
+  }
+}

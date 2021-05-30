@@ -18,6 +18,9 @@ import setupAxiosInterceptors from "./shared/interceptors/axios-interceptor";
 
 import {clearAuthToken} from "./actions/index";
 
+// import i18n (needs to be bundled ;))
+import './i18n';
+
 
 const actions = bindActionCreators({ clearAuthToken }, store.dispatch);
 

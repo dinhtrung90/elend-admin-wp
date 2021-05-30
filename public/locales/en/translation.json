@@ -1,0 +1,46 @@
+{
+  "common": {
+    "CreatedDate": "Created Date",
+    "Description": "Description",
+    "Permission": "Permission",
+    "Save": "Save"
+  },
+  "theHeader": {
+    "Dashboard": "Dashboard",
+    "Employee": "Employee",
+    "Settings": "Settings"
+  },
+  "theSidebar": {
+    "title": "Elend Center",
+    "Dashboard": "Dashboard",
+    "Clients": "Clients",
+    "Employee": "Employee",
+    "Customer": "Customer",
+    "UserRole": "User Role"
+  },
+  "view": {
+    "Clients": {
+      "title": "Employers"
+    },
+    "Users": {
+      "title": {
+        "Employee": "Employee",
+        "Customers": "Customers"
+      },
+      "fields": {
+        "PersonInfo": "Person Info",
+        "CustomerInfo": "Person Info",
+        "Username": "Username",
+        "Registered": "Registered",
+        "Role": "Role",
+        "Status": "Status"
+      }
+    },
+    "UserRoles": {
+      "title": "User Roles",
+      "NewUserRole": "New User Role",
+      "EditUserRole": "Edit User Role",
+      "UserRoleName": "User Role Name"
+    }
+  }
+}

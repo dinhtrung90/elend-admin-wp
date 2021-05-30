@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   CHeader,
   CToggler,
@@ -24,6 +25,12 @@ import {
 } from './index';
 
 const TheHeader = () => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
   const dispatch = useDispatch();
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
 
@@ -59,17 +66,23 @@ const TheHeader = () => {
 
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
+          <CHeaderNavLink to="/dashboard">{t('theHeader.Dashboard')}</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/users">Users</CHeaderNavLink>
+          <CHeaderNavLink to="/users">{t('theHeader.Employee')}</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink>Settings</CHeaderNavLink>
+          <CHeaderNavLink>{t('theHeader.Settings')}</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
+        <button type="button" onClick={() => changeLanguage('en')}>
+          en
+        </button>
+        <button type="button" onClick={() => changeLanguage('vi')}>
+          vi
+        </button>
         <TheHeaderDropdownNotif />
         <TheHeaderDropdownTasks />
         <TheHeaderDropdownMssg />

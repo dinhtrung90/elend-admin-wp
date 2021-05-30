@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  CBadge,
   CCard,
   CCardBody,
   CCardHeader,
@@ -13,38 +13,27 @@ import {
   CButton,
 } from '@coreui/react';
 
-import employersData from './employersData';
-
 import CIcon from '@coreui/icons-react';
+import {userActions} from "../actions";
 
-const getBadge = (status) => {
-  switch (status) {
-    case 'Active':
-      return 'success';
-    case 'Inactive':
-      return 'secondary';
-    case 'Pending':
-      return 'warning';
-    case 'Banned':
-      return 'danger';
-    default:
-      return 'primary';
-  }
-};
-
-const Employers = () => {
+const Customers = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const usersData = useSelector(state => state.users.customers);
+  console.log('usersData=', usersData);
+
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/employers?page=${newPage}`);
+      history.push(`/customers?page=${newPage}`);
   };
 
   useEffect(() => {
+    dispatch(userActions.getAllCustomers());
     currentPage !== page && setPage(currentPage);
   }, [currentPage, page]);
 
@@ -60,7 +49,7 @@ const Employers = () => {
             <CRow>
               <CCol sm="5">
                 <h4 id="traffic" className="card-title mb-0">
-                  {t('view.Clients.title')}
+                  {t('view.Users.title.Customers')}
                 </h4>
               </CCol>
               <CCol sm="7" className="d-none d-md-block">
@@ -75,30 +64,19 @@ const Employers = () => {
           </CCardHeader>
           <CCardBody>
             <CDataTable
-              items={employersData}
-              fields={[
-                { key: 'name', _classes: 'font-weight-bold' },
-                'employerKey',
-                'address',
-                'lastModifiedDate',
-                'createdDate',
-                'status'
-              ]}
-              hover
-              striped
-              itemsPerPage={5}
-              activePage={page}
-              clickableRows
-              onRowClick={(item) =>
-                history.push(`/employers/${item.id}`)
-              }
-              scopedSlots={{
-                status: (item) => (
-                  <td>
-                    <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
-                  </td>
-                ),
-              }}
+                items={usersData}
+                fields={[
+                  { key: 'name', _classes: 'font-weight-bold', label: t('view.Users.fields.CustomerInfo') },
+                  { key: 'username', label: t('view.Users.fields.Username') },
+                  { key: 'registered', label: t('view.Users.fields.Registered') },
+                  { key: 'status', label: t('view.Users.fields.Status') },
+                ]}
+                hover
+                striped
+                itemsPerPage={5}
+                activePage={page}
+                clickableRows
+                onRowClick={(item) => history.push(`/users/edit/${item.id}`)}
             />
             <CPagination
               activePage={page}
@@ -114,4 +92,4 @@ const Employers = () => {
   );
 };
 
-export default Employers;
+export default Customers;

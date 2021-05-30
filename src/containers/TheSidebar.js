@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next';
 import {
   CCreateElement,
   CSidebar,
@@ -18,8 +19,22 @@ import CIcon from '@coreui/icons-react'
 import navigation from './_nav'
 
 const TheSidebar = () => {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch()
-  const show = useSelector(state => state.changeState.sidebarShow)
+  const show = useSelector(state => state.changeState.sidebarShow);
+  navigation.forEach(item => {
+    if (item.translatename) {
+      item.name = t(item.translatename);
+    }
+    if (item._children && item._children.length > 0) {
+      item._children.forEach(childItem => {
+        if (childItem.translatename) {
+          childItem.name = t(childItem.translatename);
+        }
+      });
+    }
+  });
 
   useEffect(() => {
       console.log(show);
@@ -36,7 +51,7 @@ const TheSidebar = () => {
           name="logo-negative"
           height={35}
         /> */}
-        <h4>Athena</h4>
+        <h4 className="c-sidebar-brand-full">{t('theSidebar.title')}</h4>
         <CIcon
           className="c-sidebar-brand-minimized"
           name="sygnet"
