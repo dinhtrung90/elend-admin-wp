@@ -9,7 +9,7 @@ CMD [ "yarn", "run", "start" ]
 
 FROM development AS builder
 
-RUN npm run build
+CMD [ "yarn", "run", "build" ]
 
 FROM nginx:stable-alpine
 
