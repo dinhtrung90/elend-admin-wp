@@ -1,11 +1,13 @@
 # build environment
 FROM node:lts-alpine as build
 WORKDIR /app
-COPY package.json .
-COPY yarn.lock .
-RUN yarn
-COPY . .
-RUN yarn build
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install
+RUN npm install react-scripts@4.0.3 -g --silent
+COPY . ./
+RUN npm run build
 
 # production environment
 FROM nginx:stable-alpine
