@@ -28,7 +28,7 @@ FROM nginx:stable-alpine as production-stage
 
 COPY "etc/conf.nginx" "/etc/nginx/conf.d/default.conf"
 RUN mkdir -p /home/cc-elend
-COPY --from=build-stage /app/cc-elend /home/cc-elend
+COPY --from=build-stage /app /home/cc-elend
 
 EXPOSE 8088
 
