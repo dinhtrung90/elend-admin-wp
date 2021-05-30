@@ -2,6 +2,8 @@
 FROM node:lts-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
+COPY .env.template ./.env
+COPY env.sh ./
 COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
@@ -20,7 +22,7 @@ EXPOSE 8088
 # Copy .env file and shell script to container
 WORKDIR /usr/share/nginx/html
 COPY ./env.sh .
-COPY .env.template /usr/share/nginx/html/.env
+COPY .env .
 
 # Make our shell script executable
 RUN chmod +x env.sh
