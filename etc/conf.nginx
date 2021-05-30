@@ -4,7 +4,7 @@ events {
 
 http {
   server {
-    listen 9090;
+    listen 8088;
 
     root   /app/;
     index  index.html index.htm;
