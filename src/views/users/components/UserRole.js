@@ -108,28 +108,121 @@ const UserRole = ({match}) => {
             </CFormGroup>
             <CFormGroup>
               <CLabel htmlFor="permission">{t('common.Permission')}</CLabel>
-
-              {
-                permissions.map((permission) => {
-                  return (<CFormGroup name="permissionDetails" key={'group-permision-id' + permission.id} variant="checkbox" className="checkbox">
-                    <CInputCheckbox
-                        key={'permision-id' + permission.id}
-                        id={'permision-id' + permission.id}
-                        name={'permision-id' + permission.id}
-                        value={permission}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            formik.values.permissionDetails.push(permission)
-                          } else {
-                            const idx = formik.values.permissionDetails.indexOf(permission.name);
-                            formik.values.permissionDetails.splice(idx, 1);
-                          }
-                        }}
-                    />
-                    <CLabel variant="checkbox" className="form-check-label" htmlFor={'permision-id' + permission.id}>{permission.description}</CLabel>
-                  </CFormGroup>)
-                })
-              }
+              <table className="table table-bordered table-role">
+                <thead className="thead-light">
+                  <tr>
+                    <th>Create</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    <th>Read</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {
+                  permissions.map((permission) => {
+                    return <tr key={'tr-permission-id' + permission.id}>
+                      <td>
+                        <div className="ml-4">
+                          <CInputCheckbox
+                              key={'permission-id' + permission.id + '-create'}
+                              id={'permission-id' + permission.id + '-create'}
+                              name={'permission-id' + permission.id + '-create'}
+                              value={permission}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  formik.values.permissionDetails.push(permission)
+                                } else {
+                                  const idx = formik.values.permissionDetails.indexOf(permission.name);
+                                  formik.values.permissionDetails.splice(idx, 1);
+                                }
+                              }}
+                          />
+                          <CLabel variant="checkbox" className="form-check-label" htmlFor={'permission-id' + permission.id + '-create'}>{permission.description} Create</CLabel>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="ml-4">
+                          <CInputCheckbox
+                              key={'permission-id' + permission.id + '-edit'}
+                              id={'permission-id' + permission.id + '-edit'}
+                              name={'permission-id' + permission.id + '-edit'}
+                              value={permission}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  formik.values.permissionDetails.push(permission)
+                                } else {
+                                  const idx = formik.values.permissionDetails.indexOf(permission.name);
+                                  formik.values.permissionDetails.splice(idx, 1);
+                                }
+                              }}
+                          />
+                          <CLabel variant="checkbox" className="form-check-label" htmlFor={'permission-id' + permission.id + '-edit'}>{permission.description} Edit</CLabel>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="ml-4">
+                          <CInputCheckbox
+                              key={'permission-id' + permission.id + '-delete'}
+                              id={'permission-id' + permission.id + '-delete'}
+                              name={'permission-id' + permission.id + '-delete'}
+                              value={permission}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  formik.values.permissionDetails.push(permission)
+                                } else {
+                                  const idx = formik.values.permissionDetails.indexOf(permission.name);
+                                  formik.values.permissionDetails.splice(idx, 1);
+                                }
+                              }}
+                          />
+                          <CLabel variant="checkbox" className="form-check-label" htmlFor={'permission-id' + permission.id + '-delete'}>{permission.description} Delete</CLabel>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="ml-4">
+                          <CInputCheckbox
+                              key={'permission-id' + permission.id + '-read'}
+                              id={'permission-id' + permission.id + '-read'}
+                              name={'permission-id' + permission.id + '-read'}
+                              value={permission}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  formik.values.permissionDetails.push(permission)
+                                } else {
+                                  const idx = formik.values.permissionDetails.indexOf(permission.name);
+                                  formik.values.permissionDetails.splice(idx, 1);
+                                }
+                              }}
+                          />
+                          <CLabel variant="checkbox" className="form-check-label" htmlFor={'permission-id' + permission.id + '-read'}>{permission.description} Read</CLabel>
+                        </div>
+                      </td>
+                    </tr>
+                  })
+                }
+                </tbody>
+              </table>
+              {/*{*/}
+              {/*  permissions.map((permission) => {*/}
+              {/*    return (<CFormGroup name="permissionDetails" key={'group-permission-id' + permission.id} variant="checkbox" className="checkbox">*/}
+              {/*      <CInputCheckbox*/}
+              {/*          key={'permission-id' + permission.id}*/}
+              {/*          id={'permission-id' + permission.id}*/}
+              {/*          name={'permission-id' + permission.id}*/}
+              {/*          value={permission}*/}
+              {/*          onChange={e => {*/}
+              {/*            if (e.target.checked) {*/}
+              {/*              formik.values.permissionDetails.push(permission)*/}
+              {/*            } else {*/}
+              {/*              const idx = formik.values.permissionDetails.indexOf(permission.name);*/}
+              {/*              formik.values.permissionDetails.splice(idx, 1);*/}
+              {/*            }*/}
+              {/*          }}*/}
+              {/*      />*/}
+              {/*      <CLabel variant="checkbox" className="form-check-label" htmlFor={'permission-id' + permission.id}>{permission.description}</CLabel>*/}
+              {/*    </CFormGroup>)*/}
+              {/*  })*/}
+              {/*}*/}
             </CFormGroup>
           </CCardBody>
         </CCard>
