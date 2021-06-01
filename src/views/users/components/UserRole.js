@@ -95,7 +95,7 @@ const UserRole = ({match}) => {
                   onChange={formik.handleChange}
                   {...formik.getFieldProps("roleName")}
                 />
-                <CInvalidFeedback>{formik.errors.roleName}}</CInvalidFeedback>
+                <CInvalidFeedback>{formik.errors.roleName}</CInvalidFeedback>
             </CFormGroup>
             <CFormGroup>
                 <CLabel htmlFor="description">{t('common.Description')}</CLabel>
