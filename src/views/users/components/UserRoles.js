@@ -12,10 +12,8 @@ import {
     CPagination,
     CButton, CBadge,
 } from '@coreui/react';
-
-import {userActions} from '../actions';
-
 import CIcon from '@coreui/icons-react';
+import {userActions} from '../actions';
 
 const UserRoles = () => {
     const { t } = useTranslation();
@@ -59,7 +57,7 @@ const UserRoles = () => {
                                     color="primary"
                                     className="float-right"
                                     onClick={navigationToUserRoleCreation}>
-                                    <CIcon name="plus" />
+                                    {/*<CIcon name="cil-plus" />*/}
                                     New User Role
                                 </CButton>
                             </CCol>

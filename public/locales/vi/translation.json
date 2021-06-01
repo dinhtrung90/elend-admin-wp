@@ -42,5 +42,9 @@
       "EditUserRole": "Cập Nhật Phân Quyền",
       "UserRoleName": "Tên phân quyền"
     }
+  },
+  "messages": {
+    "requireRoleName": "Please input the role name!",
+    "requireRoleDescription": "Please input the description!"
   }
 }

@@ -42,5 +42,9 @@
       "EditUserRole": "Edit User Role",
       "UserRoleName": "User Role Name"
     }
+  },
+  "messages": {
+    "requireRoleName": "Please input the role name!",
+    "requireRoleDescription": "Please input the description!"
   }
 }
