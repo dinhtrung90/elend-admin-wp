@@ -125,13 +125,14 @@ function _standardizePermissions (data) {
                     return word.charAt(0).toUpperCase() + word.slice(1)
                 })
                 .join(' ');
-
             parent.children.push({
                 id: p.id,
+                permissionId: p.id,
                 name: `${p.name}_${o}`,
                 description: descriptionCase,
+                permissionDesc: p.description,
                 value: o,
-                groupName: p.name
+                permissionName: p.name
             });
         });
         permissions.push(parent);

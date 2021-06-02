@@ -51,6 +51,7 @@
   },
   "messages": {
     "requireRoleName": "Please input the role name!",
-    "requireRoleDescription": "Please input the description!"
+    "requireRoleDescription": "Please input the description!",
+    "requireAtLeastPermission": "At least one permission is required!"
   }
 }
