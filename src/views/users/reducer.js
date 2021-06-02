@@ -100,6 +100,22 @@ export default (state = initialState, action) => {
                 isRedirect: false
             });
         case t.USER_ROLE_DETAIL_GET_SUCCESS:
+            action.userRole.permissionAll = [];
+            state.permissions.forEach(parent => {
+                parent.children.forEach(child => {
+                    child.checked = false;
+                })
+            });
+            if (action.userRole.permissionDetails && action.userRole.permissionDetails.length > 0) {
+                state.permissions.forEach(parent => {
+                    parent.children.forEach(child => {
+                        const detailItem = action.userRole.permissionDetails.find(i => i.permissionName === child.permissionName);
+                        if (detailItem) {
+                            child.checked = detailItem.operations.includes(child.value);
+                        }
+                    })
+                })
+            }
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true,
