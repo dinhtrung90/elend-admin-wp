@@ -1,5 +1,11 @@
 {
   "common": {
+    "All": "All",
+    "Action": "Action",
+    "Create": "Create",
+    "Update": "Update",
+    "Delete": "Delete",
+    "Read": "Read",
     "CreatedDate": "Created Date",
     "Description": "Description",
     "Permission": "Permission",

@@ -70,7 +70,7 @@ const UserRoles = () => {
                                 { key: 'roleName', _classes: 'font-weight-bold', label: t('view.UserRoles.UserRoleName') },
                                 { key: 'description', label: t('common.Description') },
                                 { key: 'createDate', label: t('common.CreatedDate') },
-                                { key: 'action'}
+                                { key: 'action', label: t('common.Action')}
                             ]}
                             hover
                             striped

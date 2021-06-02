@@ -134,11 +134,11 @@ const UserRole = ({match}) => {
               <table className="table table-bordered table-role">
                 <thead className="thead-light">
                   <tr>
-                    <th>All</th>
-                    <th>Create</th>
-                    <th>Update</th>
-                    <th>Delete</th>
-                    <th>Read</th>
+                    <th>{t('common.All')}</th>
+                    <th>{t('common.Create')}</th>
+                    <th>{t('common.Update')}</th>
+                    <th>{t('common.Delete')}</th>
+                    <th>{t('common.Read')}</th>
                   </tr>
                 </thead>
                 <tbody>

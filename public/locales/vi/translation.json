@@ -1,5 +1,11 @@
 {
   "common": {
+    "Action": "Hoạt động",
+    "All": "Tất cả",
+    "Create": "Tạo mới",
+    "Update": "Chỉnh sửa",
+    "Delete": "Xoá",
+    "Read": "Đọc",
     "CreatedDate": "Ngày tạo",
     "Description": "Mô tả",
     "Permission": "Danh sách phân quyền",
