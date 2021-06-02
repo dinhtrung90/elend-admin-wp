@@ -47,6 +47,12 @@
       "NewUserRole": "Tạo Mới Phân Quyền",
       "EditUserRole": "Cập Nhật Phân Quyền",
       "UserRoleName": "Tên phân quyền"
+    },
+    "UserRole": {
+      "Create": "Tạo Mới",
+      "Update": "Chỉnh Sửa",
+      "Delete": "Xoá",
+      "Read": "Xem"
     }
   },
   "messages": {

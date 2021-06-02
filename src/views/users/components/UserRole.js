@@ -152,10 +152,10 @@ const UserRole = ({match}) => {
                     <thead className="thead-light">
                       <tr>
                         <th>{t('common.All')}</th>
-                        <th>{t('common.Create')}</th>
-                        <th>{t('common.Update')}</th>
-                        <th>{t('common.Delete')}</th>
-                        <th>{t('common.Read')}</th>
+                        <th>{t('view.UserRole.Create')}</th>
+                        <th>{t('view.UserRole.Update')}</th>
+                        <th>{t('view.UserRole.Delete')}</th>
+                        <th>{t('view.UserRole.Read')}</th>
                       </tr>
                     </thead>
                     <tbody>

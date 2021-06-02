@@ -47,6 +47,12 @@
       "NewUserRole": "New User Role",
       "EditUserRole": "Edit User Role",
       "UserRoleName": "User Role Name"
+    },
+    "UserRole": {
+      "Create": "Create",
+      "Update": "Update",
+      "Delete": "Delete",
+      "Read": "Read"
     }
   },
   "messages": {
