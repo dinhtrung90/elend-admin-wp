@@ -40,6 +40,7 @@
     "dotenv": "^8.6.0",
     "enzyme": "^3.11.0",
     "formik": "^2.2.8",
+    "@createnl/grouped-checkboxes": "1.1.2",
     "i18next": "^20.3.0",
     "i18next-browser-languagedetector": "^6.1.1",
     "i18next-http-backend": "^1.2.6",

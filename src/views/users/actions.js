@@ -81,6 +81,11 @@ function getAllUserRoles(data) {
     return dispatch => {
         dispatch(request());
         return userService.getAllUserRoles(data).then(response => {
+            if (response.data && response.data.items) {
+                response.data.items.forEach(item => {
+                    item.description = item.description || '';
+                });
+            }
             dispatch(success(response.data));
         }).catch(error => {
             dispatch(failure(error));
@@ -107,11 +112,38 @@ function getUserRoleDetail(roleName) {
     function failure(error) { return { type: t.USER_ROLE_DETAIL_GET_FAILURE, error } }
 }
 
+function _standardizePermissions (data) {
+    const operations = ['CREATE', 'UPDATE', 'DELETE', 'READ'];
+    const permissions = [];
+    data.forEach(p => {
+        const parent = p;
+        parent.children = [];
+        operations.forEach(o => {
+            const descriptionCase = `${p.description} ${o.toLocaleLowerCase()}`
+                .split(' ').map(str => {
+                    const word = str.toLowerCase()
+                    return word.charAt(0).toUpperCase() + word.slice(1)
+                })
+                .join(' ');
+
+            parent.children.push({
+                id: p.id,
+                name: `${p.name}_${o}`,
+                description: descriptionCase,
+                value: o,
+                groupName: p.name
+            });
+        });
+        permissions.push(parent);
+    });
+    return permissions;
+}
+
 function getAllPermissions() {
     return dispatch => {
         dispatch(request());
         return userService.getAllPermissions().then(response => {
-            dispatch(success(response.data));
+            dispatch(success(_standardizePermissions(response.data)));
         }).catch(error => {
             dispatch(failure(error));
         });
