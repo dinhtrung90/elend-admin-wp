@@ -113,7 +113,11 @@ const UserRole = ({match}) => {
         payload.permissionDetails[detailItemIdx].operations.push(item.value);
       }
     });
-    dispatch(userActions.createUserRole(payload));
+    if (match.params.id) {
+      dispatch(userActions.editUserRole(payload));
+    } else {
+      dispatch(userActions.createUserRole(payload));
+    }
   }
 
   return isRedirect ? <Redirect to={{ pathname: '/users/role' }}/> : (

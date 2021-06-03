@@ -9,6 +9,7 @@ export const userActions = {
     getAllUsers,
     getUserDetail,
     createUserRole,
+    editUserRole,
     getAllUserRoles,
     getUserRoleDetail,
     getAllPermissions,
@@ -75,6 +76,21 @@ function createUserRole(userRole) {
     function request() { return { type: t.CREATE_USER_ROLES_REQUEST } }
     function success(userRoles) { return { type: t.CREATE_USER_ROLES_SUCCESS, userRoles } }
     function failure(error) { return { type: t.CREATE_USER_ROLES_FAILURE, error } }
+}
+
+function editUserRole(userRole) {
+    return dispatch => {
+        dispatch(request(userRole));
+        return userService.editUserRole(userRole).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.EDIT_USER_ROLES_REQUEST } }
+    function success(userRoles) { return { type: t.EDIT_USER_ROLES_SUCCESS, userRoles } }
+    function failure(error) { return { type: t.EDIT_USER_ROLES_FAILURE, error } }
 }
 
 function getAllUserRoles(data) {

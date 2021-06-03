@@ -13,6 +13,10 @@ const createUserRole = (data) => {
   return axios.post(SERVICE_DOMAIN + '/api/member-roles/create-roles', data);
 }
 
+const editUserRole = (data) => {
+  return axios.post(SERVICE_DOMAIN + '/api/member-roles/edit', data);
+}
+
 const getUserRoleDetail = (roleName) => {
   return axios.get(SERVICE_DOMAIN + `/api/member-roles?roleName=${roleName}`);
 }
@@ -25,6 +29,7 @@ export const userService = {
   getAllPermissions,
   getAllUserRoles,
   createUserRole,
+  editUserRole,
   getUserRoleDetail,
   syncAccount,
 };
