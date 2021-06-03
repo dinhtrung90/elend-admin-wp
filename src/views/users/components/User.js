@@ -1,10 +1,21 @@
 import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
+import {
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CCol,
+  CRow,
+  CForm,
+  CLabel,
+  CInput, CInvalidFeedback, CFormGroup
+} from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {userActions} from "../actions";
+import {useTranslation} from "react-i18next";
 
 const User = ({match}) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const user = useSelector(state => state.users.userDetail);
 
@@ -16,28 +27,34 @@ const User = ({match}) => {
   }, []);
   return (
     <CRow>
-      <CCol lg={6}>
-        <CCard>
-          <CCardHeader>
-            User id: {match.params.id}
-          </CCardHeader>
-          <CCardBody>
-              <table className="table table-striped table-hover">
-                <tbody>
-                  {
-                    userDetails.map(([key, value], index) => {
-                      return (
-                        <tr key={index.toString()}>
-                          <td>{`${key}:`}</td>
-                          <td><strong>{value}</strong></td>
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </table>
-          </CCardBody>
-        </CCard>
+      <CCol lg={12}>
+        <CForm>
+          <CCard>
+            <CCardHeader>
+              {match.params.id ? 'Edit User' : 'New User'}
+            </CCardHeader>
+            <CCardBody>
+              <CFormGroup>
+                <CLabel htmlFor="username">{t('view.User.Username')}</CLabel>
+                <CInput id="username" name="username"/>
+              </CFormGroup>
+                {/*<table className="table table-striped table-hover">*/}
+                {/*  <tbody>*/}
+                {/*    {*/}
+                {/*      userDetails.map(([key, value], index) => {*/}
+                {/*        return (*/}
+                {/*          <tr key={index.toString()}>*/}
+                {/*            <td>{`${key}:`}</td>*/}
+                {/*            <td><strong>{value}</strong></td>*/}
+                {/*          </tr>*/}
+                {/*        )*/}
+                {/*      })*/}
+                {/*    }*/}
+                {/*  </tbody>*/}
+                {/*</table>*/}
+            </CCardBody>
+          </CCard>
+        </CForm>
       </CCol>
     </CRow>
   )

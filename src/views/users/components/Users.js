@@ -53,8 +53,8 @@ const Users = () => {
     currentPage !== page && setPage(currentPage);
   }, [currentPage, page]);
 
-  const navigationToEmployerCreation = () => {
-    history.push(`/employers/create`);
+  const navigationToUserCreation = () => {
+    history.push(`/users/create`);
   };
 
   return (
@@ -72,7 +72,7 @@ const Users = () => {
                 <CButton
                   color="primary"
                   className="float-right"
-                  onClick={navigationToEmployerCreation}>
+                  onClick={navigationToUserCreation}>
                   <CIcon name="cil-pencil" />
                 </CButton>
               </CCol>
@@ -87,6 +87,7 @@ const Users = () => {
                   { key: 'registered', label: t('view.Users.fields.Registered') },
                   { key: 'role', label: t('view.Users.fields.Role') },
                   { key: 'status', label: t('view.Users.fields.Status') },
+                  { key: 'action', label: t('common.Action')}
                 ]}
                 hover
                 striped
@@ -110,7 +111,17 @@ const Users = () => {
                               {item.status}
                             </CBadge>
                           </td>
-                      )
+                      ),
+                  'action': (item) => (
+                      <td>
+                        <CButton
+                            className="mr-1"
+                            color="primary">
+                          <CIcon name="cil-pencil" />
+                        </CButton>
+                        <CButton color="danger" className="mr-1"><CIcon name="cil-trash" /></CButton>
+                      </td>
+                  ),
                 }}
             />
             <CPagination
