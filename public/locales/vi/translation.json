@@ -9,7 +9,9 @@
     "CreatedDate": "Ngày tạo",
     "Description": "Mô tả",
     "Permission": "Danh sách phân quyền",
-    "Save": "Lưu"
+    "Save": "Lưu",
+    "ConfirmDelete": "Xoá Dữ Diệu",
+    "Cancel": "Huỷ"
   },
   "theHeader": {
     "Dashboard": "Trang chủ",
@@ -56,8 +58,8 @@
     }
   },
   "messages": {
-    "requireRoleName": "Please input the role name!",
-    "requireRoleDescription": "Please input the description!",
-    "requireAtLeastPermission": "At least one permission is required!"
+    "messageConfirmDelete": "Bạn có chăc muốn xoá?",
+    "requireRoleName": "Yêu cầu nhập tên phân quyền!",
+    "requireRoleDescription": "Yêu cầu nhập chi tiết!"
   }
 }

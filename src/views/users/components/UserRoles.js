@@ -24,10 +24,10 @@ const UserRoles = () => {
     const usersData = useSelector(state => state.users.userRoles);
     const itemsPerPage = useSelector(state => state.users.itemsPerPage);
     const maxPage = useSelector(state => state.users.totalPages);
-
     const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
     const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
     const [page, setPage] = useState(currentPage);
+    const specialRoles = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER']
 
     const pageChange = (newPage) => {
         currentPage !== newPage &&
@@ -100,10 +100,13 @@ const UserRoles = () => {
                                             onClick={() => history.push(`/users/role/edit/${item.roleName}`)}>
                                             <CIcon name="cil-pencil" />
                                         </CButton>
-                                        <CButton color="danger" onClick={() => {
-                                            setDanger(!danger);
-                                            setDeleteRoleName(item.roleName);
-                                        } } className="mr-1"><CIcon name="cil-trash" /></CButton>
+                                        {
+                                            !specialRoles.includes(item.roleName) ? <CButton color="danger" onClick={() => {
+                                                    setDanger(!danger);
+                                                    setDeleteRoleName(item.roleName);
+                                                } } className="mr-1"><CIcon name="cil-trash" /></CButton>
+                                                : ''
+                                        }
                                     </td>
                                 ),
                             }}
@@ -122,14 +125,14 @@ const UserRoles = () => {
                             color="danger"
                         >
                             <CModalHeader closeButton>
-                                <CModalTitle>Confirm Delete</CModalTitle>
+                                <CModalTitle>{t('common.ConfirmDelete')}</CModalTitle>
                             </CModalHeader>
                             <CModalBody>
-                                Are you sure you want to delete?
+                                {t('messages.messageConfirmDelete')}
                             </CModalBody>
                             <CModalFooter>
-                                <CButton color="danger" onClick={handleDeleteUserRole}>Delete</CButton>{' '}
-                                <CButton color="secondary" onClick={() => setDanger(!danger)}>Cancel</CButton>
+                                <CButton color="danger" onClick={handleDeleteUserRole}>{t('common.Delete')}</CButton>{' '}
+                                <CButton color="secondary" onClick={() => setDanger(!danger)}>{t('common.Cancel')}</CButton>
                             </CModalFooter>
                         </CModal>
                     </CCardBody>

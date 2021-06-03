@@ -9,7 +9,9 @@
     "CreatedDate": "Created Date",
     "Description": "Description",
     "Permission": "Permission",
-    "Save": "Save"
+    "Save": "Save",
+    "ConfirmDelete": "Confirm Delete",
+    "Cancel": "Cancel"
   },
   "theHeader": {
     "Dashboard": "Dashboard",
@@ -56,8 +58,8 @@
     }
   },
   "messages": {
+    "messageConfirmDelete": "Are you sure you want to delete?",
     "requireRoleName": "Please input the role name!",
-    "requireRoleDescription": "Please input the description!",
-    "requireAtLeastPermission": "At least one permission is required!"
+    "requireRoleDescription": "Please input the description!"
   }
 }
