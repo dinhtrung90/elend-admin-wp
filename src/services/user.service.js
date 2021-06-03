@@ -21,6 +21,10 @@ const getUserRoleDetail = (roleName) => {
   return axios.get(SERVICE_DOMAIN + `/api/member-roles?roleName=${roleName}`);
 }
 
+const deleteUserRole = (roleName) => {
+  return axios.delete(SERVICE_DOMAIN + `/api/member-roles/${roleName}`);
+}
+
 const getAllPermissions = () => {
   return axios.get(SERVICE_DOMAIN + '/api/permissions');
 }
@@ -30,6 +34,7 @@ export const userService = {
   getAllUserRoles,
   createUserRole,
   editUserRole,
+  deleteUserRole,
   getUserRoleDetail,
   syncAccount,
 };

@@ -10,7 +10,7 @@ import {
     CDataTable,
     CRow,
     CPagination,
-    CButton, CBadge,
+    CButton, CBadge, CModalHeader, CModalTitle, CModalBody, CModalFooter, CModal,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import {userActions} from '../actions';
@@ -19,6 +19,8 @@ const UserRoles = () => {
     const { t } = useTranslation();
     const history = useHistory();
     const dispatch = useDispatch();
+    const [danger, setDanger] = useState(false);
+    const [deleteRoleName, setDeleteRoleName] = useState('');
     const usersData = useSelector(state => state.users.userRoles);
     const itemsPerPage = useSelector(state => state.users.itemsPerPage);
     const maxPage = useSelector(state => state.users.totalPages);
@@ -33,13 +35,27 @@ const UserRoles = () => {
     };
 
     useEffect(() => {
-        dispatch(userActions.getAllUserRoles({page: currentPage > 1? currentPage - 1 : 0, size: itemsPerPage}));
-        currentPage !== page && setPage(currentPage);
-    }, [currentPage, page]);
+        const loadData = async () => {
+            await getAllUserRoles();
+        }
+        loadData();
+    }, [dispatch, currentPage, page]);
 
     const navigationToUserRoleCreation = () => {
         history.push(`/users/role/create`);
     };
+
+    const getAllUserRoles = async () => {
+        await dispatch(userActions.getAllUserRoles({page: currentPage > 1? currentPage - 1 : 0, size: itemsPerPage}));
+        currentPage !== page && setPage(currentPage);
+    }
+
+    const handleDeleteUserRole = async () => {
+        setDanger(!danger);
+        if (!deleteRoleName || deleteRoleName.length === 0) return;
+        await dispatch(userActions.deleteUserRole(deleteRoleName));
+        await getAllUserRoles();
+    }
 
     return (
         <CRow>
@@ -84,11 +100,10 @@ const UserRoles = () => {
                                             onClick={() => history.push(`/users/role/edit/${item.roleName}`)}>
                                             <CIcon name="cil-pencil" />
                                         </CButton>
-                                        <CButton
-                                            color="danger"
-                                            onClick={() => history.push(`/users/role/delete/${item.roleName}`)}>
-                                            <CIcon name="cil-trash" />
-                                        </CButton>
+                                        <CButton color="danger" onClick={() => {
+                                            setDanger(!danger);
+                                            setDeleteRoleName(item.roleName);
+                                        } } className="mr-1"><CIcon name="cil-trash" /></CButton>
                                     </td>
                                 ),
                             }}
@@ -100,6 +115,23 @@ const UserRoles = () => {
                             doubleArrows={false}
                             align="center"
                         />
+
+                        <CModal
+                            show={danger}
+                            onClose={() => setDanger(!danger)}
+                            color="danger"
+                        >
+                            <CModalHeader closeButton>
+                                <CModalTitle>Confirm Delete</CModalTitle>
+                            </CModalHeader>
+                            <CModalBody>
+                                Are you sure you want to delete?
+                            </CModalBody>
+                            <CModalFooter>
+                                <CButton color="danger" onClick={handleDeleteUserRole}>Delete</CButton>{' '}
+                                <CButton color="secondary" onClick={() => setDanger(!danger)}>Cancel</CButton>
+                            </CModalFooter>
+                        </CModal>
                     </CCardBody>
                 </CCard>
             </CCol>

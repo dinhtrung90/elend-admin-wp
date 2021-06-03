@@ -10,6 +10,7 @@ export const userActions = {
     getUserDetail,
     createUserRole,
     editUserRole,
+    deleteUserRole,
     getAllUserRoles,
     getUserRoleDetail,
     getAllPermissions,
@@ -91,6 +92,21 @@ function editUserRole(userRole) {
     function request() { return { type: t.EDIT_USER_ROLES_REQUEST } }
     function success(userRoles) { return { type: t.EDIT_USER_ROLES_SUCCESS, userRoles } }
     function failure(error) { return { type: t.EDIT_USER_ROLES_FAILURE, error } }
+}
+
+function deleteUserRole(roleName) {
+    return dispatch => {
+        dispatch(request(roleName));
+        return userService.deleteUserRole(roleName).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.DELETE_USER_ROLES_REQUEST } }
+    function success(item) { return { type: t.DELETE_USER_ROLES_SUCCESS, item } }
+    function failure(error) { return { type: t.DELETE_USER_ROLES_FAILURE, error } }
 }
 
 function getAllUserRoles(data) {
