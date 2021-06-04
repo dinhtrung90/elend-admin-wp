@@ -59,7 +59,8 @@
     "redux-thunk": "^2.3.0",
     "sass": "^1.34.1",
     "moment": "^2.29.1",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "yup-phone": "^1.2.19"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
