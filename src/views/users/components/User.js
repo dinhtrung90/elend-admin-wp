@@ -8,7 +8,7 @@ import {
   CRow,
   CForm,
   CLabel,
-  CInput, CInvalidFeedback, CFormGroup, CButton, CInputGroupPrepend, CInputGroupText, CInputGroup
+  CInput, CInvalidFeedback, CFormGroup, CButton, CInputGroupPrepend, CInputGroupText, CInputGroup, CSelect
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {userActions} from "../actions";
@@ -36,7 +36,7 @@ const User = ({match}) => {
             <CCardBody>
               <CRow>
                 <CCol sm={3} className="mb-4">
-                  <CLabel htmlFor="username">{t('view.User.Username')}</CLabel>
+                  <CLabel htmlFor="username" className="col-form-label">{t('view.User.Username')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -47,18 +47,22 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
-                  <CLabel htmlFor="UserRole">{t('view.User.UserRole')}</CLabel>
+                  <CLabel htmlFor="UserRole" className="col-form-label">{t('view.User.UserRole')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
                         <CIcon name="cil-people" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="UserRole" name="UserRole" placeholder="User Role" />
+                    <CSelect custom name="selectUserRole" id="selectUserRole">
+                      <option value="0">Please select</option>
+                      <option value="1">ROLE_ADMIN</option>
+                      <option value="2">ROLE_USER</option>
+                    </CSelect>
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
-                  <CLabel htmlFor="EmailAddress">{t('view.User.EmailAddress')}</CLabel>
+                  <CLabel htmlFor="EmailAddress" className="col-form-label">{t('view.User.EmailAddress')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -69,7 +73,7 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
-                  <CLabel htmlFor="FirstName">{t('view.User.FirstName')}</CLabel>
+                  <CLabel htmlFor="FirstName" className="col-form-label">{t('view.User.FirstName')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -80,7 +84,7 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
-                  <CLabel htmlFor="LastName">{t('view.User.LastName')}</CLabel>
+                  <CLabel htmlFor="LastName" className="col-form-label">{t('view.User.LastName')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -91,18 +95,18 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
-                  <CLabel htmlFor="MobileNumber">{t('view.User.MobileNumber')}</CLabel>
+                  <CLabel htmlFor="MobileNumber" className="col-form-label">{t('view.User.MobileNumber')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
                         <CIcon name="cil-phone" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="MobileNumber" name="MobileNumber" placeholder="Mobile Number" />
+                    <CInput id="MobileNumber" name="MobileNumber" placeholder="Mobile Number" type="number" />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
-                  <CLabel htmlFor="DateOfBirth">{t('view.User.DateOfBirth')}</CLabel>
+                  <CLabel htmlFor="DateOfBirth" className="col-form-label">{t('view.User.DateOfBirth')}</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -113,21 +117,25 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
-                  <CLabel htmlFor="Status">{t('view.User.Status')}</CLabel>
+                  <CLabel htmlFor="Status" className="col-form-label">{t('view.User.Status')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
                         <CIcon name="cil-check" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="Status" name="Status" placeholder="Status" />
+                    <CSelect custom name="selectStatus" id="selectStatus">
+                      <option value="0">Please select</option>
+                      <option value="1">Active</option>
+                      <option value="2">Inactive</option>
+                    </CSelect>
                   </CInputGroup>
                 </CCol>
                 <CCol sm={12} className="mb-4">
                   <hr/>
                 </CCol>
                 <CCol sm={6} className="mb-4">
-                  <CLabel htmlFor="AddressLine1">{t('view.User.AddressLine1')}</CLabel>
+                  <CLabel htmlFor="AddressLine1" className="col-form-label">{t('view.User.AddressLine1')}</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -138,7 +146,7 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
-                  <CLabel htmlFor="AddressLine2">{t('view.User.AddressLine2')}</CLabel>
+                  <CLabel htmlFor="AddressLine2" className="col-form-label">{t('view.User.AddressLine2')}</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -149,7 +157,7 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
-                  <CLabel htmlFor="AreaOrCity">{t('view.User.AreaOrCity')}</CLabel>
+                  <CLabel htmlFor="AreaOrCity" className="col-form-label">{t('view.User.AreaOrCity')}</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -160,7 +168,7 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
-                  <CLabel htmlFor="Country">{t('view.User.Country')}</CLabel>
+                  <CLabel htmlFor="Country" className="col-form-label">{t('view.User.Country')}</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -171,7 +179,7 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
-                  <CLabel htmlFor="PostalZipCode">{t('view.User.PostalZipCode')}</CLabel>
+                  <CLabel htmlFor="PostalZipCode" className="col-form-label">{t('view.User.PostalZipCode')}</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
