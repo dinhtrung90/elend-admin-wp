@@ -22,14 +22,11 @@ import {
   TheHeaderDropdownMssg,
   TheHeaderDropdownNotif,
   TheHeaderDropdownTasks,
+  TheHeaderDropdownLanguage
 } from './index';
 
 const TheHeader = () => {
-  const { t, i18n } = useTranslation();
-
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const sidebarShow = useSelector((state) => state.changeState.sidebarShow);
@@ -77,12 +74,7 @@ const TheHeader = () => {
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
-        <button type="button" onClick={() => changeLanguage('en')}>
-          en
-        </button>
-        <button type="button" onClick={() => changeLanguage('vi')}>
-          vi
-        </button>
+        <TheHeaderDropdownLanguage />
         <TheHeaderDropdownNotif />
         <TheHeaderDropdownTasks />
         <TheHeaderDropdownMssg />

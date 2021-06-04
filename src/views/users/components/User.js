@@ -31,7 +31,7 @@ const User = ({match}) => {
         <CForm>
           <CCard>
             <CCardHeader>
-              {match.params.id ? 'Edit User' : 'New User'}
+              {match.params.id ? t('common.EditUser') : t('common.NewUser')}
             </CCardHeader>
             <CCardBody>
               <CRow>
@@ -43,7 +43,7 @@ const User = ({match}) => {
                         <CIcon name="cil-user" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="username" name="username" placeholder="Username" />
+                    <CInput id="username" name="username" placeholder={t('view.User.Username')} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
@@ -55,7 +55,7 @@ const User = ({match}) => {
                       </CInputGroupText>
                     </CInputGroupPrepend>
                     <CSelect custom name="selectUserRole" id="selectUserRole">
-                      <option value="0">Please select</option>
+                      <option value="0">{t('messages.messagePleaseSelect')}</option>
                       <option value="1">ROLE_ADMIN</option>
                       <option value="2">ROLE_USER</option>
                     </CSelect>
@@ -69,7 +69,7 @@ const User = ({match}) => {
                         <CIcon name="cil-envelope-closed" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="EmailAddress" name="EmailAddress" placeholder="Email Address" />
+                    <CInput id="EmailAddress" name="EmailAddress" placeholder={t('view.User.EmailAddress')} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
@@ -80,7 +80,7 @@ const User = ({match}) => {
                         <CIcon name="cil-user" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="FirstName" name="FirstName" placeholder="First Name" />
+                    <CInput id="FirstName" name="FirstName" placeholder={t('view.User.FirstName')} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
@@ -91,7 +91,7 @@ const User = ({match}) => {
                         <CIcon name="cil-user" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="LastName" name="LastName" placeholder="Last Name" />
+                    <CInput id="LastName" name="LastName" placeholder={t('view.User.LastName')} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
@@ -102,7 +102,7 @@ const User = ({match}) => {
                         <CIcon name="cil-phone" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="MobileNumber" name="MobileNumber" placeholder="Mobile Number" type="number" />
+                    <CInput type="number" id="MobileNumber" name="MobileNumber" placeholder={t('common.MobileNumber')} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
@@ -113,7 +113,7 @@ const User = ({match}) => {
                         <CIcon name="cil-calendar" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput type="date" id="DateOfBirth" name="DateOfBirth" placeholder="Date of Birth" />
+                    <CInput type="date" id="DateOfBirth" name="DateOfBirth" />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
@@ -125,7 +125,7 @@ const User = ({match}) => {
                       </CInputGroupText>
                     </CInputGroupPrepend>
                     <CSelect custom name="selectStatus" id="selectStatus">
-                      <option value="0">Please select</option>
+                      <option value="0">{t('messages.messagePleaseSelect')}</option>
                       <option value="1">Active</option>
                       <option value="2">Inactive</option>
                     </CSelect>
@@ -142,7 +142,7 @@ const User = ({match}) => {
                         <CIcon name="cil-location-pin" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="AddressLine1" name="AddressLine1" placeholder="AddressLine1" />
+                    <CInput id="AddressLine1" name="AddressLine1" placeholder={t('view.User.AddressLine1')} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
@@ -153,7 +153,7 @@ const User = ({match}) => {
                         <CIcon name="cil-location-pin" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="AddressLine2" name="AddressLine2" placeholder="AddressLine2" />
+                    <CInput id="AddressLine2" name="AddressLine2" placeholder={t('view.User.AddressLine2')} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
@@ -164,7 +164,7 @@ const User = ({match}) => {
                         <CIcon name="cil-location-pin" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="AreaOrCity" name="AreaOrCity" placeholder="AreaOrCity" />
+                    <CInput id="AreaOrCity" name="AreaOrCity" placeholder={t('view.User.AreaOrCity')} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
@@ -175,7 +175,7 @@ const User = ({match}) => {
                         <CIcon name="cil-map" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="Country" name="Country" placeholder="Country" />
+                    <CInput id="Country" name="Country" placeholder={t('view.User.Country')} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
@@ -186,7 +186,7 @@ const User = ({match}) => {
                         <CIcon name="cil-location-pin" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="PostalZipCode" name="PostalZipCode" placeholder="PostalZipCode" />
+                    <CInput id="PostalZipCode" name="PostalZipCode" placeholder={t('view.User.PostalZipCode')} />
                   </CInputGroup>
                 </CCol>
               </CRow>

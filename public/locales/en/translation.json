@@ -11,7 +11,10 @@
     "Permission": "Permission",
     "Save": "Save",
     "ConfirmDelete": "Confirm Delete",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "NewUser": "New User",
+    "EditUser": "Edit User",
+    "MobileNumber": "Mobile Number"
   },
   "theHeader": {
     "Dashboard": "Dashboard",
@@ -73,6 +76,7 @@
     }
   },
   "messages": {
+    "messagePleaseSelect": "Please select",
     "messageConfirmDelete": "Are you sure you want to delete?",
     "requireRoleName": "Please input the role name!",
     "requireRoleDescription": "Please input the description!"

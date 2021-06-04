@@ -11,7 +11,10 @@
     "Permission": "Danh sách phân quyền",
     "Save": "Lưu",
     "ConfirmDelete": "Xoá Dữ Diệu",
-    "Cancel": "Huỷ"
+    "Cancel": "Huỷ",
+    "NewUser": "Tạo mới thông tin",
+    "EditUser": "Thay đổi thông tin",
+    "MobileNumber": "Di động"
   },
   "theHeader": {
     "Dashboard": "Trang chủ",
@@ -45,19 +48,19 @@
       }
     },
     "User": {
-      "Username": "Username",
-      "UserRole": "User Role",
-      "EmailAddress": "Email Address",
-      "FirstName": "First Name",
-      "LastName": "LastName",
-      "MobileNumber": "Mobile Number",
-      "DateOfBirth": "Date of Birth",
-      "Status": "Status",
-      "AddressLine1": "Address Line 1",
-      "AddressLine2": "Address Line 2",
-      "AreaOrCity": "Area or City",
-      "Country": "Country",
-      "PostalZipCode": "Postal/ZIP Code"
+      "Username": "Tên đăng nhập",
+      "UserRole": "Phân quyền",
+      "EmailAddress": "Địa chỉ email",
+      "FirstName": "Tên",
+      "LastName": "Họ",
+      "MobileNumber": "Đi động",
+      "DateOfBirth": "Ngày sinh",
+      "Status": "Trạng thái",
+      "AddressLine1": "Địa chỉ 1",
+      "AddressLine2": "Địa chỉ 2",
+      "AreaOrCity": "Thành phố",
+      "Country": "Quốc gia",
+      "PostalZipCode": "Mã bưu điện"
     },
     "UserRoles": {
       "title": "Phân Quyền",
@@ -73,6 +76,7 @@
     }
   },
   "messages": {
+    "messagePleaseSelect": "Vui lòng chọn",
     "messageConfirmDelete": "Bạn có chăc muốn xoá?",
     "requireRoleName": "Yêu cầu nhập tên phân quyền!",
     "requireRoleDescription": "Yêu cầu nhập chi tiết!"
