@@ -7,6 +7,7 @@ import { userService } from "../../services/user.service";
 
 export const userActions = {
     getAllUsers,
+    createUser,
     getUserDetail,
     createUserRole,
     editUserRole,
@@ -27,6 +28,21 @@ function getAllUsers() {
     function request() { return { type: t.USERS_GET_ALL_REQUEST } }
     function success(users) { return { type: t.USERS_GET_ALL_SUCCESS, users } }
     function failure(error) { return { type: t.USERS_GET_ALL_FAILURE, error } }
+}
+
+function createUser(data) {
+    return dispatch => {
+        dispatch(request(data));
+        return userService.createAccount(data).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.CREATE_USER_REQUEST } }
+    function success(userDetail) { return { type: t.CREATE_USER_SUCCESS, userDetail } }
+    function failure(error) { return { type: t.CREATE_USER_FAILURE, error } }
 }
 
 function getAllCustomers() {

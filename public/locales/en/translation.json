@@ -50,12 +50,24 @@
     "User": {
       "Username": "Username",
       "UserRole": "User Role",
+      "Gender": "Gender",
+      "GenderType": {
+        "Male": "Male",
+        "Female": "Female",
+        "Unknown": "Unknown"
+      },
       "EmailAddress": "Email Address",
       "FirstName": "First Name",
       "LastName": "LastName",
       "MobileNumber": "Mobile Number",
       "DateOfBirth": "Date of Birth",
       "Status": "Status",
+      "StatusType": {
+        "Active": "Active",
+        "Inactive": "Inactive",
+        "Pending": "Pending",
+        "Banned": "Banned"
+      },
       "AddressLine1": "Address Line 1",
       "AddressLine2": "Address Line 2",
       "AreaOrCity": "Area or City",

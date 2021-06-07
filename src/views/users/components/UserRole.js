@@ -31,7 +31,6 @@ const UserRole = ({match}) => {
   const userRoleData = useSelector(state => state.users.userRoleDetail);
   const isRedirect = useSelector(state => state.users.isRedirect);
   const permissions = useSelector(state => state.users.permissions) || [];
-  const [userRoleDetail, setUserRoleDetail] = useState(userRoleData);
   const formik = useFormik({
     initialValues: {
       roleName: userRoleData.roleName || '',

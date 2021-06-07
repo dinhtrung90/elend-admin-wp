@@ -8,7 +8,12 @@ import {
   CRow,
   CForm,
   CLabel,
-  CInput, CInvalidFeedback, CFormGroup, CButton, CInputGroupPrepend, CInputGroupText, CInputGroup, CSelect
+  CInput,
+  CButton,
+  CInputGroupPrepend,
+  CInputGroupText,
+  CInputGroup,
+  CSelect
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {userActions} from "../actions";
@@ -16,55 +21,92 @@ import {useTranslation} from "react-i18next";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import 'yup-phone';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 const User = ({match}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const animatedComponents = makeAnimated();
   const user = useSelector(state => state.users.userDetail);
+  const userRoles = useSelector(state => state.users.userRoles);
+  const isNew = !match.params.id;
 
-  const userDetails = user ? Object.entries(user) : 
+  const userDetails = user ? Object.entries(user) :
     [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
 
-  const permissions = ['ROLE_ADMIN', 'ROLE_USER'];
+  const genders = ['MALE', 'FEMALE', 'UNKNOWN'];
+  const permissionsOptions = [];
+  if (userRoles && userRoles.length > 0) {
+    userRoles.forEach(role => {
+      if (!role.description || role.description.length === 0) return;
+      permissionsOptions.push({
+        value: role.roleName,
+        label: role.description
+      })
+    })
+  }
+
+  const statusList = ['ACTIVE', 'INACTIVE', 'PENDING', 'BANNED'];
+
+  let schema = Yup.object({
+    username: Yup.string().required(),
+    gender: Yup.string().required().oneOf(genders),
+    userRoles: Yup.array().min(1),
+    email: Yup.string().email().required(),
+    firstName: Yup.string().email().required(),
+    lastName: Yup.string().email().required(),
+    mobilePhone: Yup.string().phone('VN').required(),
+    status: match.params.id ? Yup.string().required().oneOf(statusList) : Yup.string().notRequired()
+  });
 
   const formik = useFormik({
     initialValues: {
       username: '',
-      userRole: '',
+      gender: '',
+      userRoles: [],
       email: '',
       firstName: '',
       lastName: '',
       mobilePhone: '',
       birthDate: '',
+      userStatus: '',
       addressLine1: '',
       addressLine2: '',
       city: '',
       country: '',
       zipCode: ''
     },
-    validationSchema: Yup.object({
-      username: Yup.string().required(),
-      userRole: Yup.string().required().oneOf(permissions),
-      email: Yup.string().email().required(),
-      firstName: Yup.string().email().required(),
-      lastName: Yup.string().email().required(),
-      mobilePhone: Yup.string().phone('VN').required()
-    }),
+    validationSchema: schema,
     onSubmit: values => {
       console.log('onSubmit values=', values);
     }
   });
 
+  const handleMultiSelect = (value) => {
+    formik.values.userRoles = value;
+  }
+
+  const customMultiSelectStyle = () => {
+    return formik.errors.userRoles && formik.touched.userRoles ? 'custom-multi-select invalid' : 'custom-multi-select';
+  }
+
   useEffect(() => {
-    dispatch(userActions.getUserDetail(match.params.id));
-  }, []);
+    const loadData = async () => {
+      await dispatch(userActions.getAllUserRoles({all: true}));
+      if (match.params.id) {
+        await dispatch(userActions.getUserDetail(match.params.id));
+      }
+    }
+    loadData();
+  }, [dispatch]);
   return (
     <CRow>
       <CCol lg={12}>
-        <CForm>
+        <CForm onSubmit={formik.handleSubmit}>
           <CCard>
             <CCardHeader>
-              {match.params.id ? t('common.EditUser') : t('common.NewUser')}
+              {isNew ? t('common.NewUser') : t('common.EditUser')}
             </CCardHeader>
             <CCardBody>
               <CRow>
@@ -86,6 +128,23 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
+                  <CLabel htmlFor="UserRole" className="col-form-label">{t('view.User.Gender')} <span className="form-required"> *</span></CLabel>
+                  <CInputGroup>
+                    <CInputGroupPrepend>
+                      <CInputGroupText>
+                        <CIcon name="cil-people" />
+                      </CInputGroupText>
+                    </CInputGroupPrepend>
+                    <CSelect custom name="Gender" id="Gender" invalid={formik.errors.gender && formik.touched.gender}
+                             {...formik.getFieldProps("gender")}>
+                      <option value="0">{t('messages.messagePleaseSelect')}</option>
+                      <option value="MALE">{t('view.User.GenderType.Male')}</option>
+                      <option value="FEMALE">{t('view.User.GenderType.Female')}</option>
+                      <option value="UNKNOWN">{t('view.User.GenderType.Unknown')}</option>
+                    </CSelect>
+                  </CInputGroup>
+                </CCol>
+                <CCol sm={6} className="mb-4">
                   <CLabel htmlFor="UserRole" className="col-form-label">{t('view.User.UserRole')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
@@ -93,27 +152,14 @@ const User = ({match}) => {
                         <CIcon name="cil-people" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CSelect custom name="selectUserRole" id="selectUserRole" invalid={formik.errors.userRole && formik.touched.userRole}
-                       {...formik.getFieldProps("userRole")}>
-                      <option value="0">{t('messages.messagePleaseSelect')}</option>
-                      <option value="ROLE_ADMIN">ROLE_ADMIN</option>
-                      <option value="ROLE_USER">ROLE_USER</option>
-                    </CSelect>
-                  </CInputGroup>
-                </CCol>
-                <CCol sm={6} className="mb-4">
-                  <CLabel htmlFor="EmailAddress" className="col-form-label">{t('view.User.EmailAddress')} <span className="form-required"> *</span></CLabel>
-                  <CInputGroup>
-                    <CInputGroupPrepend>
-                      <CInputGroupText>
-                        <CIcon name="cil-envelope-closed" />
-                      </CInputGroupText>
-                    </CInputGroupPrepend>
-                    <CInput id="EmailAddress" name="EmailAddress"
-                      invalid={formik.errors.email && formik.touched.email}
-                      placeholder={t('view.User.EmailAddress')}
-                      value={formik.values.email}
-                      {...formik.getFieldProps("email")}
+                    <Select
+                      placeholder={<div>{t('messages.messagePleaseSelect')}</div>}
+                      onChange={handleMultiSelect}
+                      className={customMultiSelectStyle()}
+                      closeMenuOnSelect={false}
+                      components={animatedComponents}
+                      isMulti
+                      options={permissionsOptions}
                     />
                   </CInputGroup>
                 </CCol>
@@ -148,6 +194,22 @@ const User = ({match}) => {
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
+                  <CLabel htmlFor="EmailAddress" className="col-form-label">{t('view.User.EmailAddress')} <span className="form-required"> *</span></CLabel>
+                  <CInputGroup>
+                    <CInputGroupPrepend>
+                      <CInputGroupText>
+                        <CIcon name="cil-envelope-closed" />
+                      </CInputGroupText>
+                    </CInputGroupPrepend>
+                    <CInput id="EmailAddress" name="EmailAddress"
+                            invalid={formik.errors.email && formik.touched.email}
+                            placeholder={t('view.User.EmailAddress')}
+                            value={formik.values.email}
+                            {...formik.getFieldProps("email")}
+                    />
+                  </CInputGroup>
+                </CCol>
+                <CCol sm={6} className="mb-4">
                   <CLabel htmlFor="MobileNumber" className="col-form-label">{t('view.User.MobileNumber')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
@@ -173,7 +235,7 @@ const User = ({match}) => {
                     <CInput type="date" id="DateOfBirth" name="DateOfBirth" value={formik.values.birthDate}/>
                   </CInputGroup>
                 </CCol>
-                <CCol sm={6} className="mb-4">
+                <CCol sm={6} className={isNew ? 'mb-4 hidden' : 'mb-4 show'}>
                   <CLabel htmlFor="Status" className="col-form-label">{t('view.User.Status')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
@@ -181,10 +243,13 @@ const User = ({match}) => {
                         <CIcon name="cil-check" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CSelect custom name="selectStatus" id="selectStatus">
+                    <CSelect custom name="userStatus" id="userStatus" invalid={formik.errors.userStatus && formik.touched.userStatus}
+                             {...formik.getFieldProps("userStatus")}>
                       <option value="0">{t('messages.messagePleaseSelect')}</option>
-                      <option value="1">Active</option>
-                      <option value="2">Inactive</option>
+                      <option value="ACTIVE" className=''>{t('view.User.StatusType.Active')}</option>
+                      <option value="INACTIVE">{t('view.User.StatusType.Inactive')}</option>
+                      <option value="PENDING">{t('view.User.StatusType.Pending')}</option>
+                      <option value="BANNED">{t('view.User.StatusType.Banned')}</option>
                     </CSelect>
                   </CInputGroup>
                 </CCol>
@@ -251,20 +316,6 @@ const User = ({match}) => {
               <CRow className="flex-center">
                 <CButton type="submit" color="primary" className="text-center">{t('common.Save')}</CButton>
               </CRow>
-                {/*<table className="table table-striped table-hover">*/}
-                {/*  <tbody>*/}
-                {/*    {*/}
-                {/*      userDetails.map(([key, value], index) => {*/}
-                {/*        return (*/}
-                {/*          <tr key={index.toString()}>*/}
-                {/*            <td>{`${key}:`}</td>*/}
-                {/*            <td><strong>{value}</strong></td>*/}
-                {/*          </tr>*/}
-                {/*        )*/}
-                {/*      })*/}
-                {/*    }*/}
-                {/*  </tbody>*/}
-                {/*</table>*/}
             </CCardBody>
           </CCard>
         </CForm>

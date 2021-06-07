@@ -35,6 +35,21 @@
   top: 3px;
 }
 
+.custom-multi-select {
+  width: calc(100% - 42px);;
+
+  &.invalid {
+    border: 1px #e55353 solid;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
+}
 
 .text-danger {
   color: #e55353;

@@ -17,6 +17,7 @@ import {
 import {userActions} from '../actions';
 
 import CIcon from '@coreui/icons-react';
+import { FaUserPlus } from "react-icons/fa";
 
 const getBadge = (status) => {
   switch (status) {
@@ -73,7 +74,7 @@ const Users = () => {
                   color="primary"
                   className="float-right"
                   onClick={navigationToUserCreation}>
-                  <CIcon name="cil-pencil" />
+                  <FaUserPlus />
                 </CButton>
               </CCol>
             </CRow>

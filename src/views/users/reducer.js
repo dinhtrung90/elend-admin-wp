@@ -21,6 +21,20 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case t.CREATE_USER_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+            });
+        case t.CREATE_USER_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true,
+                userDetail: action.userDetail
+            })
+        case t.CREATE_USER_FAILURE:
+            return Object.assign({}, state, {
+                errorFetch: action.error
+            });
         case t.USERS_GET_ALL_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true,

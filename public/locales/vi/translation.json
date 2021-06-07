@@ -50,12 +50,24 @@
     "User": {
       "Username": "Tên đăng nhập",
       "UserRole": "Phân quyền",
+      "Gender": "Giới tính",
+      "GenderType": {
+        "Male": "Nam",
+        "Female": "Nữ",
+        "Unknown": "Giói tính khác"
+      },
       "EmailAddress": "Địa chỉ email",
       "FirstName": "Tên",
       "LastName": "Họ",
       "MobileNumber": "Đi động",
       "DateOfBirth": "Ngày sinh",
       "Status": "Trạng thái",
+      "StatusType": {
+        "Active": "Đang hoạt động",
+        "Inactive": "Không hoạt động",
+        "Pending": "Chờ kích hoạt",
+        "Banned": "Tình trạng bị cầm"
+      },
       "AddressLine1": "Địa chỉ 1",
       "AddressLine2": "Địa chỉ 2",
       "AreaOrCity": "Thành phố",
