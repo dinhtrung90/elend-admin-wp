@@ -1,15 +1,12 @@
 import React from 'react';
-import { Route, useHistory, Switch } from 'react-router-dom';
-import { Security, LoginCallback } from '@okta/okta-react';
-import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
-import { oktaAuthConfig, oktaSignInConfig } from './config/config';
-import PrivateRoute from './components/private-route';
+import { ReactKeycloakProvider } from '@react-keycloak/web';
 import './scss/style.scss';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingBar from 'react-redux-loading-bar';
-
-
+import keycloak from './keycloak';
+import { AppRouter } from './AppRouter';
+import { userService } from './services/user.service';
 
 const loading = (
   <div className="pt-3 text-center">
@@ -17,23 +14,20 @@ const loading = (
   </div>
 );
 
-const TheLayout = React.lazy(() => import('./containers/TheLayout'));
-
-const Login = React.lazy(() => import('./views/pages/login/Login'));
-
-const oktaAuth = new OktaAuth(oktaAuthConfig);
-
 const AppWithRouterAccess = () => {
 
-  const history = useHistory();
+  const eventLogger = (event, error) => {
+    console.log('onKeycloakEvent', event, error);
+  }
 
-  const customAuthHandler = () => {
-    history.push('/login');
-  };
-
-  const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-    history.replace(toRelativeUrl(originalUri, window.location.origin));
-  };
+  const tokenLogger = (tokens) => {
+    console.log('onKeycloakTokens')
+    if (tokens && tokens.token) {
+      userService.syncAccount().then(res => {
+        console.log('synced=', res);
+      });
+    }
+  }
 
   return (
     <React.Suspense fallback={loading}>
@@ -44,23 +38,14 @@ const AppWithRouterAccess = () => {
         toastClassName="toastify-toast"
       />
       <LoadingBar  style={{ backgroundColor: '#636f83', height: '3px', zIndex: 1500, position: 'absolute' }} scope="sectionBar" className="loading-bar fluid" direction="ltr" />
-      
 
-      <Security
-        oktaAuth={oktaAuth}
-        onAuthRequired={customAuthHandler}
-        restoreOriginalUri={restoreOriginalUri}>
-        <Switch>
-          <Route
-            exact
-            path="/login"
-            render={() => <Login config={oktaSignInConfig} />}
-          />
-          <Route exact path="/login/callback" component={LoginCallback} />
-
-          <PrivateRoute path="/" name="Home" component={TheLayout} />
-        </Switch>
-      </Security>
+      <ReactKeycloakProvider
+          authClient={keycloak}
+          onEvent={eventLogger}
+          onTokens={tokenLogger}
+      >
+        <AppRouter />
+      </ReactKeycloakProvider>
     </React.Suspense>
   );
 };

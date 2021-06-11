@@ -1,31 +1,18 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import OktaSignInWidget from '../../../components/signin-widget';
-import { useOktaAuth } from '@okta/okta-react';
-import { userService } from '../../../services/user.service';
+import { Redirect, useLocation } from 'react-router-dom';
+import { useKeycloak } from '@react-keycloak/web';
 
-const Login = ({ config }) => {
-  const { oktaAuth, authState } = useOktaAuth();
+const Login = () => {
+  const location = useLocation();
+  const currentLocationState = location.state || {
+    from: { pathname: '/' },
+  }
+  const { keycloak } = useKeycloak();
 
-  const onSuccess = (tokens) => {
-    oktaAuth.handleLoginRedirect(tokens).then(() => {
-      userService.syncAccount().then(res => {
-        console.log('synced=', res);
-      });
-    })
-  };
+  if (keycloak?.authenticated)
+    return <Redirect to={currentLocationState?.from} />;
 
-  const onError = (err) => {
-    console.log('error logging in', err);
-  };
-
-  if (authState.isPending) return null;
-
-  return authState.isAuthenticated ?
-    <Redirect to={{ pathname: '/' }}/> :
-    <OktaSignInWidget
-      config={config}
-      onSuccess={onSuccess}
-      onError={onError}/>;
+  keycloak?.login()
+  return (<div></div>)
 };
 export default Login;

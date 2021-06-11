@@ -1,21 +1,18 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { SecureRoute, useOktaAuth } from '@okta/okta-react';
+import { Route, Redirect } from 'react-router-dom';
 import { APP_TOKEN } from 'src/constants/constants';
+import { useKeycloak } from '@react-keycloak/web';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { authState } = useOktaAuth();
-
-  // if (authState.isPending) return null;
-
-  if (authState.isAuthenticated) {
-    localStorage.setItem(APP_TOKEN, authState.idToken.idToken);
+  const { keycloak, initialized } = useKeycloak();
+  if (initialized && keycloak.token) {
+    localStorage.setItem(APP_TOKEN, keycloak.token);
   } else {
     localStorage.setItem(APP_TOKEN, null);
   }
 
   const renderRedirect = (props) => {
-    if (authState.isAuthenticated) {
+    if (initialized && keycloak.authenticated) {
 
       return <Component {...props} />;
     }
@@ -33,6 +30,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       `A component needs to be specified for private route for path}`
     );
 
-  return <SecureRoute {...rest} render={renderRedirect} />;
+  return <Route {...rest} render={renderRedirect}/>
 };
 export default PrivateRoute;

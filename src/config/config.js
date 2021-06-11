@@ -1,17 +1,17 @@
-import { CLIEND_ID, OKTA_DOMAIN } from 'src/constants/constants';
+import { CLIENT_ID, DOMAIN } from 'src/constants/constants';
 
 const oktaAuthConfig = {
   // Note: If your app is configured to use the Implicit flow
   // instead of the Authorization Code with Proof of Code Key Exchange (PKCE)
   // you will need to add `pkce: false`
-  issuer: OKTA_DOMAIN + '/oauth2/default',
-  clientId: CLIEND_ID,
+  issuer: DOMAIN + '/oauth2/default',
+  clientId: CLIENT_ID,
   redirectUri: window.location.origin + '/login/callback',
 };
 
 const oktaSignInConfig = {
-  baseUrl: OKTA_DOMAIN,
-  clientId: CLIEND_ID,
+  baseUrl: DOMAIN,
+  clientId: CLIENT_ID,
   redirectUri: window.location.origin + '/login/callback',
   authParams: {
     // If your app is configured to use the Implicit flow

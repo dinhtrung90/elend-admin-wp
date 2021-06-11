@@ -8,15 +8,14 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-
-import { useOktaAuth } from '@okta/okta-react';
+import { useKeycloak } from '@react-keycloak/web';
 
 
 const TheHeaderDropdown = () => {
 
-  const { oktaAuth } = useOktaAuth();
+  const { keycloak } = useKeycloak();
 
-  const handleLogout = async () => oktaAuth.signOut();
+  const handleLogout = async () => keycloak.clearToken();
 
 
   return (
@@ -89,7 +88,7 @@ const TheHeaderDropdown = () => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem onClick={handleLogout}>
+        <CDropdownItem onClick={() => handleLogout}>
           <CIcon name="cil-lock-locked" className="mfe-2" />
           Lock Account
         </CDropdownItem>
