@@ -8,14 +8,17 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { useKeycloak } from '@react-keycloak/web';
+import {authHelpers} from "../utils/auth-helper";
+import {useHistory} from "react-router-dom";
 
 
 const TheHeaderDropdown = () => {
+  const history = useHistory();
 
-  const { keycloak } = useKeycloak();
-
-  const handleLogout = async () => keycloak.clearToken();
+  const handleLogout = () => {
+    authHelpers.clearToken();
+    history.push('/login');
+  }
 
 
   return (
@@ -88,7 +91,7 @@ const TheHeaderDropdown = () => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem onClick={() => handleLogout}>
+        <CDropdownItem onClick={handleLogout}>
           <CIcon name="cil-lock-locked" className="mfe-2" />
           Lock Account
         </CDropdownItem>
