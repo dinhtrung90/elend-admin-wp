@@ -36,8 +36,13 @@ const AppWithRouterAccess = () => {
         <LoadingBar  style={{ backgroundColor: '#636f83', height: '3px', zIndex: 1500, position: 'absolute' }} scope="sectionBar" className="loading-bar fluid" direction="ltr" />
 
         <Switch>
-          <Route path="/login" component={Login} />
-          <PrivateRoute exact path="/" name="Home" component={TheLayout} />
+          <Route
+            exact
+            path="/login"
+            render={() => <Login />}
+          />
+
+          <PrivateRoute path="/" name="Home" component={TheLayout} />
         </Switch>
       </React.Suspense>
   );
