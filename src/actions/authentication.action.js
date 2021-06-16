@@ -1,9 +1,8 @@
-import { APP_TOKEN } from "src/constants/constants";
+import { APP_TOKEN, APP_REFRESH_TOKEN } from "src/constants/constants";
 
 export const clearAuthToken = () => {
-    if (localStorage.getItem(APP_TOKEN)) {
-        localStorage.removeItem(APP_TOKEN);
-    }
+    localStorage.removeItem(APP_TOKEN);
+    localStorage.removeItem(APP_REFRESH_TOKEN);
 };
 
 export const authenticationActions = {
