@@ -19,10 +19,14 @@ export const userActions = {
     getCustomerDetail
 };
 
-function getAllUsers() {
+function getAllUsers(data) {
     return dispatch => {
         dispatch(request());
-        dispatch(success(usersData));
+        return userService.getAllUsers(data).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
     };
 
     function request() { return { type: t.USERS_GET_ALL_REQUEST } }

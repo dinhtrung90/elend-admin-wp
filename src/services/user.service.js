@@ -5,6 +5,13 @@ const syncAccount = () => {
   return axios.post(SERVICE_DOMAIN + '/api/users/sync');
 };
 
+const getAllUsers = (data) => {
+  if (data && data.all) {
+    return axios.get(`/api/cms/users/get`);
+  }
+  return axios.get(`/api/cms/users/get?page=${data.page}&size=${data.size}`);
+};
+
 const createAccount = (data) => {
   return axios.post(SERVICE_DOMAIN + '/api/account/create', data);
 }
@@ -38,6 +45,7 @@ const getAllPermissions = () => {
 
 export const userService = {
   createAccount,
+  getAllUsers,
   getAllPermissions,
   getAllUserRoles,
   createUserRole,

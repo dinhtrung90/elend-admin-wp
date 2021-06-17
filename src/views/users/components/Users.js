@@ -39,6 +39,7 @@ const Users = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const usersData = useSelector(state => state.users.users);
+  const itemsPerPage = useSelector(state => state.users.itemsPerPage);
 
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
@@ -49,8 +50,16 @@ const Users = () => {
       history.push(`/users?page=${newPage}`);
   };
 
+  const getRoleColor = status => {
+    switch (status) {
+      case 'ROLE_ADMIN': return 'success'
+      case 'ROLE_USER': return 'secondary'
+      default: return 'primary'
+    }
+  }
+
   useEffect(() => {
-    dispatch(userActions.getAllUsers());
+    dispatch(userActions.getAllUsers({page: currentPage > 1? currentPage - 1 : 0, size: itemsPerPage}));
     currentPage !== page && setPage(currentPage);
   }, [currentPage, page]);
 
@@ -84,9 +93,9 @@ const Users = () => {
                 items={usersData}
                 fields={[
                   { key: 'name', _classes: 'font-weight-bold', label: t('view.Users.fields.PersonInfo') },
-                  { key: 'username', label: t('view.Users.fields.Username') },
-                  { key: 'registered', label: t('view.Users.fields.Registered') },
-                  { key: 'role', label: t('view.Users.fields.Role') },
+                  { key: 'email', label: t('view.Users.fields.Username') },
+                  { key: 'createdDate', label: t('view.Users.fields.Registered') },
+                  { key: 'authorities', label: t('view.Users.fields.Role') },
                   { key: 'status', label: t('view.Users.fields.Status') },
                   { key: 'action', label: t('common.Action')}
                 ]}
@@ -112,6 +121,16 @@ const Users = () => {
                               {item.status}
                             </CBadge>
                           </td>
+                      ),
+                  'authorities':
+                      (item) => (
+                          <td>{
+                            item.authorities.map(role => {
+                              return (
+                                  <CBadge className="mr-1" color={getRoleColor(role.name)}>{role.name}</CBadge>
+                              )
+                            })
+                          }</td>
                       ),
                   'action': (item) => (
                       <td>
