@@ -71,8 +71,8 @@ const User = ({match}) => {
       mobilePhone: '',
       birthDate: '',
       userStatus: '',
-      addressLine1: '',
-      addressLine2: '',
+      addressFirstLine: '',
+      addressSecondLine: '',
       city: '',
       country: '',
       zipCode: ''
@@ -264,7 +264,9 @@ const User = ({match}) => {
                         <CIcon name="cil-location-pin" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="AddressLine1" name="AddressLine1" placeholder={t('view.User.AddressLine1')} value={formik.values.addressLine1} />
+                    <CInput type="text" id="AddressLine1" name="AddressLine1" placeholder={t('view.User.AddressLine1')} value={formik.values.addressFirstLine}
+                      {...formik.getFieldProps("addressFirstLine")}
+                    />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
@@ -275,7 +277,9 @@ const User = ({match}) => {
                         <CIcon name="cil-location-pin" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="AddressLine2" name="AddressLine2" placeholder={t('view.User.AddressLine2')} value={formik.values.addressLine2} />
+                    <CInput id="AddressLine2" name="AddressLine2" placeholder={t('view.User.AddressLine2')} value={formik.values.addressSecondLine}
+                      {...formik.getFieldProps("addressSecondLine")}
+                    />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
@@ -286,7 +290,9 @@ const User = ({match}) => {
                         <CIcon name="cil-location-pin" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="AreaOrCity" name="AreaOrCity" placeholder={t('view.User.AreaOrCity')} value={formik.values.city} />
+                    <CInput id="AreaOrCity" name="AreaOrCity" placeholder={t('view.User.AreaOrCity')} value={formik.values.city}
+                      {...formik.getFieldProps("city")}
+                    />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
@@ -297,7 +303,9 @@ const User = ({match}) => {
                         <CIcon name="cil-map" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="Country" name="Country" placeholder={t('view.User.Country')} value={formik.values.country}/>
+                    <CInput id="Country" name="Country" placeholder={t('view.User.Country')} value={formik.values.country}
+                      {...formik.getFieldProps("country")}
+                    />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
@@ -308,7 +316,9 @@ const User = ({match}) => {
                         <CIcon name="cil-location-pin" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="PostalZipCode" name="PostalZipCode" placeholder={t('view.User.PostalZipCode')} value={formik.values.zipCode} />
+                    <CInput id="PostalZipCode" name="PostalZipCode" placeholder={t('view.User.PostalZipCode')} value={formik.values.zipCode}
+                      {...formik.getFieldProps("zipCode")}
+                    />
                   </CInputGroup>
                 </CCol>
               </CRow>
