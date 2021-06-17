@@ -15,6 +15,7 @@ const loading = (
 const TheLayout = React.lazy(() => import('./containers/TheLayout'));
 
 const Login = React.lazy(() => import('./views/pages/login/Login'));
+const Page403 = React.lazy(() => import('./views/pages/page403/Page403'));
 
 
 const AppWithRouterAccess = () => {
@@ -40,6 +41,11 @@ const AppWithRouterAccess = () => {
             exact
             path="/login"
             render={() => <Login />}
+          />
+          <Route
+              exact
+              path="/403"
+              render={() => <Page403 />}
           />
 
           <PrivateRoute path="/" name="Home" component={TheLayout} />

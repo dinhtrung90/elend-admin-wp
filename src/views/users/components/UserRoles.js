@@ -96,7 +96,7 @@ const UserRoles = () => {
                                 <CDataTable
                                     items={usersData}
                                     fields={[
-                                        { key: 'roleName', _classes: 'font-weight-bold', label: t('view.UserRoles.UserRoleName') },
+                                        { key: 'name', _classes: 'font-weight-bold', label: t('view.UserRoles.UserRoleName') },
                                         { key: 'description', label: t('common.Description') },
                                         { key: 'createDate', label: t('common.CreatedDate') },
                                         { key: 'action', label: t('common.Action')}
@@ -110,13 +110,13 @@ const UserRoles = () => {
                                                 <CButton
                                                     className="mr-1"
                                                     color="primary"
-                                                    onClick={() => history.push(`/users/role/edit/${item.roleName}`)}>
+                                                    onClick={() => history.push(`/users/role/edit/${item.name}`)}>
                                                     <CIcon name="cil-pencil" />
                                                 </CButton>
                                                 {
-                                                    !specialRoles.includes(item.roleName) ? <CButton color="danger" onClick={() => {
+                                                    !specialRoles.includes(item.name) ? <CButton color="danger" onClick={() => {
                                                             setDanger(!danger);
-                                                            setDeleteRoleName(item.roleName);
+                                                            setDeleteRoleName(item.name);
                                                         } } className="mr-1"><CIcon name="cil-trash" /></CButton>
                                                         : ''
                                                 }

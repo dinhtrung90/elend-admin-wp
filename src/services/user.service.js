@@ -11,9 +11,9 @@ const createAccount = (data) => {
 
 const getAllUserRoles = (data) => {
   if (data && data.all) {
-    return axios.get(SERVICE_DOMAIN + `/api/member-roles/get-roles`);
+    return axios.post(`/api/roles`);
   }
-  return axios.get(SERVICE_DOMAIN + `/api/member-roles/get-roles?page=${data.page}&size=${data.size}`);
+  return axios.post(`/api/roles?page=${data.page}&size=${data.size}`);
 }
 
 const createUserRole = (data) => {

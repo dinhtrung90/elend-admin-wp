@@ -129,8 +129,8 @@ function getAllUserRoles(data) {
     return dispatch => {
         dispatch(request());
         return userService.getAllUserRoles(data).then(response => {
-            if (response.data && response.data.items) {
-                response.data.items.forEach(item => {
+            if (response.data && response.data.length > 0) {
+                response.data.forEach(item => {
                     item.description = item.description || '';
                 });
             }

@@ -101,7 +101,7 @@ export default (state = initialState, action) => {
                 isFetching: false,
                 isFetched: true,
                 userRoleDetail: {}, // reset detail item
-                userRoles: action.userRoles.items,
+                userRoles: action.userRoles,
                 totalPages: action.userRoles.totalPage
             })
         case t.USER_ROLES_GET_ALL_FAILURE:

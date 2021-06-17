@@ -33,13 +33,13 @@ const UserRole = ({match}) => {
   const permissions = useSelector(state => state.users.permissions) || [];
   const formik = useFormik({
     initialValues: {
-      roleName: userRoleData.roleName || '',
+      name: userRoleData.name || '',
       description: userRoleData.description || '',
       permissionDetails: userRoleData.permissionDetails || [],
       permissionAll: []
     },
     validationSchema: Yup.object({
-      roleName: Yup.string().required(t('messages.requireRoleName')),
+      name: Yup.string().required(t('messages.requireRoleName')),
       description: Yup.string().required(t('messages.requireRoleDescription')),
       permissionDetails: Yup.array().required('messages.requireAtLeastPermission')
     }),
@@ -50,8 +50,8 @@ const UserRole = ({match}) => {
 
   // populate data in edit mode
   if (match.params.id) {
-    if (formik.values.roleName.length === 0 &&
-        userRoleData && userRoleData.roleName
+    if (formik.values.name.length === 0 &&
+        userRoleData && userRoleData.name
     ) {
       formik.setValues(userRoleData);
     }
@@ -87,7 +87,7 @@ const UserRole = ({match}) => {
 
   const handleToSubmit = (values) => {
     const payload = {
-      roleName: values.roleName,
+      name: values.name,
       description: values.description,
       permissionDetails: []
     };
@@ -133,12 +133,12 @@ const UserRole = ({match}) => {
             <CCardBody>
                 <CFormGroup>
                     <CLabel htmlFor="userRoleName">{t('view.UserRoles.UserRoleName')}</CLabel>
-                    <CInput invalid={formik.errors.roleName && formik.touched.roleName} id="userRoleName" name="roleName"
-                      value={formik.values.roleName}
+                    <CInput invalid={formik.errors.name && formik.touched.name} id="userRoleName" name="roleName"
+                      value={formik.values.name}
                       onChange={formik.handleChange}
-                      {...formik.getFieldProps("roleName")}
+                      {...formik.getFieldProps("name")}
                     />
-                    <CInvalidFeedback>{formik.errors.roleName}</CInvalidFeedback>
+                    <CInvalidFeedback>{formik.errors.name}</CInvalidFeedback>
                 </CFormGroup>
                 <CFormGroup>
                     <CLabel htmlFor="description">{t('common.Description')}</CLabel>
