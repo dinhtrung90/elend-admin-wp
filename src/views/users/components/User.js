@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   CCard,
@@ -13,7 +13,7 @@ import {
   CInputGroupPrepend,
   CInputGroupText,
   CInputGroup,
-  CSelect
+  CSelect, CSwitch, CInputGroupAppend
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {userActions} from "../actions";
@@ -23,6 +23,7 @@ import * as Yup from "yup";
 import 'yup-phone';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 const User = ({match}) => {
   const { t } = useTranslation();
@@ -30,6 +31,9 @@ const User = ({match}) => {
   const animatedComponents = makeAnimated();
   const user = useSelector(state => state.users.userDetail);
   const userRoles = useSelector(state => state.users.userRoles);
+  const [isRevealPwd, setIsRevealPwd] = useState(false);
+  const [isRevealPwdConfirm, setIsRevealPwdConfirm] = useState(false);
+
   const isNew = !match.params.id;
 
   const userDetails = user ? Object.entries(user) :
@@ -63,6 +67,11 @@ const User = ({match}) => {
   const formik = useFormik({
     initialValues: {
       username: '',
+      password: '',
+      showPassword: false,
+      passwordConfirm: '',
+      showPasswordConfirm: false,
+      temporary: false, // If enabled, the user must change the password on next login
       gender: '',
       userRoles: [],
       email: '',
@@ -252,6 +261,65 @@ const User = ({match}) => {
                       <option value="BANNED">{t('view.User.StatusType.Banned')}</option>
                     </CSelect>
                   </CInputGroup>
+                </CCol>
+                <CCol sm={12} className="mb-4">
+                  <hr/>
+                </CCol>
+                <CCol sm={6} className="mb-4">
+                  <h4>Reset Password</h4>
+                  <CRow>
+                    <CCol>
+                      <CLabel htmlFor="password" className="col-form-label">{t('view.User.Password')}</CLabel>
+                      <CInputGroup>
+                        <CInputGroupPrepend>
+                          <CInputGroupText>
+                            <FaLock />
+                          </CInputGroupText>
+                        </CInputGroupPrepend>
+                        <CInput
+                            id="password"
+                            type={isRevealPwd ? "text" : "password"}
+                            name="password"
+                            value={formik.values.password}
+                            placeholder={t('view.User.Password')}
+                            {...formik.getFieldProps("password")}
+                        />
+                        <CInputGroupAppend>
+                          <CInputGroupText onClick={() => setIsRevealPwd(isRevealPwd => !isRevealPwd)}>{ isRevealPwd ? <FaRegEyeSlash /> : <FaRegEye /> }</CInputGroupText>
+                        </CInputGroupAppend>
+                      </CInputGroup>
+                    </CCol>
+                  </CRow>
+                  <CRow className="mt-4">
+                    <CCol>
+                      <CLabel htmlFor="passwordConfirm" className="col-form-label">{t('view.User.PasswordConfirmation')}</CLabel>
+                      <CInputGroup>
+                        <CInputGroupPrepend>
+                          <CInputGroupText>
+                            <FaLock />
+                          </CInputGroupText>
+                        </CInputGroupPrepend>
+                        <CInput
+                            id="passwordConfirm"
+                            type={isRevealPwdConfirm ? "text" : "password"}
+                            name="passwordConfirm"
+                            value={formik.values.passwordConfirm}
+                            placeholder={t('view.User.PasswordConfirmation')}
+                            {...formik.getFieldProps("passwordConfirm")}
+                        />
+                        <CInputGroupAppend>
+                          <CInputGroupText onClick={() => setIsRevealPwdConfirm(isRevealPwdConfirm => !isRevealPwdConfirm)}>{ isRevealPwdConfirm ? <FaRegEyeSlash /> : <FaRegEye /> }</CInputGroupText>
+                        </CInputGroupAppend>
+                      </CInputGroup>
+                    </CCol>
+                  </CRow>
+                  <CRow className="mt-4">
+                    <CCol>
+                      <div style={{display: "flex", alignItems: 'center'}}>
+                        <b>Temporary</b>  <CSwitch className={'mx-1'} variant={'3d'} color={'success'} defaultChecked />
+                      </div>
+                    </CCol>
+                  </CRow>
                 </CCol>
                 <CCol sm={12} className="mb-4">
                   <hr/>

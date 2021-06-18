@@ -53,6 +53,9 @@
     },
     "User": {
       "Username": "Username",
+      "Password": "Password",
+      "PasswordConfirmation": "Password Confirmation",
+      "Temporary": "Temporary",
       "UserRole": "User Role",
       "Gender": "Gender",
       "GenderType": {
