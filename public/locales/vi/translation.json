@@ -14,7 +14,10 @@
     "Cancel": "Huỷ",
     "NewUser": "Tạo mới thông tin",
     "EditUser": "Thay đổi thông tin",
-    "MobileNumber": "Di động"
+    "MobileNumber": "Di động",
+    "Edit": "Sửa",
+    "ResendVerifyEmail": "Xác thực Email",
+    "ResetPassword": "Đặt lại mật khẩu"
   },
   "theHeader": {
     "Dashboard": "Trang chủ",
@@ -24,13 +27,13 @@
   "theSidebar": {
     "title": "Elend Center",
     "Dashboard": "Trang chủ",
-    "Clients": "Doanh Nghiệp",
+    "Organizations": "Doanh Nghiệp",
     "Employee": "Quản lý Nhân Viên",
     "Customer": "Quản lý Khách hàng",
     "UserRole": "Phân Quyền "
   },
   "view": {
-    "Clients": {
+    "Organizations": {
       "title": "Doanh Nghiệp"
     },
     "Users": {
@@ -44,7 +47,8 @@
         "Username": "Tên đăng nhập",
         "Registered": "Ngày đăng ký",
         "Role": "Phân quyền",
-        "Status": "Trạng thái"
+        "Status": "Trạng thái",
+        "EmailVerified": "Xác nhận email"
       }
     },
     "User": {

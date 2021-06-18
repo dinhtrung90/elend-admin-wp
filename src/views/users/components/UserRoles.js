@@ -71,13 +71,13 @@ const UserRoles = () => {
                                 </h4>
                             </CCol>
                             <CCol sm="7" className="d-none d-md-block">
-                                <CButton
-                                    color="primary"
-                                    className="float-right"
-                                    onClick={navigationToUserRoleCreation}>
-                                    <CIcon name="cil-plus" />
-                                    New User Role
-                                </CButton>
+                                {/*<CButton*/}
+                                {/*    color="primary"*/}
+                                {/*    className="float-right"*/}
+                                {/*    onClick={navigationToUserRoleCreation}>*/}
+                                {/*    <CIcon name="cil-plus" />*/}
+                                {/*    New User Role*/}
+                                {/*</CButton>*/}
                             </CCol>
                         </CRow>
                     </CCardHeader>

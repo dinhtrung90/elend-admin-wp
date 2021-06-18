@@ -11,13 +11,13 @@ import {
   CDataTable,
   CRow,
   CPagination,
-  CButton,
+  CButton, CDropdownToggle, CDropdownMenu, CDropdownItem, CDropdown,
 } from '@coreui/react';
 
 import {userActions} from '../actions';
 
 import CIcon from '@coreui/icons-react';
-import { FaUserPlus } from "react-icons/fa";
+import { FaUserPlus, FaEllipsisH } from "react-icons/fa";
 
 const getBadge = (status) => {
   switch (status) {
@@ -58,6 +58,10 @@ const Users = () => {
     }
   }
 
+  const handleToEdit = (item) => {
+    history.push(`/users/edit/${item.id}`);
+  }
+
   useEffect(() => {
     dispatch(userActions.getAllUsers({page: currentPage > 1? currentPage - 1 : 0, size: itemsPerPage}));
     currentPage !== page && setPage(currentPage);
@@ -96,6 +100,7 @@ const Users = () => {
                   { key: 'email', label: t('view.Users.fields.Username') },
                   { key: 'createdDate', label: t('view.Users.fields.Registered') },
                   { key: 'authorities', label: t('view.Users.fields.Role') },
+                  { key: 'emailVerified', label: t('view.Users.fields.EmailVerified') },
                   { key: 'status', label: t('view.Users.fields.Status') },
                   { key: 'action', label: t('common.Action')}
                 ]}
@@ -104,7 +109,7 @@ const Users = () => {
                 itemsPerPage={5}
                 activePage={page}
                 clickableRows
-                onRowClick={(item) => history.push(`/users/edit/${item.id}`)}
+                // onRowClick={(item) => history.push(`/users/edit/${item.id}`)}
                 scopedSlots = {{
                   'name':
                       (item)=>(
@@ -127,19 +132,30 @@ const Users = () => {
                           <td>{
                             item.authorities.map(role => {
                               return (
-                                  <CBadge className="mr-1" color={getRoleColor(role.name)}>{role.name}</CBadge>
+                                  <CBadge key={role.name} className="mr-1" color={getRoleColor(role.name)}>{role.name}</CBadge>
                               )
                             })
                           }</td>
                       ),
                   'action': (item) => (
                       <td>
-                        <CButton
-                            className="mr-1"
-                            color="primary">
-                          <CIcon name="cil-pencil" />
-                        </CButton>
-                        <CButton color="danger" className="mr-1"><CIcon name="cil-trash" /></CButton>
+                        <CDropdown className="m-1 d-inline-block custom-dropdowns">
+                          <CDropdownToggle color="secondary">
+                            <FaEllipsisH size="1em"/>
+                          </CDropdownToggle>
+                          <CDropdownMenu placement="left">
+                            <CDropdownItem onClick={() => handleToEdit(item)}>{t('common.Edit')}</CDropdownItem>
+                            <CDropdownItem>{t('common.ResendVerifyEmail')}</CDropdownItem>
+                            <CDropdownItem>{t('common.ResetPassword')}</CDropdownItem>
+                            <CDropdownItem>{t('common.Delete')}</CDropdownItem>
+                          </CDropdownMenu>
+                        </CDropdown>
+                        {/*<CButton*/}
+                        {/*    className="mr-1"*/}
+                        {/*    color="primary">*/}
+                        {/*  <CIcon name="cil-pencil" />*/}
+                        {/*</CButton>*/}
+                        {/*<CButton color="danger" className="mr-1"><CIcon name="cil-trash" /></CButton>*/}
                       </td>
                   ),
                 }}

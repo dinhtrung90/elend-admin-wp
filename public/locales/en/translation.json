@@ -14,7 +14,10 @@
     "Cancel": "Cancel",
     "NewUser": "New User",
     "EditUser": "Edit User",
-    "MobileNumber": "Mobile Number"
+    "MobileNumber": "Mobile Number",
+    "Edit": "Edit",
+    "ResendVerifyEmail": "Resend Verify Email",
+    "ResetPassword": "Reset Password"
   },
   "theHeader": {
     "Dashboard": "Dashboard",
@@ -24,14 +27,14 @@
   "theSidebar": {
     "title": "Elend Center",
     "Dashboard": "Dashboard",
-    "Clients": "Clients",
+    "Organizations": "Organizations",
     "Employee": "Employee",
     "Customer": "Customer",
     "UserRole": "User Role"
   },
   "view": {
-    "Clients": {
-      "title": "Employers"
+    "Organizations": {
+      "title": "Organizations"
     },
     "Users": {
       "title": {
@@ -44,7 +47,8 @@
         "Username": "Username",
         "Registered": "Registered",
         "Role": "Role",
-        "Status": "Status"
+        "Status": "Status",
+        "EmailVerified": "Email Verified"
       }
     },
     "User": {
