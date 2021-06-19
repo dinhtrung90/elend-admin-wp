@@ -73,3 +73,51 @@
 .text-danger {
   color: #e55353;
 }
+
+.color-picker-container {
+  display: flex;
+  border: 1px solid;
+  color: #768192;
+  background-color: #fff;
+  border-color: #d8dbe0;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  padding: 0.375rem 0.75rem 0;
+
+  .input-color-picker{
+    color: transparent;
+    width: 25px;
+    border: none;
+    height: 30px;
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .input-color-text {
+    color: currentColor;
+    width: 100%;
+    border: 0;
+    height: unset;
+    margin: 0;
+    display: block;
+    padding: 8px 16px 8px 8px;
+    min-width: 0;
+    background: none;
+    box-sizing: content-box;
+    animation-name: mui-auto-fill-cancel;
+    letter-spacing: inherit;
+    animation-duration: 10ms;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .no-outline:focus {
+    outline: 0;
+  }
+}
+
+.color-picker-container-focus {
+  box-shadow: rgba(99, 93, 255, 0.25) 0px 0px 0px 0.25em;
+  border-color: #321fdb60;
+  border-width: 1px;
+}

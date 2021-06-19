@@ -68,6 +68,7 @@ const EmployerCreation = React.lazy(() =>
   import('./views/employers/employer.creation')
 );
 const Organizations = React.lazy(() => import('./views/organization/components/organizations'));
+const Organization = React.lazy(() => import('./views/organization/components/organization'));
 const OrganizationCreation = React.lazy(() => import('./views/organization/components/organizations.creation'));
 
 const routes = [
@@ -138,6 +139,7 @@ const routes = [
   { path: '/employers', name: 'Employers', component: Employers },
   { path: '/organizations', exact: true, name: 'Organizations', component: Organizations },
   { path: '/organizations/create', exact: true, name: 'Create', component: OrganizationCreation },
+  { path: '/organizations/:id', exact: true, name: 'Edit', component: Organization },
   // { path: '/users/employee', name: 'Users', component: Users },
   // { path: '/users/customer', name: 'Customers', component: Customers },
 
