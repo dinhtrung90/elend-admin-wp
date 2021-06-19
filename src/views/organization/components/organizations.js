@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  CBadge,
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
-  CDataTable,
   CRow,
-  CPagination,
   CButton,
 } from '@coreui/react';
 import { FaRegBuilding, FaPlus } from "react-icons/fa";
-import CIcon from '@coreui/icons-react';
 
 const Organizations = () => {
   const { t } = useTranslation();
