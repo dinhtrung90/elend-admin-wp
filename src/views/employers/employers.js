@@ -58,10 +58,6 @@ const Employers = () => {
     history.push(`/employers/create`);
   };
 
-  const navigateToCreateOrganization = () => {
-    console.log('navigateToCreateOrganization')
-  }
-
   return (
     <CRow>
       <CCol xl={12}>
@@ -77,58 +73,46 @@ const Employers = () => {
               <CCol sm="4" className="d-none d-md-block">
                 <CButton
                   color="primary"
-                  className="float-right"
-                  onClick={navigateToCreateOrganization}>
+                  className="float-right">
                   <FaPlus /> {organizeText.createOrganizationButton}
                 </CButton>
               </CCol>
             </CRow>
           </CCardHeader>
           <CCardBody>
-            <CRow>
-              <CCol className="text-center">
-                <h1 className="mb-4">Organizations</h1>
-                <FaRegBuilding width="100px" color="#bcbaff" size="10em" className="mb-4"/>
-                <p className="mb-4">{organizeText.description}</p>
-                <CButton
-                    color="primary" className="mb-4" onClick={navigateToCreateOrganization}>
-                  <FaPlus /> {organizeText.createOrganizationButton}
-                </CButton>
-              </CCol>
-            </CRow>
-            {/*<CDataTable*/}
-            {/*  items={employersData}*/}
-            {/*  fields={[*/}
-            {/*    { key: 'name', _classes: 'font-weight-bold' },*/}
-            {/*    'employerKey',*/}
-            {/*    'address',*/}
-            {/*    'lastModifiedDate',*/}
-            {/*    'createdDate',*/}
-            {/*    'status'*/}
-            {/*  ]}*/}
-            {/*  hover*/}
-            {/*  striped*/}
-            {/*  itemsPerPage={5}*/}
-            {/*  activePage={page}*/}
-            {/*  clickableRows*/}
-            {/*  onRowClick={(item) =>*/}
-            {/*    history.push(`/employers/${item.id}`)*/}
-            {/*  }*/}
-            {/*  scopedSlots={{*/}
-            {/*    status: (item) => (*/}
-            {/*      <td>*/}
-            {/*        <CBadge color={getBadge(item.status)}>{item.status}</CBadge>*/}
-            {/*      </td>*/}
-            {/*    ),*/}
-            {/*  }}*/}
-            {/*/>*/}
-            {/*<CPagination*/}
-            {/*  activePage={page}*/}
-            {/*  onActivePageChange={pageChange}*/}
-            {/*  pages={5}*/}
-            {/*  doubleArrows={false}*/}
-            {/*  align="center"*/}
-            {/*/>*/}
+            <CDataTable
+              items={employersData}
+              fields={[
+                { key: 'name', _classes: 'font-weight-bold' },
+                'employerKey',
+                'address',
+                'lastModifiedDate',
+                'createdDate',
+                'status'
+              ]}
+              hover
+              striped
+              itemsPerPage={5}
+              activePage={page}
+              clickableRows
+              onRowClick={(item) =>
+                history.push(`/employers/${item.id}`)
+              }
+              scopedSlots={{
+                status: (item) => (
+                  <td>
+                    <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
+                  </td>
+                ),
+              }}
+            />
+            <CPagination
+              activePage={page}
+              onActivePageChange={pageChange}
+              pages={5}
+              doubleArrows={false}
+              align="center"
+            />
           </CCardBody>
         </CCard>
       </CCol>

@@ -23,12 +23,8 @@ const Organizations = () => {
     createOrganizationButton: 'Create Organization'
   }
 
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
-  const [page, setPage] = useState(currentPage);
-
   const navigateToCreateOrganization = () => {
-    console.log('navigateToCreateOrganization')
+    history.push('/organizations/create');
   }
 
   return (
@@ -42,14 +38,6 @@ const Organizations = () => {
                     {t('view.Organizations.title')}
                   </h4>
                   <p className="text-muted">{organizeText.description}</p>
-                </CCol>
-                <CCol sm="4" className="d-none d-md-block">
-                  <CButton
-                      color="primary"
-                      className="float-right"
-                      onClick={navigateToCreateOrganization}>
-                    <FaPlus /> {organizeText.createOrganizationButton}
-                  </CButton>
                 </CCol>
               </CRow>
             </CCardHeader>

@@ -17,7 +17,7 @@ const _nav = [
     _tag: 'CSidebarNavItem',
     name: 'Organizations',
     translatename: 'theSidebar.Organizations',
-    to: '/employers',
+    to: '/organizations',
     icon: 'cil-people',
   },
   {

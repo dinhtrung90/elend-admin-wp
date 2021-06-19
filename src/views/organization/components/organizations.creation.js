@@ -2,30 +2,29 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  CBadge,
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
-  CDataTable,
   CRow,
-  CPagination,
-  CButton,
+  CButton, CLabel, CInput, CFormGroup,
 } from '@coreui/react';
-import { FaRegBuilding, FaPlus } from "react-icons/fa";
-import CIcon from '@coreui/icons-react';
+import { FaRegBuilding } from "react-icons/fa";
 
 const OrganizationCreation = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const organizeText = {
-    description: 'Represent the teams, business customers, and partner companies that access your applications as organizations',
-    createOrganizationButton: 'Create Organization'
+    AddOrganization: 'Add Organization',
+    BasicInfo: 'Basic Info',
+    BasicInfoDesc: 'These are basic details needed to set up your new organization.',
+    Name: 'Name',
+    NamePlaceholder: 'Enter a human-readable identifier for this organization',
+    NameDesc: 'This is any human-readable identifier for the organization that will be used by end-users to direct them to their organization in your application. This name cannot be changed.',
+    DisplayName: 'Display Name',
+    DisplayNamePlaceHolder: 'Enter a friendly name for this organization',
+    DisplayDesc: 'If set, this is the name that will be displayed to end-users for this organization in any interaction with them.'
   }
-
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
-  const [page, setPage] = useState(currentPage);
 
   const navigateToCreateOrganization = () => {
     console.log('navigateToCreateOrganization')
@@ -39,30 +38,29 @@ const OrganizationCreation = () => {
               <CRow>
                 <CCol sm="8">
                   <h4 id="traffic" className="card-title mb-0">
-                    {t('view.Organizations.title')}
+                    <FaRegBuilding size="2em"/> {organizeText.AddOrganization}
                   </h4>
-                  <p className="text-muted">{organizeText.description}</p>
-                </CCol>
-                <CCol sm="4" className="d-none d-md-block">
-                  <CButton
-                      color="primary"
-                      className="float-right"
-                      onClick={navigateToCreateOrganization}>
-                    <FaPlus /> {organizeText.createOrganizationButton}
-                  </CButton>
                 </CCol>
               </CRow>
             </CCardHeader>
             <CCardBody>
               <CRow>
-                <CCol className="text-center">
-                  <h1 className="mb-4">Organizations</h1>
-                  <FaRegBuilding width="100px" color="#bcbaff" size="10em" className="mb-4"/>
-                  <p className="mb-4">{organizeText.description}</p>
-                  <CButton
-                      color="primary" className="mb-4" onClick={navigateToCreateOrganization}>
-                    <FaPlus /> {organizeText.createOrganizationButton}
-                  </CButton>
+                <CCol sm="12">
+                  <CFormGroup>
+                    <CLabel htmlFor="name">{organizeText.Name}</CLabel>
+                    <CInput id="name" placeholder={organizeText.NamePlaceholder} required />
+                    <p className="text-muted">{organizeText.NameDesc}</p>
+                  </CFormGroup>
+                </CCol>
+                <CCol sm="12">
+                  <CFormGroup>
+                    <CLabel htmlFor="displayName">{organizeText.DisplayName}</CLabel>
+                    <CInput id="displayName" placeholder={organizeText.DisplayNamePlaceHolder} required />
+                    <p className="text-muted">{organizeText.DisplayDesc}</p>
+                  </CFormGroup>
+                </CCol>
+                <CCol sm="12" className="text-center">
+                  <CButton color="primary" onClick={navigateToCreateOrganization}>{organizeText.AddOrganization} </CButton>
                 </CCol>
               </CRow>
             </CCardBody>
