@@ -59,9 +59,7 @@ const User = ({match}) => {
     userRoles: Yup.array().min(1),
     email: Yup.string().email().required(),
     firstName: Yup.string().email().required(),
-    lastName: Yup.string().email().required(),
-    mobilePhone: Yup.string().phone('VN').required(),
-    status: match.params.id ? Yup.string().required().oneOf(statusList) : Yup.string().notRequired()
+    lastName: Yup.string().email().required()
   });
 
   const formik = useFormik({
@@ -218,7 +216,7 @@ const User = ({match}) => {
                     />
                   </CInputGroup>
                 </CCol>
-                <CCol sm={6} className="mb-4">
+                <CCol sm={6} className={isNew ? 'mb-4 hidden' : 'mb-4 show'}>
                   <CLabel htmlFor="MobileNumber" className="col-form-label">{t('view.User.MobileNumber')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
@@ -233,7 +231,7 @@ const User = ({match}) => {
                     />
                   </CInputGroup>
                 </CCol>
-                <CCol sm={6} className="mb-4">
+                <CCol sm={6} className={isNew ? 'mb-4 hidden' : 'mb-4 show'}>
                   <CLabel htmlFor="DateOfBirth" className="col-form-label">{t('view.User.DateOfBirth')}</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
