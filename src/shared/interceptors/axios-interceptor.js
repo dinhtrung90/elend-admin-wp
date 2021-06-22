@@ -78,10 +78,10 @@ const setupAxiosInterceptors = (onUnauthenticated) => {
         break;
 
       case 403:
-        window.location.href = `${process.env.REACT_APP_BASE_HREF}/403`;
+        window.location.href = `${process.env.REACT_APP_BASE_HREF}/#/403`;
         break;
       case 401:
-        window.location.href = `${process.env.REACT_APP_BASE_HREF}/login`;
+        window.location.href = `${process.env.REACT_APP_BASE_HREF}/#/login`;
         onUnauthenticated();
         addErrorAlert(
             'UserName Or Password not correct.',
