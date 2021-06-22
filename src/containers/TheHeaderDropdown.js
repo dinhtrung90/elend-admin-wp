@@ -8,17 +8,20 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import {authHelpers} from "../utils/auth-helper";
+import { APP_TOKEN } from 'src/constants/constants';
+import { useKeycloak } from '@react-keycloak/web';
 import {useHistory} from "react-router-dom";
-
 
 const TheHeaderDropdown = () => {
   const history = useHistory();
 
-  const handleLogout = () => {
-    authHelpers.clearToken();
+  const { keycloak } = useKeycloak();
+
+  const handleLogout = async () => {
+    localStorage.removeItem(APP_TOKEN);
+    await keycloak.logout();
     history.push('/login');
-  }
+  };
 
 
   return (
