@@ -1,0 +1,8 @@
+{
+  "realm": "elend",
+    "auth-server-url": "https://auth.fingmeup.com/auth/",
+    "ssl-required": "external",
+    "resource": "elend-app",
+    "public-client": true,
+    "confidential-port": 0
+}
