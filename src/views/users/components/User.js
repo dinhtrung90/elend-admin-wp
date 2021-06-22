@@ -13,7 +13,7 @@ import {
   CInputGroupPrepend,
   CInputGroupText,
   CInputGroup,
-  CSelect, CSwitch, CInputGroupAppend
+  CSelect, CSwitch, CInputGroupAppend, CInvalidFeedback
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {userActions} from "../actions";
@@ -40,6 +40,12 @@ const User = ({match}) => {
     [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
 
   const genders = ['MALE', 'FEMALE', 'UNKNOWN'];
+  const constGenders = {
+    MALE: 'MALE',
+    FEMALE: 'FEMALE',
+    UNKNOWN: 'UNKNOWN'
+  }
+
   const permissionsOptions = [];
   if (userRoles && userRoles.length > 0) {
     userRoles.forEach(role => {
@@ -52,6 +58,12 @@ const User = ({match}) => {
   }
 
   const statusList = ['ACTIVE', 'INACTIVE', 'PENDING', 'BANNED'];
+  const constStatusList = {
+    ACTIVE: 'ACTIVE',
+    INACTIVE: 'INACTIVE',
+    PENDING: 'PENDING',
+    BANNED: 'BANNED'
+  }
 
   let schema = Yup.object({
     username: Yup.string().required(),
@@ -59,7 +71,9 @@ const User = ({match}) => {
     userRoles: Yup.array().min(1),
     email: Yup.string().email().required(),
     firstName: Yup.string().email().required(),
-    lastName: Yup.string().email().required()
+    lastName: Yup.string().email().required(),
+    password: Yup.string().min(8, 'Password must be at least 8 characters'),
+    passwordConfirm: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
   });
 
   const formik = useFormik({
@@ -145,9 +159,9 @@ const User = ({match}) => {
                     <CSelect custom name="Gender" id="Gender" invalid={formik.errors.gender && formik.touched.gender}
                              {...formik.getFieldProps("gender")}>
                       <option value="0">{t('messages.messagePleaseSelect')}</option>
-                      <option value="MALE">{t('view.User.GenderType.Male')}</option>
-                      <option value="FEMALE">{t('view.User.GenderType.Female')}</option>
-                      <option value="UNKNOWN">{t('view.User.GenderType.Unknown')}</option>
+                      <option value={constGenders.MALE}>{t('view.User.GenderType.Male')}</option>
+                      <option value={constGenders.FEMALE}>{t('view.User.GenderType.Female')}</option>
+                      <option value={constGenders.UNKNOWN}>{t('view.User.GenderType.Unknown')}</option>
                     </CSelect>
                   </CInputGroup>
                 </CCol>
@@ -239,7 +253,9 @@ const User = ({match}) => {
                         <CIcon name="cil-calendar" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput type="date" id="DateOfBirth" name="DateOfBirth" value={formik.values.birthDate}/>
+                    <CInput type="date" id="DateOfBirth" name="DateOfBirth" value={formik.values.birthDate}
+                      {...formik.getFieldProps("birthDate")}
+                    />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className={isNew ? 'mb-4 hidden' : 'mb-4 show'}>
@@ -253,10 +269,10 @@ const User = ({match}) => {
                     <CSelect custom name="userStatus" id="userStatus" invalid={formik.errors.userStatus && formik.touched.userStatus}
                              {...formik.getFieldProps("userStatus")}>
                       <option value="0">{t('messages.messagePleaseSelect')}</option>
-                      <option value="ACTIVE" className=''>{t('view.User.StatusType.Active')}</option>
-                      <option value="INACTIVE">{t('view.User.StatusType.Inactive')}</option>
-                      <option value="PENDING">{t('view.User.StatusType.Pending')}</option>
-                      <option value="BANNED">{t('view.User.StatusType.Banned')}</option>
+                      <option value={constStatusList.ACTIVE} className=''>{t('view.User.StatusType.Active')}</option>
+                      <option value={constStatusList.INACTIVE}>{t('view.User.StatusType.Inactive')}</option>
+                      <option value={constStatusList.PENDING}>{t('view.User.StatusType.Pending')}</option>
+                      <option value={constStatusList.BANNED}>{t('view.User.StatusType.Banned')}</option>
                     </CSelect>
                   </CInputGroup>
                 </CCol>
@@ -276,6 +292,7 @@ const User = ({match}) => {
                         </CInputGroupPrepend>
                         <CInput
                             id="password"
+                            invalid={formik.errors.password && formik.touched.password}
                             type={isRevealPwd ? "text" : "password"}
                             name="password"
                             value={formik.values.password}
@@ -286,6 +303,7 @@ const User = ({match}) => {
                           <CInputGroupText onClick={() => setIsRevealPwd(isRevealPwd => !isRevealPwd)}>{ isRevealPwd ? <FaRegEyeSlash /> : <FaRegEye /> }</CInputGroupText>
                         </CInputGroupAppend>
                       </CInputGroup>
+                      <CInvalidFeedback style={{'display': formik.errors.password && formik.touched.password ? 'block' : 'none'}}>{formik.errors.password}</CInvalidFeedback>
                     </CCol>
                   </CRow>
                   <CRow className="mt-4">
@@ -299,6 +317,7 @@ const User = ({match}) => {
                         </CInputGroupPrepend>
                         <CInput
                             id="passwordConfirm"
+                            invalid={formik.errors.passwordConfirm && formik.touched.passwordConfirm}
                             type={isRevealPwdConfirm ? "text" : "password"}
                             name="passwordConfirm"
                             value={formik.values.passwordConfirm}
@@ -309,6 +328,7 @@ const User = ({match}) => {
                           <CInputGroupText onClick={() => setIsRevealPwdConfirm(isRevealPwdConfirm => !isRevealPwdConfirm)}>{ isRevealPwdConfirm ? <FaRegEyeSlash /> : <FaRegEye /> }</CInputGroupText>
                         </CInputGroupAppend>
                       </CInputGroup>
+                      <CInvalidFeedback style={{'display': formik.errors.passwordConfirm && formik.touched.passwordConfirm ? 'block' : 'none'}}>{formik.errors.passwordConfirm}</CInvalidFeedback>
                     </CCol>
                   </CRow>
                   <CRow className="mt-4">
