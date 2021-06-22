@@ -13,7 +13,7 @@ const getAllUsers = (data) => {
 };
 
 const createAccount = (data) => {
-  return axios.post(SERVICE_DOMAIN + '/api/account/create', data);
+  return axios.post(SERVICE_DOMAIN + '/api/cms/account/create', data);
 }
 
 const getAllUserRoles = (data) => {
