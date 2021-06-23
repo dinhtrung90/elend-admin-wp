@@ -75,8 +75,8 @@
         "Pending": "Chờ kích hoạt",
         "Banned": "Tình trạng bị cầm"
       },
-      "AddressLine1": "Địa chỉ 1",
-      "AddressLine2": "Địa chỉ 2",
+      "AddressLine1": "Địa chỉ nhà",
+      "AddressLine2": "Tỉnh (Huyện)",
       "AreaOrCity": "Thành phố",
       "Country": "Quốc gia",
       "PostalZipCode": "Mã bưu điện"

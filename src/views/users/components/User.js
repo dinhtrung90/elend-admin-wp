@@ -24,6 +24,7 @@ import 'yup-phone';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 
 const User = ({match}) => {
   const { t } = useTranslation();
@@ -33,7 +34,8 @@ const User = ({match}) => {
   const userRoles = useSelector(state => state.users.userRoles);
   const [isRevealPwd, setIsRevealPwd] = useState(false);
   const [isRevealPwdConfirm, setIsRevealPwdConfirm] = useState(false);
-
+  const [countryValue, setCountryValue] = useState('Vietnam');
+  const [cityValue, setCityValue] = useState('');
   const isNew = !match.params.id;
 
   const userDetails = user ? Object.entries(user) :
@@ -137,7 +139,8 @@ const User = ({match}) => {
         {
           'addressLine1': data.addressFirstLine,
           'addressLine2': data.addressSecondLine,
-          'city': data.city,
+          'city': cityValue,
+          'country': countryValue,
           'zipCode': data.zipCode
         }
       ],
@@ -164,6 +167,14 @@ const User = ({match}) => {
     } else {
       dispatch(userActions.createUser(payload));
     }
+  }
+
+  const changeCountryHandler = value => {
+    setCountryValue(value);
+  }
+
+  const changeCityHandler = value => {
+    setCityValue(value);
   }
 
   useEffect(() => {
@@ -438,9 +449,11 @@ const User = ({match}) => {
                         <CIcon name="cil-location-pin" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="AreaOrCity" name="AreaOrCity" placeholder={t('view.User.AreaOrCity')} value={formik.values.city}
-                      {...formik.getFieldProps("city")}
-                    />
+                    <RegionDropdown
+                        className="custom-multi-select-2"
+                        country={countryValue}
+                        value={cityValue}
+                        onChange={changeCityHandler} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={3} className="mb-4">
@@ -451,9 +464,10 @@ const User = ({match}) => {
                         <CIcon name="cil-map" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CInput id="Country" name="Country" placeholder={t('view.User.Country')} value={formik.values.country}
-                      {...formik.getFieldProps("country")}
-                    />
+                    <CountryDropdown
+                        className="custom-multi-select-2"
+                        value={countryValue}
+                        onChange={changeCountryHandler} />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={6} className="mb-4">
