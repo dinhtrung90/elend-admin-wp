@@ -98,6 +98,18 @@
     "messagePleaseSelect": "Vui lòng chọn",
     "messageConfirmDelete": "Bạn có chăc muốn xoá?",
     "requireRoleName": "Yêu cầu nhập tên phân quyền!",
-    "requireRoleDescription": "Yêu cầu nhập chi tiết!"
+    "requireRoleDescription": "Yêu cầu nhập chi tiết!",
+    "validations": {
+      "emailInvalid": "Email is invalid",
+      "emailRequired": "Email is required",
+      "roleRequired": "Role is required",
+      "genderRequired": "Gender is required",
+      "firstNameRequired": "First Name is required",
+      "lastNameRequired": "Last Name is required",
+      "passwordRequired": "Password is required",
+      "passwordStrongRequired": "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
+      "confirmPasswordRequired": "Confirm Password is required",
+      "confirmPasswordNotMatch": "Passwords must match"
+    }
   }
 }

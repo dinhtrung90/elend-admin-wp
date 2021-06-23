@@ -39,11 +39,11 @@ const User = ({match}) => {
   const userDetails = user ? Object.entries(user) :
     [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
 
-  const genders = ['MALE', 'FEMALE', 'UNKNOWN'];
+  const genders = ['Male', 'Female', 'Unknown'];
   const constGenders = {
-    MALE: 'MALE',
-    FEMALE: 'FEMALE',
-    UNKNOWN: 'UNKNOWN'
+    MALE: 'Male',
+    FEMALE: 'Female',
+    UNKNOWN: 'Unknown'
   }
 
   const permissionsOptions = [];
@@ -57,24 +57,40 @@ const User = ({match}) => {
     })
   }
 
-  const statusList = ['ACTIVE', 'INACTIVE', 'PENDING', 'BANNED'];
+  const statusList = ['Active', 'Inactive', 'Pending', 'Banned'];
   const constStatusList = {
-    ACTIVE: 'ACTIVE',
-    INACTIVE: 'INACTIVE',
-    PENDING: 'PENDING',
-    BANNED: 'BANNED'
+    ACTIVE: 'Active',
+    INACTIVE: 'Inactive',
+    PENDING: 'Pending',
+    BANNED: 'Banned'
   }
-
+  const strongPasswordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   let schema = Yup.object({
-    username: Yup.string().required(),
-    gender: Yup.string().required().oneOf(genders),
-    userRoles: Yup.array().min(1),
-    email: Yup.string().email().required(),
-    firstName: Yup.string().email().required(),
-    lastName: Yup.string().email().required(),
-    password: Yup.string().min(8, 'Password must be at least 8 characters'),
+    username: Yup.string().email(t('messages.validations.emailInvalid')).required(t('messages.validations.emailRequired')),
+    userRoles: Yup.array().min(1, t('messages.validations.roleRequired')),
+    gender: Yup.string().required(t('messages.validations.genderRequired')).oneOf(genders),
+    email: Yup.string().email(t('messages.validations.emailInvalid')).required(t('messages.validations.emailRequired')),
+    firstName: Yup.string().required(t('messages.validations.firstNameRequired')),
+    lastName: Yup.string().required(t('messages.validations.lastNameRequired')),
+    password: Yup.string().matches(strongPasswordReg, t('messages.validations.passwordStrongRequired'))
+        .required(t('messages.validations.passwordRequired')),
     passwordConfirm: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required(t('messages.validations.confirmPasswordRequired'))
   });
+
+  if (match.params.id) {
+    // generate edit schema
+    schema = Yup.object({
+      username: Yup.string().email(t('messages.validations.emailInvalid')).required(t('messages.validations.emailRequired')),
+      userRoles: Yup.array().min(1, t('messages.validations.roleRequired')),
+      gender: Yup.string().required(t('messages.validations.genderRequired')).oneOf(genders),
+      email: Yup.string().email(t('messages.validations.emailInvalid')).required(t('messages.validations.emailRequired')),
+      firstName: Yup.string().required(t('messages.validations.firstNameRequired')),
+      lastName: Yup.string().required(t('messages.validations.lastNameRequired')),
+      password: Yup.string().matches(strongPasswordReg, t('messages.validations.passwordStrongRequired')),
+      passwordConfirm: Yup.string().oneOf([Yup.ref('password'), null], t('messages.validations.confirmPasswordNotMatch'))
+    });
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -99,9 +115,7 @@ const User = ({match}) => {
       zipCode: ''
     },
     validationSchema: schema,
-    onSubmit: values => {
-      console.log('onSubmit values=', values);
-    }
+    onSubmit: values => handleToSubmitAccount(values)
   });
 
   const handleMultiSelect = (value) => {
@@ -110,6 +124,46 @@ const User = ({match}) => {
 
   const customMultiSelectStyle = () => {
     return formik.errors.userRoles && formik.touched.userRoles ? 'custom-multi-select invalid' : 'custom-multi-select';
+  }
+
+  const handleToSubmitAccount = (data) => {
+    const payload = {
+      'login': data.username,
+      'email': data.email,
+      'firstName': data.firstName,
+      'lastName': data.lastName,
+      'isEnable': false,
+      'userAddressList': [
+        {
+          'addressLine1': data.addressFirstLine,
+          'addressLine2': data.addressSecondLine,
+          'city': data.city,
+          'zipCode': data.zipCode
+        }
+      ],
+      'userProfileDto': {
+        'phone': data.mobilePhone.toString(),
+        'gender': data.gender,
+        'birthDate': data.birthDate
+      },
+      'authorities': [
+        {
+          'name': 'ROLE_ADMIN',
+          'description': 'Role Admin'
+        }
+      ]
+    }
+
+    if (data.password && data.password.length > 0) {
+      payload.tempPassword = data.password;
+      payload.isTempPassword = data.temporary
+    }
+
+    if (match.params.id) {
+      // dispatch(userActions.editUser(payload));
+    } else {
+      dispatch(userActions.createUser(payload));
+    }
   }
 
   useEffect(() => {
@@ -147,6 +201,7 @@ const User = ({match}) => {
                       {...formik.getFieldProps("username")}
                     />
                   </CInputGroup>
+                  <CInvalidFeedback style={{'display': formik.errors.username && formik.touched.username ? 'block' : 'none'}}>{formik.errors.username}</CInvalidFeedback>
                 </CCol>
                 <CCol sm={3} className="mb-4">
                   <CLabel htmlFor="UserRole" className="col-form-label">{t('view.User.Gender')} <span className="form-required"> *</span></CLabel>
@@ -164,6 +219,7 @@ const User = ({match}) => {
                       <option value={constGenders.UNKNOWN}>{t('view.User.GenderType.Unknown')}</option>
                     </CSelect>
                   </CInputGroup>
+                  <CInvalidFeedback style={{'display': formik.errors.gender && formik.touched.gender ? 'block' : 'none'}}>{formik.errors.gender}</CInvalidFeedback>
                 </CCol>
                 <CCol sm={6} className="mb-4">
                   <CLabel htmlFor="UserRole" className="col-form-label">{t('view.User.UserRole')} <span className="form-required"> *</span></CLabel>
@@ -183,6 +239,7 @@ const User = ({match}) => {
                       options={permissionsOptions}
                     />
                   </CInputGroup>
+                  <CInvalidFeedback style={{'display': formik.errors.userRoles && formik.touched.userRoles ? 'block' : 'none'}}>{formik.errors.userRoles}</CInvalidFeedback>
                 </CCol>
                 <CCol sm={3} className="mb-4">
                   <CLabel htmlFor="FirstName" className="col-form-label">{t('view.User.FirstName')} <span className="form-required"> *</span></CLabel>
@@ -198,6 +255,7 @@ const User = ({match}) => {
                       {...formik.getFieldProps("firstName")}
                     />
                   </CInputGroup>
+                  <CInvalidFeedback style={{'display': formik.errors.firstName && formik.touched.firstName ? 'block' : 'none'}}>{formik.errors.firstName}</CInvalidFeedback>
                 </CCol>
                 <CCol sm={3} className="mb-4">
                   <CLabel htmlFor="LastName" className="col-form-label">{t('view.User.LastName')} <span className="form-required"> *</span></CLabel>
@@ -213,6 +271,7 @@ const User = ({match}) => {
                       {...formik.getFieldProps("lastName")}
                     />
                   </CInputGroup>
+                  <CInvalidFeedback style={{'display': formik.errors.lastName && formik.touched.lastName ? 'block' : 'none'}}>{formik.errors.lastName}</CInvalidFeedback>
                 </CCol>
                 <CCol sm={6} className="mb-4">
                   <CLabel htmlFor="EmailAddress" className="col-form-label">{t('view.User.EmailAddress')} <span className="form-required"> *</span></CLabel>
@@ -229,9 +288,10 @@ const User = ({match}) => {
                             {...formik.getFieldProps("email")}
                     />
                   </CInputGroup>
+                  <CInvalidFeedback style={{'display': formik.errors.email && formik.touched.email ? 'block' : 'none'}}>{formik.errors.email}</CInvalidFeedback>
                 </CCol>
                 <CCol sm={6} className='mb-4'>
-                  <CLabel htmlFor="MobileNumber" className="col-form-label">{t('view.User.MobileNumber')} <span className="form-required"> *</span></CLabel>
+                  <CLabel htmlFor="MobileNumber" className="col-form-label">{t('view.User.MobileNumber')}</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -331,13 +391,15 @@ const User = ({match}) => {
                       <CInvalidFeedback style={{'display': formik.errors.passwordConfirm && formik.touched.passwordConfirm ? 'block' : 'none'}}>{formik.errors.passwordConfirm}</CInvalidFeedback>
                     </CCol>
                   </CRow>
+                  {formik.values.password && formik.values.password.length > 0 ? (
                   <CRow className="mt-4">
                     <CCol>
                       <div style={{display: "flex", alignItems: 'center'}}>
-                        <b>Temporary</b>  <CSwitch className={'mx-1'} variant={'3d'} color={'success'} defaultChecked />
+                        <b>Temporary</b>  <CSwitch className={'mx-1'} variant={'3d'} color={'success'} checked={formik.values.temporary} {...formik.getFieldProps("temporary")}  />
                       </div>
                     </CCol>
-                  </CRow>
+                  </CRow>) : null
+                  }
                 </CCol>
                 <CCol sm={12} className="mb-4">
                   <hr/>
