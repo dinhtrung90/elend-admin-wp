@@ -1,8 +1,10 @@
 {
-  "realm": "elend",
-    "auth-server-url": "https://auth.fingmeup.com/auth/",
-    "ssl-required": "external",
-    "resource": "elend-app",
-    "public-client": true,
-    "confidential-port": 0
+  "realm": "Digital-Eastern",
+  "auth-server-url": "https://auth.fingmeup.com/auth/",
+  "ssl-required": "external",
+  "resource": "Digital-Eastern-App",
+  "public-client": true,
+  "verify-token-audience": true,
+  "use-resource-role-mappings": true,
+  "confidential-port": 0
 }
