@@ -15,19 +15,17 @@ import {
 } from '@coreui/react';
 
 import {userActions} from '../actions';
-
-import CIcon from '@coreui/icons-react';
-import { FaUserPlus, FaEllipsisH } from "react-icons/fa";
+import { FaUserPlus, FaEllipsisH, FaRegCheckSquare, FaRegSquare } from "react-icons/fa";
 
 const getBadge = (status) => {
-  switch (status) {
-    case 'Active':
+  switch (status.toLowerCase()) {
+    case 'active':
       return 'success';
-    case 'Inactive':
+    case 'inactive':
       return 'secondary';
-    case 'Pending':
+    case 'pending':
       return 'warning';
-    case 'Banned':
+    case 'banned':
       return 'danger';
     default:
       return 'primary';
@@ -119,11 +117,16 @@ const Users = () => {
                           <p className="m-0">{item.phone}</p>
                         </td>
                       ),
+                  'emailVerified': (item) => (
+                    <td>
+                      {item.verifiedEmail ? <FaRegCheckSquare size="1.5em" /> : <FaRegSquare size="1.5em" />}
+                    </td>
+                  ),
                   'status':
                       (item)=>(
                           <td>
-                            <CBadge color={getBadge(item.status)}>
-                              {item.status}
+                            <CBadge color={getBadge(item.accountStatus)}>
+                              {item.accountStatus}
                             </CBadge>
                           </td>
                       ),
