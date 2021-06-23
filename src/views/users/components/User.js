@@ -230,7 +230,7 @@ const User = ({match}) => {
                     />
                   </CInputGroup>
                 </CCol>
-                <CCol sm={6} className={isNew ? 'mb-4 hidden' : 'mb-4 show'}>
+                <CCol sm={6} className='mb-4'>
                   <CLabel htmlFor="MobileNumber" className="col-form-label">{t('view.User.MobileNumber')} <span className="form-required"> *</span></CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>
@@ -245,7 +245,7 @@ const User = ({match}) => {
                     />
                   </CInputGroup>
                 </CCol>
-                <CCol sm={6} className={isNew ? 'mb-4 hidden' : 'mb-4 show'}>
+                <CCol sm={6} className='mb-4'>
                   <CLabel htmlFor="DateOfBirth" className="col-form-label">{t('view.User.DateOfBirth')}</CLabel>
                   <CInputGroup>
                     <CInputGroupPrepend>

@@ -71,13 +71,13 @@ const UserRoles = () => {
                                 </h4>
                             </CCol>
                             <CCol sm="7" className="d-none d-md-block">
-                                {/*<CButton*/}
-                                {/*    color="primary"*/}
-                                {/*    className="float-right"*/}
-                                {/*    onClick={navigationToUserRoleCreation}>*/}
-                                {/*    <CIcon name="cil-plus" />*/}
-                                {/*    New User Role*/}
-                                {/*</CButton>*/}
+                                <CButton
+                                    color="primary"
+                                    className="float-right"
+                                    onClick={navigationToUserRoleCreation}>
+                                    <CIcon name="cil-plus" />
+                                    New User Role
+                                </CButton>
                             </CCol>
                         </CRow>
                     </CCardHeader>
@@ -98,7 +98,7 @@ const UserRoles = () => {
                                     fields={[
                                         { key: 'name', _classes: 'font-weight-bold', label: t('view.UserRoles.UserRoleName') },
                                         { key: 'description', label: t('common.Description') },
-                                        { key: 'createDate', label: t('common.CreatedDate') },
+                                        { key: 'createdDate', label: t('common.CreatedDate') },
                                         { key: 'action', label: t('common.Action')}
                                     ]}
                                     hover

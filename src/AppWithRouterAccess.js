@@ -23,9 +23,11 @@ const AppWithRouterAccess = () => {
   const tokenLogger = (tokens) => {
     console.log('onKeycloakTokens')
     if (tokens && tokens.token) {
-      // userService.syncAccount().then(res => {
-      //   console.log('synced=', res);
-      // });
+      if (window.location.href.indexOf('/login') > -1) {
+        userService.syncAccount().then(res => {
+          console.log('synced=', res);
+        });
+      }
     }
   }
 

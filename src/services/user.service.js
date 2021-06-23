@@ -2,7 +2,7 @@ import axios from 'axios';
 import { SERVICE_DOMAIN } from 'src/constants/constants';
 
 const syncAccount = () => {
-  return axios.post(SERVICE_DOMAIN + '/api/users/sync');
+  return axios.get(SERVICE_DOMAIN + '/api/cms/users/sync');
 };
 
 const getAllUsers = (data) => {
@@ -18,9 +18,9 @@ const createAccount = (data) => {
 
 const getAllUserRoles = (data) => {
   if (data && data.all) {
-    return axios.post(`/api/roles`);
+    return axios.get(SERVICE_DOMAIN + `/api/cms/role/get`);
   }
-  return axios.post(`/api/roles?page=${data.page}&size=${data.size}`);
+  return axios.get(SERVICE_DOMAIN + `/api/cms/role/get?page=${data.page}&size=${data.size}`);
 }
 
 const createUserRole = (data) => {
