@@ -11,7 +11,12 @@ import {
   CDataTable,
   CRow,
   CPagination,
-  CButton, CDropdownToggle, CDropdownMenu, CDropdownItem, CDropdown,
+  CButton,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem,
+  CDropdown,
+  CSpinner
 } from '@coreui/react';
 
 import {userActions} from '../actions';
@@ -36,17 +41,22 @@ const Users = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const dispatch = useDispatch();
+  const isFetching = useSelector(state => state.users.isFetching);
   const usersData = useSelector(state => state.users.users);
   const itemsPerPage = useSelector(state => state.users.itemsPerPage);
-
+  const totalPages = useSelector(state => state.users.totalPages);
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
 
   const pageChange = (newPage) => {
     currentPage !== newPage &&
-      history.push(`/users?page=${newPage}`);
+      history.push(`/users?page=${newPage === 0 ? 1 : newPage}`);
   };
+
+  const onPaginationChange = (numberItemsPerPage) => {
+    dispatch(userActions.getAllUsers({page: 0, size: numberItemsPerPage}));
+  }
 
   const getRoleColor = status => {
     switch (status) {
@@ -61,9 +71,17 @@ const Users = () => {
   }
 
   useEffect(() => {
+    const loadData = async () => {
+      await getAllUsers();
+    }
+    loadData();
+
+  }, [dispatch, currentPage, page]);
+
+  const getAllUsers = async () => {
     dispatch(userActions.getAllUsers({page: currentPage > 1? currentPage - 1 : 0, size: itemsPerPage}));
-    currentPage !== page && setPage(currentPage);
-  }, [currentPage, page]);
+    setPage(currentPage);
+  }
 
   const navigationToUserCreation = () => {
     history.push(`/users/create`);
@@ -92,6 +110,7 @@ const Users = () => {
           </CCardHeader>
           <CCardBody>
             <CDataTable
+                loading={isFetching}
                 items={usersData}
                 fields={[
                   { key: 'name', _classes: 'font-weight-bold', label: t('view.Users.fields.PersonInfo') },
@@ -104,23 +123,25 @@ const Users = () => {
                 ]}
                 hover
                 striped
-                itemsPerPage={5}
-                activePage={page}
+                tableFilter
+                itemsPerPageSelect
+                itemsPerPage={itemsPerPage}
+                activePage={currentPage - 1}
                 clickableRows
-                // onRowClick={(item) => history.push(`/users/edit/${item.id}`)}
+                onPaginationChange={onPaginationChange}
                 scopedSlots = {{
                   'name':
                       (item)=>(
-                        <td>
-                          <p className="text-primary m-0">{item.name}</p>
-                          <p className="m-0">{item.email}</p>
-                          <p className="m-0">{item.phone}</p>
-                        </td>
+                          <td>
+                            <p className="text-primary m-0">{item.name}</p>
+                            <p className="m-0">{item.email}</p>
+                            <p className="m-0">{item.phone}</p>
+                          </td>
                       ),
                   'emailVerified': (item) => (
-                    <td>
-                      {item.verifiedEmail ? <FaRegCheckSquare size="1.5em" /> : <FaRegSquare size="1.5em" />}
-                    </td>
+                      <td>
+                        {item.verifiedEmail ? <FaRegCheckSquare size="1.5em" /> : <FaRegSquare size="1.5em" />}
+                      </td>
                   ),
                   'status':
                       (item)=>(
@@ -132,7 +153,7 @@ const Users = () => {
                       ),
                   'authorities':
                       (item) => (
-                          <td>{
+                          <td style={{width: '130px'}}>{
                             item.authorities.map(role => {
                               return (
                                   <CBadge key={role.name} className="mr-1" color={getRoleColor(role.name)}>{role.name}</CBadge>
@@ -150,7 +171,7 @@ const Users = () => {
                             <CDropdownItem onClick={() => handleToEdit(item)}>{t('common.Edit')}</CDropdownItem>
                             <CDropdownItem>{t('common.ResendVerifyEmail')}</CDropdownItem>
                             <CDropdownItem>{t('common.ResetPassword')}</CDropdownItem>
-                            <CDropdownItem>{t('common.Delete')}</CDropdownItem>
+                            <CDropdownItem>{t('common.Terminate')}</CDropdownItem>
                           </CDropdownMenu>
                         </CDropdown>
                         {/*<CButton*/}
@@ -166,7 +187,7 @@ const Users = () => {
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
-              pages={5}
+              pages={totalPages}
               doubleArrows={false}
               align="center"
             />

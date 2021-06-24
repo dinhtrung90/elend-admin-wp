@@ -23,14 +23,14 @@ function getAllUsers(data) {
     return dispatch => {
         dispatch(request());
         return userService.getAllUsers(data).then(response => {
-            dispatch(success(response.data));
+            dispatch(success(response));
         }).catch(error => {
             dispatch(failure(error));
         });
     };
 
     function request() { return { type: t.USERS_GET_ALL_REQUEST } }
-    function success(users) { return { type: t.USERS_GET_ALL_SUCCESS, users } }
+    function success(response) { return { type: t.USERS_GET_ALL_SUCCESS, response } }
     function failure(error) { return { type: t.USERS_GET_ALL_FAILURE, error } }
 }
 

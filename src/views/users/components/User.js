@@ -177,6 +177,21 @@ const User = ({match}) => {
     setCityValue(value);
   }
 
+  const getBadge = (status) => {
+    switch (status.toLowerCase()) {
+      case 'active':
+        return 'success';
+      case 'inactive':
+        return 'secondary';
+      case 'pending':
+        return 'warning';
+      case 'banned':
+        return 'danger';
+      default:
+        return 'primary';
+    }
+  };
+
   useEffect(() => {
     const loadData = async () => {
       await dispatch(userActions.getAllUserRoles({all: true}));

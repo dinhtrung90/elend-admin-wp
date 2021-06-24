@@ -40,10 +40,12 @@ export default (state = initialState, action) => {
                 isFetching: true,
             });
         case t.USERS_GET_ALL_SUCCESS:
+            const items = action.response.data || [];
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true,
-                users: action.users
+                totalPages: Math.ceil(action.response.headers['x-total-count'] / state.itemsPerPage),
+                users: items
             })
         case t.USERS_GET_ALL_FAILURE:
             return Object.assign({}, state, {

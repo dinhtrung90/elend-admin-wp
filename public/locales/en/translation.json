@@ -17,7 +17,8 @@
     "MobileNumber": "Mobile Number",
     "Edit": "Edit",
     "ResendVerifyEmail": "Resend Verify Email",
-    "ResetPassword": "Reset Password"
+    "ResetPassword": "Reset Password",
+    "Terminate": "Terminate"
   },
   "theHeader": {
     "Dashboard": "Dashboard",

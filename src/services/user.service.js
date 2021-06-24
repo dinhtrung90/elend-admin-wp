@@ -7,9 +7,9 @@ const syncAccount = () => {
 
 const getAllUsers = (data) => {
   if (data && data.all) {
-    return axios.get(`/api/cms/users/get`);
+    return axios.get(SERVICE_DOMAIN + `/api/cms/account/get`);
   }
-  return axios.get(`/api/cms/users/get?page=${data.page}&size=${data.size}`);
+  return axios.get(SERVICE_DOMAIN + `/api/cms/account/get?page=${data.page}&size=${data.size}`);
 };
 
 const createAccount = (data) => {

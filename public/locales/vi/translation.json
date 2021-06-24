@@ -17,7 +17,8 @@
     "MobileNumber": "Di động",
     "Edit": "Sửa",
     "ResendVerifyEmail": "Xác thực Email",
-    "ResetPassword": "Đặt lại mật khẩu"
+    "ResetPassword": "Đặt lại mật khẩu",
+    "Terminate": "Đóng tài khoản"
   },
   "theHeader": {
     "Dashboard": "Trang chủ",
