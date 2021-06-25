@@ -139,7 +139,7 @@ const Users = () => {
                           </td>
                       ),
                   'emailVerified': (item) => (
-                      <td style={{width: '120px', 'text-align': 'center'}}>
+                      <td style={{width: '120px', 'textAlign': 'center'}}>
                         {item.verifiedEmail ? <FaRegCheckSquare size="1.5em" /> : <FaRegSquare size="1.5em" />}
                       </td>
                   ),
