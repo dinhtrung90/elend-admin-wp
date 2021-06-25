@@ -74,10 +74,13 @@ function getCustomerDetail(customerId) {
 }
 
 function getUserDetail(userId) {
-    const item = usersData.find( user => user.id.toString() === userId);
     return dispatch => {
         dispatch(request());
-        dispatch(success(item));
+        return userService.getUserById(userId).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
     };
 
     function request() { return { type: t.USER_DETAIL_GET_REQUEST } }

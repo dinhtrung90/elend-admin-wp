@@ -24,6 +24,7 @@ import CIcon from "@coreui/icons-react";
 import {Redirect} from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { FaExchangeAlt } from "react-icons/fa";
 
 const UserRole = ({match}) => {
   const { t } = useTranslation();
@@ -31,6 +32,16 @@ const UserRole = ({match}) => {
   const userRoleData = useSelector(state => state.users.userRoleDetail);
   const isRedirect = useSelector(state => state.users.isRedirect);
   const permissions = useSelector(state => state.users.permissions) || [];
+  const [defaultRoles, setDefaultRoles] = useState([
+    {name:"Role 1",category:"availableRoles", selected: false},
+    {name:"Role 2", category:"availableRoles", selected: false},
+    {name:"Role 3", category:"availableRoles", selected: false},
+    {name:"Role 4", category:"availableRoles", selected: false},
+    {name:"Role 5", category:"availableRoles", selected: false},
+    {name:"Role 6", category:"availableRoles", selected: false},
+    {name:"Role 7", category:"associatedRoles", selected: false}
+  ]);
+
   const formik = useFormik({
     initialValues: {
       name: userRoleData.name || '',
@@ -119,6 +130,46 @@ const UserRole = ({match}) => {
     }
   }
 
+  // init drag roles
+  const onDragStart = (ev, id) => {
+    console.log('dragstart:',id);
+    ev.dataTransfer.setData("id", id);
+  }
+
+  const onDragOver = (ev) => {
+    ev.preventDefault();
+  }
+
+  const onDrop = (ev, cat) => {
+    let id = ev.dataTransfer.getData("id");
+
+    let roles = defaultRoles.filter((role) => {
+      if (role.name === id) {
+        role.category = cat;
+      }
+      return role;
+    });
+
+    setDefaultRoles(roles);
+  }
+
+  const dragRoles = {
+    availableRoles: [],
+    associatedRoles: []
+  }
+
+  defaultRoles.forEach ((t) => {
+    dragRoles[t.category].push(
+        <div key={t.name}
+             onDragStart = {(e) => onDragStart(e, t.name)}
+             draggable
+             className='draggable'
+        >
+          {t.name}
+        </div>
+    );
+  });
+
   return isRedirect ? <Redirect to={{ pathname: '/users/role' }}/> : (
     <CRow>
       <CCol>
@@ -150,7 +201,29 @@ const UserRole = ({match}) => {
                     <CInvalidFeedback>{formik.errors.description}</CInvalidFeedback>
                 </CFormGroup>
                 <CFormGroup>
-                  <CLabel htmlFor="permission">{t('common.Permission')}</CLabel>
+                  <h5>Composite Roles</h5>
+                  <CRow className="role-container-drag">
+                    <CCol className="available-role"
+                          onDragOver={(e)=>onDragOver(e)}
+                          onDrop={(e)=>{onDrop(e, "availableRoles")}}>
+                      <span className="drag-role-header font-weight-bold">Available Roles</span>
+                      <div className="drag-role-list">
+                        {dragRoles.availableRoles}
+                      </div>
+                    </CCol>
+                    <FaExchangeAlt className="drag-icon"/>
+                    <CCol className="droppable"
+                         onDragOver={(e)=>onDragOver(e)}
+                         onDrop={(e)=>onDrop(e, "associatedRoles")}>
+                      <span className="drag-role-header font-weight-bold">Associated Roles</span>
+                      <div className="drag-role-list">
+                        {dragRoles.associatedRoles}
+                      </div>
+                    </CCol>
+                  </CRow>
+                </CFormGroup>
+                <CFormGroup>
+                  <h5>{t('common.Permission')}</h5>
                   <table className="table table-bordered table-role">
                     <thead className="thead-light">
                       <tr>

@@ -14,7 +14,11 @@ const getAllUsers = (data) => {
 
 const createAccount = (data) => {
   return axios.post(SERVICE_DOMAIN + '/api/cms/account/create', data);
-}
+};
+
+const getUserById = (userId) => {
+  return axios.get(SERVICE_DOMAIN + `/api/cms/account?userId=${userId}`);
+};
 
 const getAllUserRoles = (data) => {
   if (data && data.all) {
@@ -46,6 +50,7 @@ const getAllPermissions = () => {
 export const userService = {
   createAccount,
   getAllUsers,
+  getUserById,
   getAllPermissions,
   getAllUserRoles,
   createUserRole,
