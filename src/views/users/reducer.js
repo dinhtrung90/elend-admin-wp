@@ -45,6 +45,7 @@ export default (state = initialState, action) => {
                 isFetching: false,
                 isFetched: true,
                 totalPages: Math.ceil(action.response.headers['x-total-count'] / state.itemsPerPage),
+                itemsPerPage: action.response.size,
                 users: items
             })
         case t.USERS_GET_ALL_FAILURE:

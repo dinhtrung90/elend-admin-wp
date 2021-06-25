@@ -23,6 +23,7 @@ function getAllUsers(data) {
     return dispatch => {
         dispatch(request());
         return userService.getAllUsers(data).then(response => {
+            response.size = data.size || 5;
             dispatch(success(response));
         }).catch(error => {
             dispatch(failure(error));

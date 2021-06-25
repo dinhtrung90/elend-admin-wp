@@ -15,8 +15,7 @@ import {
   CDropdownToggle,
   CDropdownMenu,
   CDropdownItem,
-  CDropdown,
-  CSpinner
+  CDropdown
 } from '@coreui/react';
 
 import {userActions} from '../actions';
