@@ -82,50 +82,38 @@ const UserRoles = () => {
                         </CRow>
                     </CCardHeader>
                     <CCardBody>
-                        {
-                            isFetching ? (
-                                <div className="text-center mb-4">
-                                    <CSpinner
-                                        component="span"
-                                        size="lg"
-                                        color="primary"
-                                        variant="grow"
-                                    />
-                                </div>
-                            ) : (
-                                <CDataTable
-                                    items={usersData}
-                                    fields={[
-                                        { key: 'name', _classes: 'font-weight-bold', label: t('view.UserRoles.UserRoleName') },
-                                        { key: 'description', label: t('common.Description') },
-                                        { key: 'createdDate', label: t('common.CreatedDate') },
-                                        { key: 'action', label: t('common.Action')}
-                                    ]}
-                                    hover
-                                    striped
-                                    itemsPerPage={itemsPerPage}
-                                    scopedSlots={{
-                                        action: (item) => (
-                                            <td>
-                                                <CButton
-                                                    className="mr-1"
-                                                    color="primary"
-                                                    onClick={() => history.push(`/users/role/edit/${item.name}`)}>
-                                                    <CIcon name="cil-pencil" />
-                                                </CButton>
-                                                {
-                                                    !specialRoles.includes(item.name) ? <CButton color="danger" onClick={() => {
-                                                            setDanger(!danger);
-                                                            setDeleteRoleName(item.name);
-                                                        } } className="mr-1"><CIcon name="cil-trash" /></CButton>
-                                                        : ''
-                                                }
-                                            </td>
-                                        ),
-                                    }}
-                                />
-                            )
-                        }
+                        <CDataTable
+                            loading={isFetching}
+                            items={usersData}
+                            fields={[
+                                { key: 'name', _classes: 'font-weight-bold', label: t('view.UserRoles.UserRoleName') },
+                                { key: 'description', label: t('common.Description') },
+                                { key: 'createdDate', label: t('common.CreatedDate') },
+                                { key: 'action', label: t('common.Action')}
+                            ]}
+                            hover
+                            striped
+                            itemsPerPage={itemsPerPage}
+                            scopedSlots={{
+                                action: (item) => (
+                                    <td>
+                                        <CButton
+                                            className="mr-1"
+                                            color="primary"
+                                            onClick={() => history.push(`/users/role/edit/${item.name}`)}>
+                                            <CIcon name="cil-pencil" />
+                                        </CButton>
+                                        {
+                                            !specialRoles.includes(item.name) ? <CButton color="danger" onClick={() => {
+                                                    setDanger(!danger);
+                                                    setDeleteRoleName(item.name);
+                                                } } className="mr-1"><CIcon name="cil-trash" /></CButton>
+                                                : ''
+                                        }
+                                    </td>
+                                ),
+                            }}
+                        />
                         <CPagination
                             activePage={page}
                             onActivePageChange={pageChange}

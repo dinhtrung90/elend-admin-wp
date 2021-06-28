@@ -20,20 +20,10 @@ import {
 
 import {userActions} from '../actions';
 import { FaUserPlus, FaEllipsisH, FaRegCheckSquare, FaRegSquare } from "react-icons/fa";
+import { colorHelpers } from '../../../utils/color-helper';
 
 const getBadge = (status) => {
-  switch (status.toLowerCase()) {
-    case 'active':
-      return 'success';
-    case 'inactive':
-      return 'secondary';
-    case 'pending':
-      return 'warning';
-    case 'banned':
-      return 'danger';
-    default:
-      return 'primary';
-  }
+  return colorHelpers.getColorByStatus(status, false);
 };
 
 const Users = () => {

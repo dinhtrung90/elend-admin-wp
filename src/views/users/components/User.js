@@ -25,21 +25,19 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { FaLock, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
+import { colorHelpers } from '../../../utils/color-helper';
 
 const User = ({match}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const animatedComponents = makeAnimated();
-  const user = useSelector(state => state.users.userDetail);
+  const userDetail = useSelector(state => state.users.userDetail);
   const userRoles = useSelector(state => state.users.userRoles);
   const [isRevealPwd, setIsRevealPwd] = useState(false);
   const [isRevealPwdConfirm, setIsRevealPwdConfirm] = useState(false);
   const [countryValue, setCountryValue] = useState('Vietnam');
   const [cityValue, setCityValue] = useState('');
   const isNew = !match.params.id;
-
-  const userDetails = user ? Object.entries(user) :
-    [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
 
   const genders = ['Male', 'Female', 'Unknown'];
   const constGenders = {
@@ -53,19 +51,26 @@ const User = ({match}) => {
     userRoles.forEach(role => {
       if (!role.description || role.description.length === 0) return;
       permissionsOptions.push({
-        value: role.roleName,
-        label: role.description
+        value: role.name,
+        label: role.name
       })
-    })
+    });
   }
 
-  const statusList = ['Active', 'Inactive', 'Pending', 'Banned'];
+  const statusOptions = [
+      {value: 0, label: 'Please select', color: colorHelpers.getColorByStatus('', true)},
+      {value: 'Active', label: t('view.User.StatusType.Active'), color: colorHelpers.getColorByStatus('active', true)},
+      {value: 'Inactive', label: t('view.User.StatusType.Inactive'), color: colorHelpers.getColorByStatus('inactive', true)},
+      {value: 'Pending', label: t('view.User.StatusType.Pending'), color: colorHelpers.getColorByStatus('pending', true)},
+      {value: 'Banned', label: t('view.User.StatusType.Banned'), color: colorHelpers.getColorByStatus('banned', true)}
+  ];
   const constStatusList = {
     ACTIVE: 'Active',
     INACTIVE: 'Inactive',
     PENDING: 'Pending',
     BANNED: 'Banned'
   }
+
   const strongPasswordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   let schema = Yup.object({
     username: Yup.string().email(t('messages.validations.emailInvalid')).required(t('messages.validations.emailRequired')),
@@ -96,20 +101,21 @@ const User = ({match}) => {
 
   const formik = useFormik({
     initialValues: {
-      username: '',
+      username: userDetail.username || '',
       password: '',
       showPassword: false,
       passwordConfirm: '',
       showPasswordConfirm: false,
       temporary: false, // If enabled, the user must change the password on next login
-      gender: '',
-      userRoles: [],
-      email: '',
-      firstName: '',
-      lastName: '',
-      mobilePhone: '',
-      birthDate: '',
-      userStatus: '',
+      gender: userDetail.gender || '',
+      userRoles: userDetail.userRoles || [],
+      email: userDetail.email || '',
+      firstName: userDetail.firstName || '',
+      lastName: userDetail.lastName || '',
+      mobilePhone: userDetail.mobilePhone || '',
+      birthDate: userDetail.birthDate || '',
+      userStatus: userDetail.userStatus || '',
+      userAddressList: userDetail.userAddressList || [],
       addressFirstLine: '',
       addressSecondLine: '',
       city: '',
@@ -119,6 +125,27 @@ const User = ({match}) => {
     validationSchema: schema,
     onSubmit: values => handleToSubmitAccount(values)
   });
+
+  const dotStatus = (color = '#ccc') => ({
+    alignItems: 'center',
+    display: 'flex',
+
+    ':before': {
+      backgroundColor: color,
+      borderRadius: 10,
+      content: '" "',
+      display: 'block',
+      marginRight: 8,
+      height: 10,
+      width: 10,
+    },
+  });
+  const colourStyles = {
+    control: styles => ({ ...styles, backgroundColor: 'white' }),
+    input: styles => ({ ...styles, ...dotStatus() }),
+    placeholder: styles => ({ ...styles, ...dotStatus() }),
+    singleValue: (styles, { data }) => ({ ...styles, ...dotStatus(data.color) }),
+  };
 
   const handleMultiSelect = (value) => {
     formik.values.userRoles = value;
@@ -155,6 +182,10 @@ const User = ({match}) => {
           'description': 'Role Admin'
         }
       ]
+    }
+
+    if (data.userRoles && data.userRoles.length > 0) {
+      payload.authorities = data.userRoles
     }
 
     if (data.password && data.password.length > 0) {
@@ -256,13 +287,15 @@ const User = ({match}) => {
                       </CInputGroupText>
                     </CInputGroupPrepend>
                     <Select
+                      defaultValue={formik.values.userRoles}
                       placeholder={<div>{t('messages.messagePleaseSelect')}</div>}
+                      isMulti
+                      name="user-roles-select"
+                      options={permissionsOptions}
+                      classNamePrefix="select"
                       onChange={handleMultiSelect}
                       className={customMultiSelectStyle()}
-                      closeMenuOnSelect={false}
                       components={animatedComponents}
-                      isMulti
-                      options={permissionsOptions}
                     />
                   </CInputGroup>
                   <CInvalidFeedback style={{'display': formik.errors.userRoles && formik.touched.userRoles ? 'block' : 'none'}}>{formik.errors.userRoles}</CInvalidFeedback>
@@ -352,14 +385,16 @@ const User = ({match}) => {
                         <CIcon name="cil-check" />
                       </CInputGroupText>
                     </CInputGroupPrepend>
-                    <CSelect custom name="userStatus" id="userStatus" invalid={formik.errors.userStatus && formik.touched.userStatus}
-                             {...formik.getFieldProps("userStatus")}>
-                      <option value="0">{t('messages.messagePleaseSelect')}</option>
-                      <option value={constStatusList.ACTIVE} className=''>{t('view.User.StatusType.Active')}</option>
-                      <option value={constStatusList.INACTIVE}>{t('view.User.StatusType.Inactive')}</option>
-                      <option value={constStatusList.PENDING}>{t('view.User.StatusType.Pending')}</option>
-                      <option value={constStatusList.BANNED}>{t('view.User.StatusType.Banned')}</option>
-                    </CSelect>
+                    <Select
+                        defaultValue={formik.values.userStatus}
+                        placeholder={<div>{t('messages.messagePleaseSelect')}</div>}
+                        name="user-status-select"
+                        options={statusOptions}
+                        classNamePrefix="select"
+                        className={customMultiSelectStyle()}
+                        components={animatedComponents}
+                        styles={colourStyles}
+                    />
                   </CInputGroup>
                 </CCol>
                 <CCol sm={12} className="mb-4">

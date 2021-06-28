@@ -92,7 +92,10 @@
       "Create": "Tạo Mới",
       "Update": "Chỉnh Sửa",
       "Delete": "Xoá",
-      "Read": "Xem"
+      "Read": "Xem",
+      "CompositeRoles": "Composite Roles",
+      "AvailableRoles": "Available Roles",
+      "AssociatedRoles": "Associated Roles"
     }
   },
   "messages": {

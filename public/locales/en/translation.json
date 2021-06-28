@@ -92,7 +92,10 @@
       "Create": "Create",
       "Update": "Update",
       "Delete": "Delete",
-      "Read": "Read"
+      "Read": "Read",
+      "CompositeRoles": "Composite Roles",
+      "AvailableRoles": "Available Roles",
+      "AssociatedRoles": "Associated Roles"
     }
   },
   "messages": {

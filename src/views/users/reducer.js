@@ -1,10 +1,13 @@
 import * as t from './actionTypes';
+import {colorHelpers} from '../../utils/color-helper';
 
 const initialState = {
     customers: [],
     customer: null,
     users: [],
-    userDetail: null,
+    userDetail: {
+      userRoles: []
+    },
     userRoles: [],
     userRoleDetail: {},
     permissions: [],
@@ -17,6 +20,43 @@ const initialState = {
     itemsPerPage: 5,
     totalPages: 0,
     isRedirect: false
+}
+
+const convertToUserDetail = (data) => {
+    if (!data.userDto) {
+        return {}
+    }
+    if (data.userDto.authorities) {
+        data.userDto.authorities.forEach(role => {
+            role.value = role.name;
+            role.label = role.name;
+        })
+    }
+
+    let accountStatus = data.userDto.accountStatus || '';
+    if (accountStatus.length > 0) {
+        accountStatus = accountStatus.split(' ').map(str => {
+            const word = str.toLowerCase()
+            return word.charAt(0).toUpperCase() + word.slice(1)
+        }).join(' ');
+    }
+
+    return {
+        username: data.userDto.email,
+        userRoles: data.userDto.authorities,
+        email: data.userDto.email,
+        firstName: data.userDto.firstName,
+        lastName: data.userDto.lastName,
+        userStatus: {
+            value: accountStatus,
+            label: accountStatus,
+            color: colorHelpers.getColorByStatus(accountStatus, true)
+        },
+        gender: data.userProfileDto.gender,
+        mobilePhone: data.userProfileDto.phone,
+        birthDate: data.userProfileDto.birthDate,
+        userAddressList: data.userAddressList
+    }
 }
 
 export default (state = initialState, action) => {
@@ -88,7 +128,7 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true,
-                userDetail: action.userDetail
+                userDetail: convertToUserDetail(action.userDetail)
             })
         case t.USER_DETAIL_GET_FAILURE:
             return Object.assign({}, state, {

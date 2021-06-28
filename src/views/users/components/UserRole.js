@@ -132,7 +132,6 @@ const UserRole = ({match}) => {
 
   // init drag roles
   const onDragStart = (ev, id) => {
-    console.log('dragstart:',id);
     ev.dataTransfer.setData("id", id);
   }
 
@@ -201,12 +200,12 @@ const UserRole = ({match}) => {
                     <CInvalidFeedback>{formik.errors.description}</CInvalidFeedback>
                 </CFormGroup>
                 <CFormGroup>
-                  <h5>Composite Roles</h5>
+                  <h5>{t('view.UserRole.CompositeRoles')}</h5>
                   <CRow className="role-container-drag">
                     <CCol className="available-role"
                           onDragOver={(e)=>onDragOver(e)}
                           onDrop={(e)=>{onDrop(e, "availableRoles")}}>
-                      <span className="drag-role-header font-weight-bold">Available Roles</span>
+                      <span className="drag-role-header font-weight-bold">{t('view.UserRole.AvailableRoles')}</span>
                       <div className="drag-role-list">
                         {dragRoles.availableRoles}
                       </div>
@@ -215,7 +214,7 @@ const UserRole = ({match}) => {
                     <CCol className="droppable"
                          onDragOver={(e)=>onDragOver(e)}
                          onDrop={(e)=>onDrop(e, "associatedRoles")}>
-                      <span className="drag-role-header font-weight-bold">Associated Roles</span>
+                      <span className="drag-role-header font-weight-bold">{t('view.UserRole.AssociatedRoles')}</span>
                       <div className="drag-role-list">
                         {dragRoles.associatedRoles}
                       </div>
