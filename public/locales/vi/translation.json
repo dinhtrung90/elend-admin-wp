@@ -3,6 +3,7 @@
     "All": "Tất cả",
     "Action": "Hoạt động",
     "Create": "Tạo mới",
+    "Close": "Close",
     "Update": "Chỉnh sửa",
     "Delete": "Xoá",
     "Read": "Đọc",
@@ -18,7 +19,12 @@
     "Edit": "Sửa",
     "ResendVerifyEmail": "Xác thực Email",
     "ResetPassword": "Đặt lại mật khẩu",
-    "Terminate": "Đóng tài khoản"
+    "Terminate": "Đóng tài khoản",
+    "Profile": "Profile",
+    "AddressBook": "Address Book",
+    "RoleMapping": "Role Mapping",
+    "AddSelected": "Add Selected",
+    "RemoveSelected": "Remove Selected"
   },
   "theHeader": {
     "Dashboard": "Trang chủ",
@@ -80,7 +86,9 @@
       "AddressLine2": "Tỉnh (Huyện)",
       "AreaOrCity": "Thành phố",
       "Country": "Quốc gia",
-      "PostalZipCode": "Mã bưu điện"
+      "PostalZipCode": "Mã bưu điện",
+      "AddressBook": "Address Book",
+      "AddNewAddress": "Add New Address"
     },
     "UserRoles": {
       "title": "Phân Quyền",
@@ -95,7 +103,8 @@
       "Read": "Xem",
       "CompositeRoles": "Composite Roles",
       "AvailableRoles": "Available Roles",
-      "AssociatedRoles": "Associated Roles"
+      "AssociatedRoles": "Associated Roles",
+      "EffectiveRoles": "Effective Roles"
     }
   },
   "messages": {

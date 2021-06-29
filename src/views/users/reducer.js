@@ -41,6 +41,17 @@ const convertToUserDetail = (data) => {
         }).join(' ');
     }
 
+    let addressList = [{
+        addressLine1: '',
+        addressLine2: '',
+        city: '',
+        country: '',
+        zipCode: ''
+    }];
+    if (data.userAddressList && data.userAddressList.length > 0) {
+        addressList = data.userAddressList;
+    }
+
     return {
         username: data.userDto.email,
         userRoles: data.userDto.authorities,
@@ -55,7 +66,7 @@ const convertToUserDetail = (data) => {
         gender: data.userProfileDto.gender,
         mobilePhone: data.userProfileDto.phone,
         birthDate: data.userProfileDto.birthDate,
-        userAddressList: data.userAddressList
+        userAddressList: addressList
     }
 }
 

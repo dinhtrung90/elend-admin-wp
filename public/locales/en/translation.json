@@ -3,6 +3,7 @@
     "All": "All",
     "Action": "Action",
     "Create": "Create",
+    "Close": "Close",
     "Update": "Update",
     "Delete": "Delete",
     "Read": "Read",
@@ -18,7 +19,12 @@
     "Edit": "Edit",
     "ResendVerifyEmail": "Resend Verify Email",
     "ResetPassword": "Reset Password",
-    "Terminate": "Terminate"
+    "Terminate": "Terminate",
+    "Profile": "Profile",
+    "AddressBook": "Address Book",
+    "RoleMapping": "Role Mappings",
+    "AddSelected": "Add Selected",
+    "RemoveSelected": "Remove Selected"
   },
   "theHeader": {
     "Dashboard": "Dashboard",
@@ -80,7 +86,10 @@
       "AddressLine2": "Address Line 2",
       "AreaOrCity": "Area or City",
       "Country": "Country",
-      "PostalZipCode": "Postal/ZIP Code"
+      "PostalZipCode": "Postal/ZIP Code",
+      "AddressBook": "Address Book",
+      "AddNewAddress": "Add New Address",
+      "SaveAddress": "Save Address"
     },
     "UserRoles": {
       "title": "User Roles",
@@ -95,7 +104,10 @@
       "Read": "Read",
       "CompositeRoles": "Composite Roles",
       "AvailableRoles": "Available Roles",
-      "AssociatedRoles": "Associated Roles"
+      "AssignedRoles": "Assigned Roles",
+      "AssociatedRoles": "Associated Roles",
+      "EffectiveRoles": "Effective Roles",
+      "UserRoles": "User Roles"
     }
   },
   "messages": {

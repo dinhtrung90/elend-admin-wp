@@ -49,6 +49,7 @@ const UserRole = ({match}) => {
       permissionDetails: userRoleData.permissionDetails || [],
       permissionAll: []
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
       name: Yup.string().required(t('messages.requireRoleName')),
       description: Yup.string().required(t('messages.requireRoleDescription')),
