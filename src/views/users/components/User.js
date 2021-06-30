@@ -41,6 +41,7 @@ const User = ({match}) => {
   const [countryValue, setCountryValue] = useState('Vietnam');
   const [collapseAddressBook, setCollapseAddressBook] = useState(false);
   const [currentAddressIndex, setCurrentAddressIndex] = useState(-1);
+
   const [cityValue, setCityValue] = useState('');
   const isNew = !match.params.id;
 
@@ -127,7 +128,7 @@ const User = ({match}) => {
       mobilePhone: userDetail.mobilePhone || '',
       birthDate: userDetail.birthDate || '',
       userStatus: userDetail.userStatus || '',
-      userAddressList: [],
+      userAddressList: userDetail.userAddressList || [],
       addressLine1: '',
       addressLine2: '',
       city: '',
@@ -172,7 +173,7 @@ const User = ({match}) => {
         zipCode: formik.values.zipCode
       }
     }
-    formik.setFieldValue('userAddressList', formik.values.userAddressList);
+    dispatch(userActions._updateUserAddressList(formik.values.userAddressList));
     setCollapseAddressBook(false);
     setCurrentAddressIndex(-1);
   }
@@ -253,14 +254,27 @@ const User = ({match}) => {
   }
 
   const onDropUserRoles = (roles) => {
-    console.log('onDropUserRoles==', roles);
+    formik.values.userRoles = roles;
+  }
+
+  const onUserDetailSuccess = () => {
+    formik.setFieldValue('username',userDetail.username);
+    formik.setFieldValue('gender',userDetail.gender);
+    formik.setFieldValue('userRoles',userDetail.userRoles);
+    formik.setFieldValue('email',userDetail.email);
+    formik.setFieldValue('firstName',userDetail.firstName);
+    formik.setFieldValue('lastName',userDetail.lastName);
+    formik.setFieldValue('mobilePhone',userDetail.mobilePhone);
+    formik.setFieldValue('birthDate',userDetail.birthDate);
+    formik.setFieldValue('userStatus',userDetail.userStatus);
+    formik.setFieldValue('userAddressList',userDetail.userAddressList);
   }
 
   useEffect(() => {
     const loadData = async () => {
       await dispatch(userActions.getAllUserRoles({all: true}));
       if (match.params.id) {
-        await dispatch(userActions.getUserDetail(match.params.id));
+        await dispatch(userActions.getUserDetail(match.params.id)).then(() => onUserDetailSuccess);
       }
     }
     loadData();
@@ -284,12 +298,12 @@ const User = ({match}) => {
                   </CNavItem>
                   <CNavItem>
                     <CNavLink data-tab="address-book">
-                      {t('AddressBook')}
+                      {t('common.AddressBook')}
                     </CNavLink>
                   </CNavItem>
                   <CNavItem>
                     <CNavLink data-tab="role-mapping">
-                      {t('RoleMapping')}
+                      {t('common.RoleMapping')}
                     </CNavLink>
                   </CNavItem>
                 </CNav>
@@ -381,7 +395,7 @@ const User = ({match}) => {
                       </CCol>
                     </CRow>
                     <CRow>
-                      <CCol sm={6} className={isNew ? 'mb-4 hidden' : 'mb-4 show'}>
+                      <CCol sm={6} className={isNew && !isFetching ? 'mb-4 hidden' : 'mb-4 show'}>
                         <CLabel htmlFor="Status" className="col-form-label">{t('view.User.Status')} <span className="form-required"> *</span></CLabel>
                         <CInputGroup>
                           <CInputGroupPrepend>
@@ -390,7 +404,7 @@ const User = ({match}) => {
                             </CInputGroupText>
                           </CInputGroupPrepend>
                           <Select
-                              defaultValue={formik.values.userStatus}
+                              value={formik.values.userStatus}
                               placeholder={<div>{t('messages.messagePleaseSelect')}</div>}
                               name="user-status-select"
                               options={statusOptions}
@@ -469,42 +483,6 @@ const User = ({match}) => {
                         }
                       </CCol>
                     </CRow>
-                      {/*<CCol sm={3} className="mb-4">*/}
-                      {/*  <CLabel htmlFor="username" className="col-form-label">{t('view.User.Username')} <span className="form-required"> *</span></CLabel>*/}
-                      {/*  <CInputGroup>*/}
-                      {/*    <CInputGroupPrepend>*/}
-                      {/*      <CInputGroupText>*/}
-                      {/*        <CIcon name="cil-user" />*/}
-                      {/*      </CInputGroupText>*/}
-                      {/*    </CInputGroupPrepend>*/}
-                      {/*    <CInput invalid={formik.errors.username && formik.touched.username}*/}
-                      {/*            id="username"*/}
-                      {/*            name="username"*/}
-                      {/*            value={formik.values.username}*/}
-                      {/*            placeholder={t('view.User.Username')}*/}
-                      {/*            {...formik.getFieldProps("username")}*/}
-                      {/*    />*/}
-                      {/*  </CInputGroup>*/}
-                      {/*  <CInvalidFeedback style={{'display': formik.errors.username && formik.touched.username ? 'block' : 'none'}}>{formik.errors.username}</CInvalidFeedback>*/}
-                      {/*</CCol>*/}
-                      {/*<CCol sm={3} className="mb-4">*/}
-                      {/*  <CLabel htmlFor="UserRole" className="col-form-label">{t('view.User.Gender')} <span className="form-required"> *</span></CLabel>*/}
-                      {/*  <CInputGroup>*/}
-                      {/*    <CInputGroupPrepend>*/}
-                      {/*      <CInputGroupText>*/}
-                      {/*        <CIcon name="cil-people" />*/}
-                      {/*      </CInputGroupText>*/}
-                      {/*    </CInputGroupPrepend>*/}
-                      {/*    <CSelect custom name="Gender" id="Gender" invalid={formik.errors.gender && formik.touched.gender}*/}
-                      {/*             {...formik.getFieldProps("gender")}>*/}
-                      {/*      <option value="0">{t('messages.messagePleaseSelect')}</option>*/}
-                      {/*      <option value={constGenders.MALE}>{t('view.User.GenderType.Male')}</option>*/}
-                      {/*      <option value={constGenders.FEMALE}>{t('view.User.GenderType.Female')}</option>*/}
-                      {/*      <option value={constGenders.UNKNOWN}>{t('view.User.GenderType.Unknown')}</option>*/}
-                      {/*    </CSelect>*/}
-                      {/*  </CInputGroup>*/}
-                      {/*  <CInvalidFeedback style={{'display': formik.errors.gender && formik.touched.gender ? 'block' : 'none'}}>{formik.errors.gender}</CInvalidFeedback>*/}
-                      {/*</CCol>*/}
                   </CTabPane>
                   <CTabPane data-tab="address-book">
                     <CRow>

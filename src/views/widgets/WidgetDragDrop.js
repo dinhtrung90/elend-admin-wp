@@ -51,7 +51,11 @@ const WidgetDragDrop = props => {
     });
 
     setDefaultRoles(roles);
-    onFinish(defaultRoles.filter(role => role.category === categoryEnum.effectiveRoles));
+    handleOnDropCompleted(defaultRoles.filter(role => role.category === categoryEnum.effectiveRoles));
+  }
+
+  const handleOnDropCompleted = (selectedRoles) => {
+    onFinish(selectedRoles.map(r => {return {name: r.name}}));
   }
 
   const onFocusRole = (ev, item) => {
@@ -80,14 +84,14 @@ const WidgetDragDrop = props => {
         break;
       case roleEnum.ROLE_ADMIN:
         defaultRoles.forEach(role => {
-          if (role.name === roleEnum.ROLE_SUPER_ADMIN)return;
+          if (role.name === roleEnum.ROLE_SUPER_ADMIN) return;
           role.category = newCategory;
           role.selected = false;
         })
         break;
       case roleEnum.ROLE_SUPERVISOR:
         defaultRoles.forEach(role => {
-          if (role.name === roleEnum.ROLE_SUPER_ADMIN || role.name === roleEnum.ROLE_ADMIN)return;
+          if (role.name === roleEnum.ROLE_SUPER_ADMIN || role.name === roleEnum.ROLE_ADMIN) return;
           role.category = newCategory;
           role.selected = false;
         });
@@ -109,7 +113,7 @@ const WidgetDragDrop = props => {
     setDefaultRoles(defaultRoles);
     setTimeout(() => {
       setIsLoading(false);
-      onFinish(defaultRoles.filter(role => role.category === categoryEnum.effectiveRoles));
+      handleOnDropCompleted(defaultRoles.filter(role => role.category === categoryEnum.effectiveRoles));
     }, 200);
   }
 
@@ -123,7 +127,7 @@ const WidgetDragDrop = props => {
     setDefaultRoles(defaultRoles);
     setTimeout(() => {
       setIsLoading(false);
-      onFinish(defaultRoles.filter(role => role.category === categoryEnum.effectiveRoles));
+      handleOnDropCompleted(defaultRoles.filter(role => role.category === categoryEnum.effectiveRoles));
     }, 200);
   }
 

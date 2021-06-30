@@ -6,7 +6,8 @@ const initialState = {
     customer: null,
     users: [],
     userDetail: {
-      userRoles: []
+        userRoles: [],
+        userAddressList: []
     },
     userRoles: [],
     userRoleDetail: {},
@@ -156,6 +157,10 @@ export default (state = initialState, action) => {
                 isFetched: true,
                 userRoleDetail: {}, // reset detail item
                 userRoles: action.userRoles,
+                userDetail: {
+                    userRoles: [],
+                    userAddressList: []
+                },
                 totalPages: action.userRoles.totalPage
             })
         case t.USER_ROLES_GET_ALL_FAILURE:
@@ -239,6 +244,19 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 errorFetch: action.error
             });
+        case t.UPDATE_USER_ADDRESS_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isFetched: false
+            });
+        case t.UPDATE_USER_ADDRESS_SUCCESS:
+            const currentUserDetail = state.userDetail;
+            currentUserDetail.userAddressList = action.addressBook;
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true,
+                userDetail: currentUserDetail
+            })
         default:
             return state
     }

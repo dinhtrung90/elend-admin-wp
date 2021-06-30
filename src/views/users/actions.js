@@ -16,7 +16,8 @@ export const userActions = {
     getUserRoleDetail,
     getAllPermissions,
     getAllCustomers,
-    getCustomerDetail
+    getCustomerDetail,
+    _updateUserAddressList
 };
 
 function getAllUsers(data) {
@@ -209,4 +210,15 @@ function getAllPermissions() {
     function request() { return { type: t.PERMISSION_GET_ALL_REQUEST} }
     function success(permissions) { return { type: t.PERMISSION_GET_ALL_SUCCESS, permissions } }
     function failure(error) { return { type: t.PERMISSION_GET_ALL_FAILURE, error } }
+}
+
+function _updateUserAddressList (addressList) {
+    return dispatch => {
+        dispatch(request());
+        dispatch(success(addressList));
+    };
+
+    function request() { return { type: t.UPDATE_USER_ADDRESS_REQUEST } }
+    function success(addressBook) { return { type: t.UPDATE_USER_ADDRESS_SUCCESS, addressBook } }
+    function failure(error) { return { type: t.UPDATE_USER_ADDRESS_FAILURE, error } }
 }
