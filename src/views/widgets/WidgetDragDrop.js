@@ -19,6 +19,18 @@ const WidgetDragDrop = props => {
   const [defaultRoles, setDefaultRoles] = useState(dataSource);
   const [isLoading, setIsLoading] = useState(false);
 
+  const roleEnum = {
+    ROLE_SUPER_ADMIN: 'ROLE_SUPER_ADMIN',
+    ROLE_ADMIN: 'ROLE_ADMIN',
+    ROLE_SUPERVISOR: 'ROLE_SUPERVISOR',
+    ROLE_USER: 'ROLE_USER'
+  }
+
+  const categoryEnum = {
+    availableRoles: 'availableRoles',
+    effectiveRoles: 'effectiveRoles'
+  }
+
   // init drag roles
   const onDragStart = (ev, id) => {
     ev.dataTransfer.setData("id", id);
@@ -33,14 +45,13 @@ const WidgetDragDrop = props => {
 
     let roles = defaultRoles.filter((role) => {
       if (role.name === id) {
-        role.category = cat;
-        role.selected = false;
+        assignEffectiveRole(role, cat);
       }
       return role;
     });
 
     setDefaultRoles(roles);
-    onFinish(defaultRoles.filter(role => role.category === 'effectiveRoles'));
+    onFinish(defaultRoles.filter(role => role.category === categoryEnum.effectiveRoles));
   }
 
   const onFocusRole = (ev, item) => {
@@ -59,33 +70,60 @@ const WidgetDragDrop = props => {
     ev.currentTarget.classList.remove('selected');
   }
 
+  const assignEffectiveRole = (selectedRole, newCategory) => {
+    switch (selectedRole.name){
+      case roleEnum.ROLE_SUPER_ADMIN:
+        defaultRoles.forEach(role => {
+          role.category = newCategory;
+          role.selected = false;
+        });
+        break;
+      case roleEnum.ROLE_ADMIN:
+        defaultRoles.forEach(role => {
+          if (role.name === roleEnum.ROLE_SUPER_ADMIN)return;
+          role.category = newCategory;
+          role.selected = false;
+        })
+        break;
+      case roleEnum.ROLE_SUPERVISOR:
+        defaultRoles.forEach(role => {
+          if (role.name === roleEnum.ROLE_SUPER_ADMIN || role.name === roleEnum.ROLE_ADMIN)return;
+          role.category = newCategory;
+          role.selected = false;
+        });
+        break;
+      default:
+        selectedRole.category = newCategory;
+        selectedRole.selected = false;
+        break;
+    }
+  }
+
   const handleAddSelectedRole = (ev) => {
     setIsLoading(true);
     defaultRoles.filter(role => {
-      if (role.selected && role.category === 'availableRoles') {
-        role.category = 'effectiveRoles';
-        role.selected = false;
+      if (role.selected && role.category === categoryEnum.availableRoles) {
+        assignEffectiveRole(role, categoryEnum.effectiveRoles);
       }
     })
     setDefaultRoles(defaultRoles);
     setTimeout(() => {
       setIsLoading(false);
-      onFinish(defaultRoles.filter(role => role.category === 'effectiveRoles'));
+      onFinish(defaultRoles.filter(role => role.category === categoryEnum.effectiveRoles));
     }, 200);
   }
 
   const handleRemoveSelectedRole = (ev) => {
     setIsLoading(true);
     defaultRoles.filter(role => {
-      if (role.selected && role.category === 'effectiveRoles') {
-        role.category = 'availableRoles';
-        role.selected = false;
+      if (role.selected && role.category === categoryEnum.effectiveRoles) {
+        assignEffectiveRole(role, categoryEnum.availableRoles)
       }
     })
     setDefaultRoles(defaultRoles);
     setTimeout(() => {
       setIsLoading(false);
-      onFinish(defaultRoles.filter(role => role.category === 'effectiveRoles'));
+      onFinish(defaultRoles.filter(role => role.category === categoryEnum.effectiveRoles));
     }, 200);
   }
 
@@ -93,11 +131,11 @@ const WidgetDragDrop = props => {
     <CRow className="mt-4 role-container-drag">
       <CCol className="available-role"
             onDragOver={(e)=>onDragOver(e)}
-            onDrop={(e)=>{onDrop(e, "availableRoles")}}>
+            onDrop={(e)=>{onDrop(e, categoryEnum.availableRoles)}}>
         <span className="drag-role-header font-weight-bold">{t('view.UserRole.AvailableRoles')}</span>
         <div className="drag-role-list">
           {!isLoading && defaultRoles.map(t => {
-            return t.category === 'availableRoles' ? (
+            return t.category === categoryEnum.availableRoles ? (
                 <div key={t.name}
                      onDragStart = {(e) => onDragStart(e, t.name)}
                      draggable
@@ -117,11 +155,11 @@ const WidgetDragDrop = props => {
       <FaExchangeAlt className="drag-icon"/>
       <CCol className="droppable"
             onDragOver={(e)=>onDragOver(e)}
-            onDrop={(e)=>onDrop(e, "effectiveRoles")}>
+            onDrop={(e)=>onDrop(e, categoryEnum.effectiveRoles)}>
         <span className="drag-role-header font-weight-bold">{t('view.UserRole.EffectiveRoles')}</span>
         <div className="drag-role-list">
           {!isLoading && defaultRoles.map(t => {
-            return t.category === 'effectiveRoles' ? (
+            return t.category === categoryEnum.effectiveRoles ? (
                 <div key={t.name}
                      onDragStart = {(e) => onDragStart(e, t.name)}
                      draggable
