@@ -16,6 +16,10 @@ const createAccount = (data) => {
   return axios.post(SERVICE_DOMAIN + '/api/cms/account/create', data);
 };
 
+const updateAccount = (data) => {
+  return axios.post(SERVICE_DOMAIN + '/api/cms/account/update', data);
+};
+
 const getUserById = (userId) => {
   return axios.get(SERVICE_DOMAIN + `/api/cms/account?userId=${userId}`);
 };
@@ -49,6 +53,7 @@ const getAllPermissions = () => {
 
 export const userService = {
   createAccount,
+  updateAccount,
   getAllUsers,
   getUserById,
   getAllPermissions,

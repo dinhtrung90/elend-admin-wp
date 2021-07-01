@@ -1,13 +1,11 @@
 import * as t from './actionTypes';
-
-// fake data
 import customersData from './components/UsersData';
-import usersData from './components/UsersData';
 import { userService } from "../../services/user.service";
 
 export const userActions = {
     getAllUsers,
     createUser,
+    updateUser,
     getUserDetail,
     createUserRole,
     editUserRole,
@@ -49,6 +47,21 @@ function createUser(data) {
     function request() { return { type: t.CREATE_USER_REQUEST } }
     function success(userDetail) { return { type: t.CREATE_USER_SUCCESS, userDetail } }
     function failure(error) { return { type: t.CREATE_USER_FAILURE, error } }
+}
+
+function updateUser(data) {
+    return dispatch => {
+        dispatch(request(data));
+        return userService.updateAccount(data).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.UPDATE_USER_REQUEST } }
+    function success(userDetail) { return { type: t.UPDATE_USER_SUCCESS, userDetail } }
+    function failure(error) { return { type: t.UPDATE_USER_FAILURE, error } }
 }
 
 function getAllCustomers() {

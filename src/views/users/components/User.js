@@ -21,10 +21,9 @@ import {userActions} from "../actions";
 import {useTranslation} from "react-i18next";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import 'yup-phone';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import {FaExchangeAlt, FaLock, FaRegEye, FaRegEyeSlash} from "react-icons/fa";
+import {FaLock, FaRegEye, FaRegEyeSlash} from "react-icons/fa";
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import { colorHelpers } from '../../../utils/color-helper';
 import WidgetDragDrop from '../../widgets/WidgetDragDrop';
@@ -70,23 +69,9 @@ const User = ({match}) => {
       {value: 'Pending', label: t('view.User.StatusType.Pending'), color: colorHelpers.getColorByStatus('pending', true)},
       {value: 'Banned', label: t('view.User.StatusType.Banned'), color: colorHelpers.getColorByStatus('banned', true)}
   ];
-  const constStatusList = {
-    ACTIVE: 'Active',
-    INACTIVE: 'Inactive',
-    PENDING: 'Pending',
-    BANNED: 'Banned'
-  }
-
-  if (userRoles && userRoles.length > 0) {
-    userRoles.forEach(role => {
-      role.category = 'availableRoles';
-      role.selected = false
-    })
-  }
 
   const strongPasswordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   let schema = Yup.object({
-    username: Yup.string().email(t('messages.validations.emailInvalid')).required(t('messages.validations.emailRequired')),
     userRoles: Yup.array().min(1, t('messages.validations.roleRequired')),
     gender: Yup.string().required(t('messages.validations.genderRequired')).oneOf(genders),
     email: Yup.string().email(t('messages.validations.emailInvalid')).required(t('messages.validations.emailRequired')),
@@ -114,6 +99,7 @@ const User = ({match}) => {
 
   const formik = useFormik({
     initialValues: {
+      id: userDetail.id,
       username: userDetail.username || '',
       password: '',
       showPassword: false,
@@ -127,7 +113,7 @@ const User = ({match}) => {
       lastName: userDetail.lastName || '',
       mobilePhone: userDetail.mobilePhone || '',
       birthDate: userDetail.birthDate || '',
-      userStatus: userDetail.userStatus || '',
+      userStatus: userDetail.userStatus || {value: 'value', label: 'Pending', color: colorHelpers.getColorByStatus('Pending', true)},
       userAddressList: userDetail.userAddressList || [],
       addressLine1: '',
       addressLine2: '',
@@ -213,9 +199,14 @@ const User = ({match}) => {
     return formik.errors.userRoles && formik.touched.userRoles ? 'custom-multi-select invalid' : 'custom-multi-select';
   }
 
+  const onChangeStatus = (option) => {
+    formik.setFieldValue('userStatus', option);
+  }
+
   const handleToSubmitAccount = (data) => {
     const payload = {
-      'login': data.username,
+      'userId': data.id,
+      'login': data.email,
       'email': data.email,
       'firstName': data.firstName,
       'lastName': data.lastName,
@@ -239,7 +230,7 @@ const User = ({match}) => {
     }
 
     if (match.params.id) {
-      // dispatch(userActions.editUser(payload));
+      dispatch(userActions.updateUser(payload));
     } else {
       dispatch(userActions.createUser(payload));
     }
@@ -280,10 +271,14 @@ const User = ({match}) => {
     loadData();
   }, [dispatch]);
 
+  const handleToFormikSubmit = (e) => {
+    formik.handleSubmit(e);
+  }
+
   return isFetching ? <CRow></CRow> : (
     <CRow>
       <CCol lg={12}>
-        <CForm onSubmit={formik.handleSubmit}>
+        <CForm>
           <CCard>
             <CCardHeader>
               {isNew ? t('common.NewUser') : t('common.EditUser')}
@@ -363,7 +358,25 @@ const User = ({match}) => {
                       </CCol>
                     </CRow>
                     <CRow>
-                      <CCol sm={6} className='mb-4'>
+                      <CCol sm={3} className="mb-4">
+                        <CLabel htmlFor="UserRole" className="col-form-label">{t('view.User.Gender')} <span className="form-required"> *</span></CLabel>
+                        <CInputGroup>
+                          <CInputGroupPrepend>
+                            <CInputGroupText>
+                              <CIcon name="cil-people" />
+                            </CInputGroupText>
+                          </CInputGroupPrepend>
+                          <CSelect custom name="Gender" id="Gender" invalid={formik.errors.gender && formik.touched.gender}
+                                   {...formik.getFieldProps("gender")}>
+                            <option value="0">{t('messages.messagePleaseSelect')}</option>
+                            <option value={constGenders.MALE}>{t('view.User.GenderType.Male')}</option>
+                            <option value={constGenders.FEMALE}>{t('view.User.GenderType.Female')}</option>
+                            <option value={constGenders.UNKNOWN}>{t('view.User.GenderType.Unknown')}</option>
+                          </CSelect>
+                        </CInputGroup>
+                        <CInvalidFeedback style={{'display': formik.errors.gender && formik.touched.gender ? 'block' : 'none'}}>{formik.errors.gender}</CInvalidFeedback>
+                      </CCol>
+                      <CCol sm={3} className='mb-4'>
                         <CLabel htmlFor="DateOfBirth" className="col-form-label">{t('view.User.DateOfBirth')}</CLabel>
                         <CInputGroup>
                           <CInputGroupPrepend>
@@ -412,6 +425,7 @@ const User = ({match}) => {
                               className={customMultiSelectStyle()}
                               components={animatedComponents}
                               styles={colourStyles}
+                              onChange={onChangeStatus}
                           />
                         </CInputGroup>
                       </CCol>
@@ -599,10 +613,11 @@ const User = ({match}) => {
                   </CTabPane>
                   <CTabPane data-tab="role-mapping">
                     <h5 className="mt-4">{t('view.UserRole.UserRoles')}</h5>
+                    {formik.values.userRoles && formik.values.userRoles.length > 0 ?
                     <WidgetDragDrop
-                        dataSource={userRoles}
+                        dataSource={formik.values.userRoles}
                         onFinish={onDropUserRoles}
-                    />
+                    /> : null}
                   </CTabPane>
                 </CTabContent>
               </CTabs>
@@ -610,7 +625,7 @@ const User = ({match}) => {
                 <hr />
               </CRow>
               <CRow className="flex-center">
-                <CButton type="submit" color="primary" className="text-center">{t('common.Save')}</CButton>
+                <CButton type="button" color="primary" className="text-center" onClick={handleToFormikSubmit}>{t('common.Save')}</CButton>
               </CRow>
             </CCardBody>
           </CCard>

@@ -23,10 +23,11 @@ const initialState = {
     isRedirect: false
 }
 
-const convertToUserDetail = (data) => {
+const convertToUserDetail = (data, userRoles) => {
     if (!data.userDto) {
         return {}
     }
+
     if (data.userDto.authorities) {
         data.userDto.authorities.forEach(role => {
             role.value = role.name;
@@ -42,20 +43,19 @@ const convertToUserDetail = (data) => {
         }).join(' ');
     }
 
-    let addressList = [{
-        addressLine1: '',
-        addressLine2: '',
-        city: '',
-        country: '',
-        zipCode: ''
-    }];
-    if (data.userAddressList && data.userAddressList.length > 0) {
-        addressList = data.userAddressList;
-    }
+    userRoles.forEach(role => {
+        role.selected = false;
+        role.category = 'availableRoles';
+        const selectedRoleIndex = data.userDto.authorities.findIndex(r => r.name === role.name);
+        if (selectedRoleIndex > -1) {
+            role.category = 'effectiveRoles';
+        }
+    });
 
     return {
+        id: data.userDto.id,
         username: data.userDto.email,
-        userRoles: data.userDto.authorities,
+        userRoles: userRoles,
         email: data.userDto.email,
         firstName: data.userDto.firstName,
         lastName: data.userDto.lastName,
@@ -67,7 +67,7 @@ const convertToUserDetail = (data) => {
         gender: data.userProfileDto.gender,
         mobilePhone: data.userProfileDto.phone,
         birthDate: data.userProfileDto.birthDate,
-        userAddressList: addressList
+        userAddressList: data.userAddressList
     }
 }
 
@@ -84,6 +84,20 @@ export default (state = initialState, action) => {
                 userDetail: action.userDetail
             })
         case t.CREATE_USER_FAILURE:
+            return Object.assign({}, state, {
+                errorFetch: action.error
+            });
+        case t.UPDATE_USER_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+            });
+        case t.UPDATE_USER_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true,
+                userDetail: action.userDetail
+            })
+        case t.UPDATE_USER_FAILURE:
             return Object.assign({}, state, {
                 errorFetch: action.error
             });
@@ -140,7 +154,7 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true,
-                userDetail: convertToUserDetail(action.userDetail)
+                userDetail: convertToUserDetail(action.userDetail, state.userRoles)
             })
         case t.USER_DETAIL_GET_FAILURE:
             return Object.assign({}, state, {

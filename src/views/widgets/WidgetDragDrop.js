@@ -16,6 +16,7 @@ const WidgetDragDrop = props => {
     onFinish,
     ...attributes
   } = props
+
   const [defaultRoles, setDefaultRoles] = useState(dataSource);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,6 +30,38 @@ const WidgetDragDrop = props => {
   const categoryEnum = {
     availableRoles: 'availableRoles',
     effectiveRoles: 'effectiveRoles'
+  }
+
+  const assignEffectiveRole = (selectedRole, newCategory) => {
+    switch (selectedRole.name){
+      case roleEnum.ROLE_SUPER_ADMIN:
+        defaultRoles.forEach(role => {
+          role.category = newCategory;
+          role.selected = false;
+        });
+        break;
+      case roleEnum.ROLE_ADMIN:
+        defaultRoles.forEach(role => {
+          if (role.name === roleEnum.ROLE_SUPER_ADMIN) return;
+          role.category = newCategory;
+          role.selected = false;
+        })
+        break;
+      case roleEnum.ROLE_SUPERVISOR:
+        defaultRoles.forEach(role => {
+          if (role.name === roleEnum.ROLE_SUPER_ADMIN || role.name === roleEnum.ROLE_ADMIN) return;
+          role.category = newCategory;
+          role.selected = false;
+        });
+        break;
+      default:
+        defaultRoles.forEach(role => {
+          if (role.name !== selectedRole.name) return;
+          role.category = newCategory;
+          role.selected = false;
+        });
+        break;
+    }
   }
 
   // init drag roles
@@ -72,35 +105,6 @@ const WidgetDragDrop = props => {
 
   const onBlur = (ev) => {
     ev.currentTarget.classList.remove('selected');
-  }
-
-  const assignEffectiveRole = (selectedRole, newCategory) => {
-    switch (selectedRole.name){
-      case roleEnum.ROLE_SUPER_ADMIN:
-        defaultRoles.forEach(role => {
-          role.category = newCategory;
-          role.selected = false;
-        });
-        break;
-      case roleEnum.ROLE_ADMIN:
-        defaultRoles.forEach(role => {
-          if (role.name === roleEnum.ROLE_SUPER_ADMIN) return;
-          role.category = newCategory;
-          role.selected = false;
-        })
-        break;
-      case roleEnum.ROLE_SUPERVISOR:
-        defaultRoles.forEach(role => {
-          if (role.name === roleEnum.ROLE_SUPER_ADMIN || role.name === roleEnum.ROLE_ADMIN) return;
-          role.category = newCategory;
-          role.selected = false;
-        });
-        break;
-      default:
-        selectedRole.category = newCategory;
-        selectedRole.selected = false;
-        break;
-    }
   }
 
   const handleAddSelectedRole = (ev) => {
