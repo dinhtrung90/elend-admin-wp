@@ -20,11 +20,11 @@
     "ResendVerifyEmail": "Xác thực Email",
     "ResetPassword": "Đặt lại mật khẩu",
     "Terminate": "Đóng tài khoản",
-    "Profile": "Profile",
-    "AddressBook": "Address Book",
-    "RoleMapping": "Role Mapping",
-    "AddSelected": "Add Selected",
-    "RemoveSelected": "Remove Selected"
+    "Profile": "Thông tin cá nhân",
+    "AddressBook": "Sổ địa chỉ",
+    "RoleMapping": "Phân quyền ứng dụng",
+    "AddSelected": "Chọn quyền",
+    "RemoveSelected": "Từ chối quyền"
   },
   "theHeader": {
     "Dashboard": "Trang chủ",
@@ -87,8 +87,8 @@
       "AreaOrCity": "Thành phố",
       "Country": "Quốc gia",
       "PostalZipCode": "Mã bưu điện",
-      "AddressBook": "Address Book",
-      "AddNewAddress": "Add New Address"
+      "AddressBook": "Sổ địa chỉ",
+      "AddNewAddress": "Thêm mới địa chỉ"
     },
     "UserRoles": {
       "title": "Phân Quyền",
@@ -113,18 +113,18 @@
     "requireRoleName": "Yêu cầu nhập tên phân quyền!",
     "requireRoleDescription": "Yêu cầu nhập chi tiết!",
     "validations": {
-      "emailInvalid": "Email is invalid",
-      "emailRequired": "Email is required",
-      "roleRequired": "Role is required",
-      "genderRequired": "Gender is required",
-      "firstNameRequired": "First Name is required",
-      "lastNameRequired": "Last Name is required",
-      "passwordRequired": "Password is required",
-      "passwordStrongRequired": "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
-      "confirmPasswordRequired": "Confirm Password is required",
-      "confirmPasswordNotMatch": "Passwords must match"
+      "emailInvalid": "Email không hợp lệ",
+      "emailRequired": "Vui lòng nhập địa chỉ Email",
+      "roleRequired": "Vui lòng chọn quyền người dùng",
+      "genderRequired": "Vui lòng chọn giới tính",
+      "firstNameRequired": "Vui lòng nhập tên",
+      "lastNameRequired": "Vui lòng nhập họ",
+      "passwordRequired": "Vui lòng nhập mật khẩu",
+      "passwordStrongRequired": "Phải chứa 8 ký tự, một chữ hoa, một chữ thường, một số và một ký tự trường hợp đặc biệt",
+      "confirmPasswordRequired": "Vui lòng nhập xác nhận mật khẩu",
+      "confirmPasswordNotMatch": "Mật khẩu phải trùng khớp"
     },
-    "resendVerifyEmailSuccess": "A verification link has been sent to your email account ",
-    "resetPasswordSuccess": "Password reset successfully."
+    "resendVerifyEmailSuccess": "Xác thực địa chỉ Email đã được gửi đến hộp thư ",
+    "resetPasswordSuccess": "Đặt lại mật khẩu thành công."
   }
 }
