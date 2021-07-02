@@ -205,6 +205,7 @@ const User = ({match}) => {
 
   const handleToSubmitAccount = (data) => {
     const payload = {
+      'id': data.id,
       'userId': data.id,
       'login': data.email,
       'email': data.email,
@@ -497,6 +498,9 @@ const User = ({match}) => {
                         }
                       </CCol>
                     </CRow>
+                    <CRow className="flex-center">
+                      <CButton type="button" color="primary" className="text-center" onClick={handleToFormikSubmit}>{t('common.Save')}</CButton>
+                    </CRow>
                   </CTabPane>
                   <CTabPane data-tab="address-book">
                     <CRow>
@@ -613,6 +617,13 @@ const User = ({match}) => {
                   </CTabPane>
                   <CTabPane data-tab="role-mapping">
                     <h5 className="mt-4">{t('view.UserRole.UserRoles')}</h5>
+                    <CLabel htmlFor="applicationRoles" className="col-form-label">Application Roles</CLabel>
+                    <CSelect custom name="applicationRoles" id="applicationRoles">
+                      <option value="0">{t('messages.messagePleaseSelect')}</option>
+                      <option value="app-1">APP-1</option>
+                      <option value="app-2">APP-2</option>
+                      <option value="app-3">APP-3</option>
+                    </CSelect>
                     {formik.values.userRoles && formik.values.userRoles.length > 0 ?
                     <WidgetDragDrop
                         dataSource={formik.values.userRoles}
@@ -621,12 +632,6 @@ const User = ({match}) => {
                   </CTabPane>
                 </CTabContent>
               </CTabs>
-              <CRow>
-                <hr />
-              </CRow>
-              <CRow className="flex-center">
-                <CButton type="button" color="primary" className="text-center" onClick={handleToFormikSubmit}>{t('common.Save')}</CButton>
-              </CRow>
             </CCardBody>
           </CCard>
         </CForm>
