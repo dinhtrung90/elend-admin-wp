@@ -123,6 +123,8 @@
       "passwordStrongRequired": "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
       "confirmPasswordRequired": "Confirm Password is required",
       "confirmPasswordNotMatch": "Passwords must match"
-    }
+    },
+    "resendVerifyEmailSuccess": "A verification link has been sent to your email account ",
+    "resetPasswordSuccess": "Password reset successfully."
   }
 }

@@ -17,8 +17,8 @@ import {
   CDropdownItem,
   CDropdown
 } from '@coreui/react';
-
 import {userActions} from '../actions';
+import {authenticationActions} from '../../../actions';
 import { FaUserPlus, FaEllipsisH, FaRegCheckSquare, FaRegSquare } from "react-icons/fa";
 import { colorHelpers } from '../../../utils/color-helper';
 
@@ -57,6 +57,14 @@ const Users = () => {
 
   const handleToEdit = (item) => {
     history.push(`/users/edit/${item.id}`);
+  }
+
+  const handleResendVerifyEmail = (userId) => {
+    dispatch((authenticationActions.resendVerifyEmail(userId, t('messages.resendVerifyEmailSuccess'))));
+  }
+
+  const handleResetPasswordEmail = (userId) => {
+    dispatch(authenticationActions.resetPassword(userId, t('messages.resetPasswordSuccess')));
   }
 
   useEffect(() => {
@@ -158,8 +166,8 @@ const Users = () => {
                           </CDropdownToggle>
                           <CDropdownMenu placement="left">
                             <CDropdownItem onClick={() => handleToEdit(item)}>{t('common.Edit')}</CDropdownItem>
-                            <CDropdownItem>{t('common.ResendVerifyEmail')}</CDropdownItem>
-                            <CDropdownItem>{t('common.ResetPassword')}</CDropdownItem>
+                            <CDropdownItem onClick={() => handleResendVerifyEmail(item.id)}>{t('common.ResendVerifyEmail')}</CDropdownItem>
+                            <CDropdownItem onClick={() => handleResetPasswordEmail(item.id)}>{t('common.ResetPassword')}</CDropdownItem>
                             <CDropdownItem>{t('common.Terminate')}</CDropdownItem>
                           </CDropdownMenu>
                         </CDropdown>
