@@ -24,6 +24,29 @@ const getUserById = (userId) => {
   return axios.get(SERVICE_DOMAIN + `/api/cms/account?userId=${userId}`);
 };
 
+const getUserAddressBooks = (data) => {
+  if (data && data.all) {
+    return axios.get(SERVICE_DOMAIN + `/api/cms/account/address`);
+  }
+  return axios.get(SERVICE_DOMAIN + `/api/cms/account/address?page=${data.page}&size=${data.size}`);
+};
+
+const getUserAddressBookById = (addressId) => {
+  return axios.get(SERVICE_DOMAIN + `/api/cms/account//address/get/`);
+};
+
+const createUserAddressBook = (data) => {
+  return axios.post(SERVICE_DOMAIN + `/api/cms/account//address/create`, data);
+};
+
+const updateUserAddressBook = (data) => {
+  return axios.put(SERVICE_DOMAIN + `/api/cms/account//address/create`, data);
+};
+
+const deleteUserAddressBook = (addressId) => {
+  return axios.delete(SERVICE_DOMAIN + `/api/cms/account//address/delete`);
+};
+
 const getAllUserRoles = (data) => {
   if (data && data.all) {
     return axios.get(SERVICE_DOMAIN + `/api/cms/role/get`);
@@ -56,6 +79,11 @@ export const userService = {
   updateAccount,
   getAllUsers,
   getUserById,
+  createUserAddressBook,
+  updateUserAddressBook,
+  deleteUserAddressBook,
+  getUserAddressBooks,
+  getUserAddressBookById,
   getAllPermissions,
   getAllUserRoles,
   createUserRole,

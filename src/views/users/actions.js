@@ -235,3 +235,80 @@ function _updateUserAddressList (addressList) {
     function success(addressBook) { return { type: t.UPDATE_USER_ADDRESS_SUCCESS, addressBook } }
     function failure(error) { return { type: t.UPDATE_USER_ADDRESS_FAILURE, error } }
 }
+
+function getUserAddressBooks(data) {
+    return dispatch => {
+        dispatch(request());
+        return userService.getUserAddressBooks(data).then(response => {
+            response.size = data.size || 5;
+            dispatch(success(response));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.USERS_GET_ADDRESS_BOOKS_REQUEST } }
+    function success(response) { return { type: t.USERS_GET_ADDRESS_BOOKS_SUCCESS, response } }
+    function failure(error) { return { type: t.USERS_GET_ADDRESS_BOOKS_FAILURE, error } }
+}
+
+function getUserAddressById(addressId) {
+    return dispatch => {
+        dispatch(request());
+        return userService.getUserAddressBookById(addressId).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.USERS_GET_ADDRESS_BY_ID_REQUEST } }
+    function success(response) { return { type: t.USERS_GET_ADDRESS_BY_ID_SUCCESS, response } }
+    function failure(error) { return { type: t.USERS_GET_ADDRESS_BY_ID_FAILURE, error } }
+}
+
+function createUserAddress(data) {
+    return dispatch => {
+        dispatch(request(data));
+        return userService.createUserAddressBook(data).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.CREATE_USER_ADDRESS_REQUEST } }
+    function success(userAddressDetail) { return { type: t.CREATE_USER_ADDRESS_SUCCESS, userAddressDetail } }
+    function failure(error) { return { type: t.CREATE_USER_ADDRESS_FAILURE, error } }
+}
+
+function updateUserAddress(data) {
+    return dispatch => {
+        dispatch(request(data));
+        return userService.updateUserAddressBook(data).then(response => {
+            dispatch(success(response.data));
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.UPDATE_USER_ADDRESS_REQUEST } }
+    function success(userAddressDetail) { return { type: t.UPDATE_USER_ADDRESS_SUCCESS, userAddressDetail } }
+    function failure(error) { return { type: t.UPDATE_USER_ADDRESS_FAILURE, error } }
+}
+
+function deleteUserAddress(addressId) {
+    return dispatch => {
+        dispatch(request());
+        return userService.deleteUserAddressBook(addressId).then(response => {
+            dispatch(success());
+        }).catch(error => {
+            dispatch(failure(error));
+        });
+    };
+
+    function request() { return { type: t.DELETE_USER_ADDRESS_REQUEST } }
+    function success() { return { type: t.DELETE_USER_ADDRESS_SUCCESS } }
+    function failure(error) { return { type: t.DELETE_USER_ADDRESS_FAILURE, error } }
+}
+

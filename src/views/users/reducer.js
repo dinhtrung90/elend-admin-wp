@@ -9,6 +9,8 @@ const initialState = {
         userRoles: [],
         userAddressList: []
     },
+    userAddressList: [],
+    userAddressDetail: null,
     userRoles: [],
     userRoleDetail: {},
     permissions: [],
@@ -270,7 +272,81 @@ export default (state = initialState, action) => {
                 isFetching: false,
                 isFetched: true,
                 userDetail: currentUserDetail
+            });
+        case t.USERS_GET_ADDRESS_BOOKS_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isFetched: false
+            });
+        case t.USERS_GET_ADDRESS_BOOKS_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true,
+                userAddressList: action.userAddressList
             })
+        case t.USERS_GET_ADDRESS_BOOKS_FAILURE:
+            return Object.assign({}, state, {
+                errorFetch: action.error
+            });
+        case t.USERS_GET_ADDRESS_BY_ID_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isFetched: false
+            });
+        case t.USERS_GET_ADDRESS_BY_ID_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true,
+                userAddressDetail: action.userAddressDetail
+            })
+        case t.USERS_GET_ADDRESS_BY_ID_FAILURE:
+            return Object.assign({}, state, {
+                errorFetch: action.error
+            });
+        case t.CREATE_USER_ADDRESS_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isFetched: false
+            });
+        case t.CREATE_USER_ADDRESS_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true,
+                userAddressDetail: action.userAddressDetail
+            })
+        case t.CREATE_USER_ADDRESS_FAILURE:
+            return Object.assign({}, state, {
+                errorFetch: action.error
+            });
+        case t.UPDATE_USER_ADDRESS_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isFetched: false
+            });
+        case t.UPDATE_USER_ADDRESS_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true,
+                userAddressDetail: action.userAddressDetail
+            })
+        case t.UPDATE_USER_ADDRESS_FAILURE:
+            return Object.assign({}, state, {
+                errorFetch: action.error
+            });
+        case t.DELETE_USER_ADDRESS_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isFetched: false
+            });
+        case t.DELETE_USER_ADDRESS_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isFetched: true
+            })
+        case t.DELETE_USER_ADDRESS_FAILURE:
+            return Object.assign({}, state, {
+                errorFetch: action.error
+            });
         default:
             return state
     }

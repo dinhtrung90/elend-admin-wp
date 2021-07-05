@@ -212,13 +212,11 @@ const User = ({match}) => {
       'firstName': data.firstName,
       'lastName': data.lastName,
       'isEnable': false,
-      'userAddressList': data.userAddressList,
       'userProfileDto': {
         'phone': data.mobilePhone.toString(),
         'gender': data.gender,
         'birthDate': data.birthDate
-      },
-      'authorities': data.userRoles
+      }
     }
 
     if (data.userRoles && data.userRoles.length > 0) {
