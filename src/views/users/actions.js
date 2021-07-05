@@ -15,7 +15,12 @@ export const userActions = {
     getAllPermissions,
     getAllCustomers,
     getCustomerDetail,
-    _updateUserAddressList
+    _updateUserAddressList,
+    getUserAddressBooks,
+    getUserAddressById,
+    createUserAddress,
+    updateUserAddress,
+    deleteUserAddress
 };
 
 function getAllUsers(data) {
