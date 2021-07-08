@@ -26,25 +26,25 @@ const getUserById = (userId) => {
 
 const getUserAddressBooks = (data) => {
   if (data && data.all) {
-    return axios.get(SERVICE_DOMAIN + `/api/cms/account/address`);
+    return axios.get(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address`);
   }
-  return axios.get(SERVICE_DOMAIN + `/api/cms/account/address?page=${data.page}&size=${data.size}`);
+  return axios.get(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address?page=${data.page}&size=${data.size}`);
 };
 
-const getUserAddressBookById = (addressId) => {
-  return axios.get(SERVICE_DOMAIN + `/api/cms/account//address/get/`);
+const getUserAddressBookById = (data) => {
+  return axios.get(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address/get/${data.addressId}`);
 };
 
 const createUserAddressBook = (data) => {
-  return axios.post(SERVICE_DOMAIN + `/api/cms/account//address/create`, data);
+  return axios.post(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address/create`, data);
 };
 
 const updateUserAddressBook = (data) => {
-  return axios.put(SERVICE_DOMAIN + `/api/cms/account//address/create`, data);
+  return axios.put(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address/create`, data);
 };
 
-const deleteUserAddressBook = (addressId) => {
-  return axios.delete(SERVICE_DOMAIN + `/api/cms/account//address/delete`);
+const deleteUserAddressBook = (data) => {
+  return axios.delete(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address/delete/${data.addressId}`);
 };
 
 const getAllUserRoles = (data) => {

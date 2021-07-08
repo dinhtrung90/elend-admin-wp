@@ -1,6 +1,7 @@
 import * as t from './actionTypes';
 import customersData from './components/UsersData';
 import { userService } from "../../services/user.service";
+import {USERS_GET_ADDRESS_BOOK_BY_ID_FAILURE} from "./actionTypes";
 
 export const userActions = {
     getAllUsers,
@@ -267,9 +268,9 @@ function getUserAddressById(addressId) {
         });
     };
 
-    function request() { return { type: t.USERS_GET_ADDRESS_BY_ID_REQUEST } }
-    function success(response) { return { type: t.USERS_GET_ADDRESS_BY_ID_SUCCESS, response } }
-    function failure(error) { return { type: t.USERS_GET_ADDRESS_BY_ID_FAILURE, error } }
+    function request() { return { type: t.USERS_GET_ADDRESS_BOOK_BY_ID_REQUEST } }
+    function success(response) { return { type: t.USERS_GET_ADDRESS_BOOK_BY_ID_SUCCESS, response } }
+    function failure(error) { return { type: t.USERS_GET_ADDRESS_BOOK_BY_ID_FAILURE, error } }
 }
 
 function createUserAddress(data) {
@@ -282,9 +283,9 @@ function createUserAddress(data) {
         });
     };
 
-    function request() { return { type: t.CREATE_USER_ADDRESS_REQUEST } }
-    function success(userAddressDetail) { return { type: t.CREATE_USER_ADDRESS_SUCCESS, userAddressDetail } }
-    function failure(error) { return { type: t.CREATE_USER_ADDRESS_FAILURE, error } }
+    function request() { return { type: t.CREATE_USER_ADDRESS_BOOK_REQUEST } }
+    function success(userAddressDetail) { return { type: t.CREATE_USER_ADDRESS_BOOK_SUCCESS, userAddressDetail } }
+    function failure(error) { return { type: t.CREATE_USER_ADDRESS_BOOK_FAILURE, error } }
 }
 
 function updateUserAddress(data) {
@@ -312,8 +313,8 @@ function deleteUserAddress(addressId) {
         });
     };
 
-    function request() { return { type: t.DELETE_USER_ADDRESS_REQUEST } }
-    function success() { return { type: t.DELETE_USER_ADDRESS_SUCCESS } }
-    function failure(error) { return { type: t.DELETE_USER_ADDRESS_FAILURE, error } }
+    function request() { return { type: t.DELETE_USER_ADDRESS_BOOK_REQUEST } }
+    function success() { return { type: t.DELETE_USER_ADDRESS_BOOK_SUCCESS } }
+    function failure(error) { return { type: t.DELETE_USER_ADDRESS_BOOK_FAILURE, error } }
 }
 

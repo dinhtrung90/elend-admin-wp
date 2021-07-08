@@ -1,5 +1,6 @@
 import * as t from './actionTypes';
 import {colorHelpers} from '../../utils/color-helper';
+import {USERS_GET_ADDRESS_BOOK_BY_ID_FAILURE, USERS_GET_ADDRESS_BOOKS_BY_ID_FAILURE} from "./actionTypes";
 
 const initialState = {
     customers: [],
@@ -288,62 +289,62 @@ export default (state = initialState, action) => {
             return Object.assign({}, state, {
                 errorFetch: action.error
             });
-        case t.USERS_GET_ADDRESS_BY_ID_REQUEST:
+        case t.USERS_GET_ADDRESS_BOOK_BY_ID_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true,
                 isFetched: false
             });
-        case t.USERS_GET_ADDRESS_BY_ID_SUCCESS:
+        case t.USERS_GET_ADDRESS_BOOK_BY_ID_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true,
                 userAddressDetail: action.userAddressDetail
             })
-        case t.USERS_GET_ADDRESS_BY_ID_FAILURE:
+        case t.USERS_GET_ADDRESS_BOOK_BY_ID_FAILURE:
             return Object.assign({}, state, {
                 errorFetch: action.error
             });
-        case t.CREATE_USER_ADDRESS_REQUEST:
+        case t.CREATE_USER_ADDRESS_BOOK_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true,
                 isFetched: false
             });
-        case t.CREATE_USER_ADDRESS_SUCCESS:
+        case t.CREATE_USER_ADDRESS_BOOK_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true,
                 userAddressDetail: action.userAddressDetail
             })
-        case t.CREATE_USER_ADDRESS_FAILURE:
+        case t.CREATE_USER_ADDRESS_BOOK_FAILURE:
             return Object.assign({}, state, {
                 errorFetch: action.error
             });
-        case t.UPDATE_USER_ADDRESS_REQUEST:
+        case t.UPDATE_USER_ADDRESS_BOOK_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true,
                 isFetched: false
             });
-        case t.UPDATE_USER_ADDRESS_SUCCESS:
+        case t.UPDATE_USER_ADDRESS_BOOK_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true,
                 userAddressDetail: action.userAddressDetail
             })
-        case t.UPDATE_USER_ADDRESS_FAILURE:
+        case t.UPDATE_USER_ADDRESS_BOOK_FAILURE:
             return Object.assign({}, state, {
                 errorFetch: action.error
             });
-        case t.DELETE_USER_ADDRESS_REQUEST:
+        case t.DELETE_USER_ADDRESS_BOOK_REQUEST:
             return Object.assign({}, state, {
                 isFetching: true,
                 isFetched: false
             });
-        case t.DELETE_USER_ADDRESS_SUCCESS:
+        case t.DELETE_USER_ADDRESS_BOOK_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
                 isFetched: true
             })
-        case t.DELETE_USER_ADDRESS_FAILURE:
+        case t.DELETE_USER_ADDRESS_BOOK_FAILURE:
             return Object.assign({}, state, {
                 errorFetch: action.error
             });
