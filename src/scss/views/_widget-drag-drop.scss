@@ -1,5 +1,6 @@
 .role-container-drag {
   position: relative;
+
   .drag-role-list {
     height: 96px;
     overflow: auto;
@@ -7,15 +8,17 @@
     border: 1px solid #d8dbe0;
     border-radius: 1px;
     box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 
     .draggable {
       &:hover {
         background-color: rgba(99, 93, 255, 0.25);
       }
+
       &:focus {
         background-color: rgba(99, 93, 255, 0.25);
       }
+
       &.selected {
         background-color: rgba(99, 93, 255, 0.25);
       }

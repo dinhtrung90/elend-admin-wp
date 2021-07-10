@@ -13,6 +13,43 @@ const _nav = [
       color: 'info',
       text: 'NEW',
     },
+    translatename: 'theSidebar.Dashboard',
+  },
+  {
+    _component: 'CNavItem',
+    as: NavLink,
+    anchor: 'Organizations',
+    translatename: 'theSidebar.Organizations',
+    to: '/organizations',
+    icon: <CIcon name="cil-people" customClassName="nav-icon" />,
+  },
+  {
+    _component: 'CNavGroup',
+    anchor: 'Users',
+    icon: <CIcon name="cil-user" customClassName="nav-icon" />,
+    items: [
+      {
+        _component: 'CNavItem',
+        as: NavLink,
+        anchor: 'Employee',
+        translatename: 'theSidebar.Employee',
+        to: '/users',
+      },
+      {
+        _component: 'CNavItem',
+        as: NavLink,
+        anchor: 'Customer',
+        translatename: 'theSidebar.Customer',
+        to: '/customers',
+      },
+      {
+        _component: 'CNavItem',
+        as: NavLink,
+        anchor: 'User Role',
+        translatename: 'theSidebar.UserRole',
+        to: '/users/role',
+      },
+    ],
   },
   {
     _component: 'CNavTitle',

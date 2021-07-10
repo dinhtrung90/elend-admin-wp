@@ -70,6 +70,12 @@
     border-bottom: 0;
   }
 
+  .dropdown-toggle::after {
+    display: inline-block;
+    content: "";
+    border-width: 0;
+  }
+
   .dropdown-toggle {
     width: 35px;
     height: 35px;
@@ -77,7 +83,7 @@
     justify-content: center;
     align-items: center;
     background: transparent;
-    padding-right: 15px;
+    padding-right: 8px;
   }
 }
 
@@ -111,7 +117,7 @@
   padding-left: 5px;
   padding-top: 2px;
 
-  .input-color-picker{
+  .input-color-picker {
     color: transparent;
     width: 25px;
     border: none;
@@ -121,6 +127,7 @@
     background-color: transparent;
     -webkit-tap-highlight-color: transparent;
   }
+
   .input-color-text {
     color: currentColor;
     width: 100%;

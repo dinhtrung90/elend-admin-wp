@@ -1,17 +1,17 @@
-import { authConstants } from '../constants';
+import { authConstants } from '../constants'
 
 const initialState = {
   isFetched: false,
   isFetching: false,
 }
 
-export default (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case authConstants.RESEND_VERIFY_EMAIL_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         isFetched: false,
-      });
+      })
     case authConstants.RESEND_VERIFY_EMAIL_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
@@ -19,13 +19,13 @@ export default (state = initialState, action) => {
       })
     case authConstants.RESEND_VERIFY_EMAIL_FAILURE:
       return Object.assign({}, state, {
-        errorFetch: action.error
-      });
+        errorFetch: action.error,
+      })
     case authConstants.RESET_PASSWORD_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
         isFetched: false,
-      });
+      })
     case authConstants.RESET_PASSWORD_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
@@ -33,9 +33,11 @@ export default (state = initialState, action) => {
       })
     case authConstants.RESET_PASSWORD_FAILURE:
       return Object.assign({}, state, {
-        errorFetch: action.error
-      });
+        errorFetch: action.error,
+      })
     default:
       return state
   }
 }
+
+export default authReducer

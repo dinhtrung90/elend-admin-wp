@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-
+import { useTranslation } from 'react-i18next'
 import {
   CSidebar,
   CSidebarBrand,
@@ -18,9 +18,24 @@ import 'simplebar/dist/simplebar.min.css'
 import navigation from '../_nav'
 
 const AppSidebar = () => {
+  const { t } = useTranslation()
+
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+
+  navigation.forEach((item) => {
+    if (item.translatename) {
+      item.anchor = t(item.translatename)
+    }
+    if (item.items && item.items.length > 0) {
+      item.items.forEach((childItem) => {
+        if (childItem.translatename) {
+          childItem.anchor = t(childItem.translatename)
+        }
+      })
+    }
+  })
 
   return (
     <CSidebar

@@ -1,62 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import React, { useState, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import {
   CBadge,
   CCard,
   CCardBody,
   CCardHeader,
   CCol,
-  CDataTable,
   CRow,
   CPagination,
   CButton,
-} from '@coreui/react';
-import { FaRegBuilding, FaPlus } from "react-icons/fa";
+} from '@coreui/react'
+import { FaRegBuilding, FaPlus } from 'react-icons/fa'
+import CDataTable from '../components/widgets/table/CDataTable'
+import employersData from './employersData'
 
-import employersData from './employersData';
-
-import CIcon from '@coreui/icons-react';
+import CIcon from '@coreui/icons-react'
 
 const getBadge = (status) => {
   switch (status) {
     case 'Active':
-      return 'success';
+      return 'success'
     case 'Inactive':
-      return 'secondary';
+      return 'secondary'
     case 'Pending':
-      return 'warning';
+      return 'warning'
     case 'Banned':
-      return 'danger';
+      return 'danger'
     default:
-      return 'primary';
+      return 'primary'
   }
-};
+}
 
 const Employers = () => {
-  const { t } = useTranslation();
-  const history = useHistory();
+  const { t } = useTranslation()
+  const history = useHistory()
   const organizeText = {
-    description: 'Represent the teams, business customers, and partner companies that access your applications as organizations',
-    createOrganizationButton: 'Create Organization'
+    description:
+      'Represent the teams, business customers, and partner companies that access your applications as organizations',
+    createOrganizationButton: 'Create Organization',
   }
 
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
-  const [page, setPage] = useState(currentPage);
+  const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
+  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
+  const [page, setPage] = useState(currentPage)
 
   const pageChange = (newPage) => {
-    currentPage !== newPage &&
-      history.push(`/employers?page=${newPage}`);
-  };
+    currentPage !== newPage && history.push(`/employers?page=${newPage}`)
+  }
 
   useEffect(() => {
-    currentPage !== page && setPage(currentPage);
-  }, [currentPage, page]);
+    currentPage !== page && setPage(currentPage)
+  }, [currentPage, page])
 
   const navigationToEmployerCreation = () => {
-    history.push(`/employers/create`);
-  };
+    history.push(`/employers/create`)
+  }
 
   return (
     <CRow>
@@ -71,9 +70,7 @@ const Employers = () => {
                 <p className="text-muted">{organizeText.description}</p>
               </CCol>
               <CCol sm="4" className="d-none d-md-block">
-                <CButton
-                  color="primary"
-                  className="float-right">
+                <CButton color="primary" className="float-end">
                   <FaPlus /> {organizeText.createOrganizationButton}
                 </CButton>
               </CCol>
@@ -88,18 +85,16 @@ const Employers = () => {
                 'address',
                 'lastModifiedDate',
                 'createdDate',
-                'status'
+                'status',
               ]}
               hover
               striped
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={(item) =>
-                history.push(`/employers/${item.id}`)
-              }
+              onRowClick={(item) => history.push(`/employers/${item.id}`)}
               scopedSlots={{
-                status: (item) => (
+                '': (item) => (
                   <td>
                     <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
                   </td>
@@ -117,7 +112,7 @@ const Employers = () => {
         </CCard>
       </CCol>
     </CRow>
-  );
-};
+  )
+}
 
-export default Employers;
+export default Employers

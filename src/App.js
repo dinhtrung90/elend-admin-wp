@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { HashRouter } from 'react-router-dom';
+import React, { Component } from 'react'
+import { HashRouter } from 'react-router-dom'
 
-import './scss/style.scss';
-import AppWithRouterAccess from './AppWithRouterAccess';
+import './scss/style.scss'
+import AppWithRouterAccess from './AppWithRouterAccess'
 
-// // Containers
-// const TheLayout = React.lazy(() => import('./containers/TheLayout'));
+// Containers
+// const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
 // // Pages
 // const Login = React.lazy(() => import('./views/pages/login/Login'));
@@ -16,12 +16,11 @@ import AppWithRouterAccess from './AppWithRouterAccess';
 class App extends Component {
   render() {
     return (
-      
       <HashRouter>
-          <AppWithRouterAccess />
+        <AppWithRouterAccess />
       </HashRouter>
-    );
+    )
   }
 }
 
-export default App;
+export default App

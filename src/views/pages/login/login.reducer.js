@@ -1,9 +1,9 @@
-import * as t from './login.types';
+import * as t from './login.types'
 
 const initialState = {
   isFetched: false,
   isFetching: false,
-  isRedirect: false
+  isRedirect: false,
 }
 
 export default (state = initialState, action) => {
@@ -11,18 +11,18 @@ export default (state = initialState, action) => {
     case t.LOGIN_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
-        isRedirect: false
-      });
+        isRedirect: false,
+      })
     case t.LOGIN_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         isFetched: true,
-        isRedirect: true
+        isRedirect: true,
       })
     case t.LOGIN_FAILURE:
       return Object.assign({}, state, {
-        errorFetch: action.error
-      });
+        errorFetch: action.error,
+      })
     default:
       return state
   }

@@ -1,35 +1,35 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { APP_TOKEN } from 'src/constants/constants';
-import { useKeycloak } from '@react-keycloak/web';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Route, Redirect } from 'react-router-dom'
+import { APP_TOKEN } from 'src/constants/constants'
+import { useKeycloak } from '@react-keycloak/web'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { keycloak, initialized } = useKeycloak();
+  const { keycloak, initialized } = useKeycloak()
   if (initialized && keycloak.token) {
-    localStorage.setItem(APP_TOKEN, keycloak.token);
+    localStorage.setItem(APP_TOKEN, keycloak.token)
   } else {
-    localStorage.setItem(APP_TOKEN, null);
+    localStorage.setItem(APP_TOKEN, null)
   }
 
   const renderRedirect = (props) => {
     if (initialized && keycloak.authenticated) {
-
-      return <Component {...props} />;
+      return <Component {...props} />
     }
     return (
-        <Redirect
-            to={{
-              pathname: '/login',
-            }}
-        />
-    );
-  };
+      <Redirect
+        to={{
+          pathname: '/login',
+        }}
+      />
+    )
+  }
 
-  if (!Component)
-    throw new Error(
-        `A component needs to be specified for private route for path}`
-    );
+  if (!Component) throw new Error(`A component needs to be specified for private route for path}`)
 
-  return <Route {...rest} render={renderRedirect}/>
-};
-export default PrivateRoute;
+  return <Route {...rest} render={renderRedirect} />
+}
+PrivateRoute.propTypes = {
+  component: PropTypes.object,
+}
+export default PrivateRoute

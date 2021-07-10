@@ -15,7 +15,7 @@ import CIcon from '@coreui/icons-react'
 
 import { AppBreadcrumb } from './index'
 
-import { AppHeaderDropdown } from './header/index'
+import { AppHeaderDropdown, TheHeaderDropdownLanguage } from './header/index'
 
 const AppHeader = () => {
   const dispatch = useDispatch()
@@ -45,6 +45,9 @@ const AppHeader = () => {
           <CNavItem>
             <CNavLink href="#">Settings</CNavLink>
           </CNavItem>
+        </CHeaderNav>
+        <CHeaderNav className="px-3">
+          <TheHeaderDropdownLanguage />
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>
