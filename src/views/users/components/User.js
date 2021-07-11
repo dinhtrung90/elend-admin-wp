@@ -43,6 +43,7 @@ const User = ({ match }) => {
   const [activeKey, setActiveKey] = useState(1)
   const isFetching = useSelector((state) => state.users.isFetching)
   const userDetail = useSelector((state) => state.users.userDetail)
+  const userAddressList = useSelector((state) => state.users.userAddressList)
   const userRoles = useSelector((state) => state.users.userRoles)
   const [isRevealPwd, setIsRevealPwd] = useState(false)
   const [isRevealPwdConfirm, setIsRevealPwdConfirm] = useState(false)
@@ -157,7 +158,7 @@ const User = ({ match }) => {
         label: 'Pending',
         color: colorHelpers.getColorByStatus('Pending', true),
       },
-      userAddressList: userDetail.userAddressList || [],
+      userAddressList: userAddressList || [],
       addressLine1: '',
       addressLine2: '',
       city: '',
@@ -178,8 +179,6 @@ const User = ({ match }) => {
     formik.setFieldValue('zipCode', '')
     setCollapseAddressBook(true)
     setCurrentAddressIndex(-1)
-    console.log('CollapseAddressBook=', collapseAddressBook)
-    console.log('setCurrentAddressIndex=', currentAddressIndex)
   }
 
   const closeAddressBook = (e) => {
@@ -187,29 +186,27 @@ const User = ({ match }) => {
   }
 
   const saveAddress = (e) => {
+    const addressItem = {
+      userId: match.params.id,
+      addressLine1: formik.values.addressLine1,
+      addressLine2: formik.values.addressLine2,
+      city: cityValue,
+      country: countryValue,
+      zipCode: formik.values.zipCode,
+    }
     if (currentAddressIndex === -1) {
-      formik.values.userAddressList.push({
-        addressLine1: formik.values.addressLine1,
-        addressLine2: formik.values.addressLine2,
-        city: cityValue,
-        country: countryValue,
-        zipCode: formik.values.zipCode,
-      })
+      formik.values.userAddressList.push(addressItem)
     } else {
-      formik.values.userAddressList[currentAddressIndex] = {
-        addressLine1: formik.values.addressLine1,
-        addressLine2: formik.values.addressLine2,
-        city: cityValue,
-        country: countryValue,
-        zipCode: formik.values.zipCode,
-      }
+      formik.values.userAddressList[currentAddressIndex] = addressItem
     }
     dispatch(userActions._updateUserAddressList(formik.values.userAddressList))
+    dispatch(userActions.createUserAddress(addressItem))
     setCollapseAddressBook(false)
     setCurrentAddressIndex(-1)
   }
 
   const editAddress = (item, index) => {
+    item.userId = match.params.id
     setCurrentAddressIndex(index)
     formik.setFieldValue('addressLine1', item.addressLine1)
     formik.setFieldValue('addressLine2', item.addressLine2)
@@ -217,6 +214,7 @@ const User = ({ match }) => {
     formik.setFieldValue('country', item.country)
     formik.setFieldValue('zipCode', item.zipCode)
     setCollapseAddressBook(true)
+    dispatch(userActions.updateUserAddress(item))
   }
 
   const dotStatus = (color = '#ccc') => ({
@@ -312,6 +310,13 @@ const User = ({ match }) => {
       await dispatch(userActions.getAllUserRoles({ all: true }))
       if (match.params.id) {
         await dispatch(userActions.getUserDetail(match.params.id)).then(() => onUserDetailSuccess)
+        await dispatch(
+          userActions.getUserAddressBooks({
+            userId: match.params.id,
+            page: 0,
+            size: 100,
+          }),
+        )
       }
     }
     loadData()

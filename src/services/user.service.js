@@ -42,7 +42,7 @@ const createUserAddressBook = (data) => {
 }
 
 const updateUserAddressBook = (data) => {
-  return axios.put(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address/create`, data)
+  return axios.put(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address/update`, data)
 }
 
 const deleteUserAddressBook = (data) => {
