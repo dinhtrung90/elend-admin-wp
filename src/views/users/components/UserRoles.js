@@ -147,7 +147,7 @@ const UserRoles = () => {
               align="center"
             />
 
-            <CModal show={danger} onClose={() => setDanger(!danger)} color="danger">
+            <CModal visible={danger} onClose={() => setDanger(!danger)} color="danger">
               <CModalHeader closeButton>
                 <CModalTitle>{t('common.ConfirmDelete')}</CModalTitle>
               </CModalHeader>

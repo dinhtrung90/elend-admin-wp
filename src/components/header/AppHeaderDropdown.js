@@ -10,8 +10,20 @@ import {
   CDropdownToggle,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { APP_TOKEN } from 'src/constants/constants'
+import { useKeycloak } from '@react-keycloak/web'
+import { useHistory } from 'react-router-dom'
 
 const AppHeaderDropdown = () => {
+  const history = useHistory()
+  const { keycloak } = useKeycloak()
+
+  const handleLogout = async () => {
+    localStorage.removeItem(APP_TOKEN)
+    await keycloak.logout()
+    history.push('/login')
+  }
+
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
@@ -71,7 +83,7 @@ const AppHeaderDropdown = () => {
           </CBadge>
         </CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem onClick={handleLogout}>
           <CIcon name="cil-lock-locked" className="me-2" />
           Lock Account
         </CDropdownItem>

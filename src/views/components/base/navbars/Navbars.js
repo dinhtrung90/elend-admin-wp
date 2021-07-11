@@ -37,7 +37,7 @@ const CNavbars = () => {
           <CNavbar expandable="sm" color="info">
             <CNavbarToggler onClick={() => setVisible(!visible)} />
             <CNavbarBrand>NavbarBrand</CNavbarBrand>
-            <CCollapse show={visible} navbar>
+            <CCollapse visible={visible} navbar>
               <CNavbarNav>
                 <CNavLink>Home</CNavLink>
                 <CNavLink>Link</CNavLink>
@@ -98,7 +98,7 @@ const CNavbars = () => {
               }}
             />
             <CNavbarBrand>NavbarBrand</CNavbarBrand>
-            <CCollapse show={navbarText}>
+            <CCollapse visible={navbarText}>
               <CNavbarNav>
                 <CNavbarText>Navbar text</CNavbarText>
               </CNavbarNav>
@@ -117,7 +117,7 @@ const CNavbars = () => {
                 setIsOpenDropdown(!isOpenDropdown)
               }}
             />
-            <CCollapse show={isOpenDropdown} navbar>
+            <CCollapse visible={isOpenDropdown} navbar>
               <CNavbarNav>
                 <CNavLink>Home</CNavLink>
                 <CNavLink>Link</CNavLink>

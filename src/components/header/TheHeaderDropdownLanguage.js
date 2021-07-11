@@ -16,9 +16,6 @@ const TheHeaderDropdownLanguage = () => {
   const getCurrentLanguage = () => {
     return languages[i18n.language]
   }
-
-  console.log('i18n=', i18n)
-
   return (
     <CDropdown inNav className="c-header-nav-item mx-2" size="sm">
       <CDropdownToggle className="c-header-nav-link" caret>

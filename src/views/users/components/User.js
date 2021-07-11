@@ -21,6 +21,7 @@ import {
   CNavLink,
   CTabContent,
   CTabPane,
+  CFormCheck,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { userActions } from '../actions'
@@ -168,7 +169,8 @@ const User = ({ match }) => {
     onSubmit: (values) => handleToSubmitAccount(values),
   })
 
-  const toggleAddressBook = (e) => {
+  const handleToggleAddressBook = (e) => {
+    e.preventDefault()
     formik.setFieldValue('addressLine1', '')
     formik.setFieldValue('addressLine2', '')
     formik.setFieldValue('city', '')
@@ -176,7 +178,8 @@ const User = ({ match }) => {
     formik.setFieldValue('zipCode', '')
     setCollapseAddressBook(true)
     setCurrentAddressIndex(-1)
-    e.preventDefault()
+    console.log('CollapseAddressBook=', collapseAddressBook)
+    console.log('setCurrentAddressIndex=', currentAddressIndex)
   }
 
   const closeAddressBook = (e) => {
@@ -358,19 +361,17 @@ const User = ({ match }) => {
               </CNav>
               <CTabContent>
                 <CTabPane data-tab="profile" visible={activeKey === 1}>
-                  <CRow>
-                    <CCol sm={12} className="mt-4">
+                  <CRow className="p-4">
+                    <CCol sm={12}>
                       <CRow>
                         <CCol sm={3} className="mb-4">
                           <CFormLabel htmlFor="FirstName" className="col-form-label">
                             {t('view.User.FirstName')} <span className="form-required"> *</span>
                           </CFormLabel>
                           <CInputGroup>
-                            <CInputGroup>
-                              <CInputGroupText>
-                                <CIcon name="cil-user" />
-                              </CInputGroupText>
-                            </CInputGroup>
+                            <CInputGroupText>
+                              <CIcon name="cil-user" />
+                            </CInputGroupText>
                             <CFormControl
                               id="FirstName"
                               name="FirstName"
@@ -381,6 +382,7 @@ const User = ({ match }) => {
                             />
                           </CInputGroup>
                           <CFormFeedback
+                            invalid
                             style={{
                               display:
                                 formik.errors.firstName && formik.touched.firstName
@@ -396,11 +398,9 @@ const User = ({ match }) => {
                             {t('view.User.LastName')} <span className="form-required"> *</span>
                           </CFormLabel>
                           <CInputGroup>
-                            <CInputGroup>
-                              <CInputGroupText>
-                                <CIcon name="cil-user" />
-                              </CInputGroupText>
-                            </CInputGroup>
+                            <CInputGroupText>
+                              <CIcon name="cil-user" />
+                            </CInputGroupText>
                             <CFormControl
                               id="LastName"
                               name="LastName"
@@ -411,6 +411,7 @@ const User = ({ match }) => {
                             />
                           </CInputGroup>
                           <CFormFeedback
+                            invalid
                             style={{
                               display:
                                 formik.errors.lastName && formik.touched.lastName
@@ -428,11 +429,9 @@ const User = ({ match }) => {
                             {t('view.User.EmailAddress')} <span className="form-required"> *</span>
                           </CFormLabel>
                           <CInputGroup>
-                            <CInputGroup>
-                              <CInputGroupText>
-                                <CIcon name="cil-envelope-closed" />
-                              </CInputGroupText>
-                            </CInputGroup>
+                            <CInputGroupText>
+                              <CIcon name="cil-envelope-closed" />
+                            </CInputGroupText>
                             <CFormControl
                               id="EmailAddress"
                               name="EmailAddress"
@@ -443,6 +442,7 @@ const User = ({ match }) => {
                             />
                           </CInputGroup>
                           <CFormFeedback
+                            invalid
                             style={{
                               display:
                                 formik.errors.email && formik.touched.email ? 'block' : 'none',
@@ -458,11 +458,9 @@ const User = ({ match }) => {
                             {t('view.User.Gender')} <span className="form-required"> *</span>
                           </CFormLabel>
                           <CInputGroup>
-                            <CInputGroup>
-                              <CInputGroupText>
-                                <CIcon name="cil-people" />
-                              </CInputGroupText>
-                            </CInputGroup>
+                            <CInputGroupText>
+                              <CIcon name="cil-people" />
+                            </CInputGroupText>
                             <CFormSelect
                               custom
                               name="Gender"
@@ -483,6 +481,7 @@ const User = ({ match }) => {
                             </CFormSelect>
                           </CInputGroup>
                           <CFormFeedback
+                            invalid
                             style={{
                               display:
                                 formik.errors.gender && formik.touched.gender ? 'block' : 'none',
@@ -496,11 +495,9 @@ const User = ({ match }) => {
                             {t('view.User.DateOfBirth')}
                           </CFormLabel>
                           <CInputGroup>
-                            <CInputGroup>
-                              <CInputGroupText>
-                                <CIcon name="cil-calendar" />
-                              </CInputGroupText>
-                            </CInputGroup>
+                            <CInputGroupText>
+                              <CIcon name="cil-calendar" />
+                            </CInputGroupText>
                             <CFormControl
                               type="date"
                               id="DateOfBirth"
@@ -517,11 +514,9 @@ const User = ({ match }) => {
                             {t('view.User.MobileNumber')}
                           </CFormLabel>
                           <CInputGroup>
-                            <CInputGroup>
-                              <CInputGroupText>
-                                <CIcon name="cil-phone" />
-                              </CInputGroupText>
-                            </CInputGroup>
+                            <CInputGroupText>
+                              <CIcon name="cil-phone" />
+                            </CInputGroupText>
                             <CFormControl
                               type="number"
                               id="MobileNumber"
@@ -540,11 +535,9 @@ const User = ({ match }) => {
                             {t('view.User.Status')} <span className="form-required"> *</span>
                           </CFormLabel>
                           <CInputGroup>
-                            <CInputGroup>
-                              <CInputGroupText>
-                                <CIcon name="cil-check" />
-                              </CInputGroupText>
-                            </CInputGroup>
+                            <CInputGroupText>
+                              <CIcon name="cil-check" />
+                            </CInputGroupText>
                             <Select
                               value={formik.values.userStatus}
                               placeholder={<div>{t('messages.messagePleaseSelect')}</div>}
@@ -571,11 +564,9 @@ const User = ({ match }) => {
                                 {t('view.User.Password')}
                               </CFormLabel>
                               <CInputGroup>
-                                <CInputGroup>
-                                  <CInputGroupText>
-                                    <FaLock />
-                                  </CInputGroupText>
-                                </CInputGroup>
+                                <CInputGroupText>
+                                  <FaLock />
+                                </CInputGroupText>
                                 <CFormControl
                                   id="password"
                                   invalid={formik.errors.password && formik.touched.password}
@@ -585,15 +576,14 @@ const User = ({ match }) => {
                                   placeholder={t('view.User.Password')}
                                   {...formik.getFieldProps('password')}
                                 />
-                                <CInputGroup>
-                                  <CInputGroupText
-                                    onClick={() => setIsRevealPwd((isRevealPwd) => !isRevealPwd)}
-                                  >
-                                    {isRevealPwd ? <FaRegEyeSlash /> : <FaRegEye />}
-                                  </CInputGroupText>
-                                </CInputGroup>
+                                <CInputGroupText
+                                  onClick={() => setIsRevealPwd((isRevealPwd) => !isRevealPwd)}
+                                >
+                                  {isRevealPwd ? <FaRegEyeSlash /> : <FaRegEye />}
+                                </CInputGroupText>
                               </CInputGroup>
                               <CFormFeedback
+                                invalid
                                 style={{
                                   display:
                                     formik.errors.password && formik.touched.password
@@ -611,11 +601,9 @@ const User = ({ match }) => {
                                 {t('view.User.PasswordConfirmation')}
                               </CFormLabel>
                               <CInputGroup>
-                                <CInputGroup>
-                                  <CInputGroupText>
-                                    <FaLock />
-                                  </CInputGroupText>
-                                </CInputGroup>
+                                <CInputGroupText>
+                                  <FaLock />
+                                </CInputGroupText>
                                 <CFormControl
                                   id="passwordConfirm"
                                   invalid={
@@ -627,19 +615,18 @@ const User = ({ match }) => {
                                   placeholder={t('view.User.PasswordConfirmation')}
                                   {...formik.getFieldProps('passwordConfirm')}
                                 />
-                                <CInputGroup>
-                                  <CInputGroupText
-                                    onClick={() =>
-                                      setIsRevealPwdConfirm(
-                                        (isRevealPwdConfirm) => !isRevealPwdConfirm,
-                                      )
-                                    }
-                                  >
-                                    {isRevealPwdConfirm ? <FaRegEyeSlash /> : <FaRegEye />}
-                                  </CInputGroupText>
-                                </CInputGroup>
+                                <CInputGroupText
+                                  onClick={() =>
+                                    setIsRevealPwdConfirm(
+                                      (isRevealPwdConfirm) => !isRevealPwdConfirm,
+                                    )
+                                  }
+                                >
+                                  {isRevealPwdConfirm ? <FaRegEyeSlash /> : <FaRegEye />}
+                                </CInputGroupText>
                               </CInputGroup>
                               <CFormFeedback
+                                invalid
                                 style={{
                                   display:
                                     formik.errors.passwordConfirm && formik.touched.passwordConfirm
@@ -656,44 +643,47 @@ const User = ({ match }) => {
                               <CCol>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                   <b>Temporary</b>
-                                  {/*<CFormCheck*/}
-                                  {/*  switch*/}
-                                  {/*  className={'mx-1'}*/}
-                                  {/*  variant={'3d'}*/}
-                                  {/*  color={'success'}*/}
-                                  {/*  checked={formik.values.temporary}*/}
-                                  {/*  {...formik.getFieldProps('temporary')}*/}
-                                  {/*/>*/}
+                                  <CFormCheck
+                                    switch
+                                    size="lg"
+                                    className={'mx-1'}
+                                    variant={'3d'}
+                                    color={'success'}
+                                    checked={formik.values.temporary}
+                                    {...formik.getFieldProps('temporary')}
+                                  />
                                 </div>
                               </CCol>
                             </CRow>
                           ) : null}
                         </CCol>
                       </CRow>
-                      <CRow className="flex-center">
-                        <CButton
-                          type="button"
-                          color="primary"
-                          className="text-center"
-                          onClick={handleToFormikSubmit}
-                        >
-                          {t('common.Save')}
-                        </CButton>
+                      <CRow>
+                        <div className="flex-center">
+                          <CButton
+                            type="button"
+                            color="primary"
+                            className="text-center"
+                            onClick={handleToFormikSubmit}
+                          >
+                            {t('common.Save')}
+                          </CButton>
+                        </div>
                       </CRow>
                     </CCol>
                   </CRow>
                 </CTabPane>
                 <CTabPane data-tab="address-book" visible={activeKey === 2}>
-                  <CRow>
-                    <CCol sm={12} className="mt-4">
+                  <CRow className="p-4">
+                    <CCol sm={12}>
                       <div className="mb-4" style={{ display: 'flex', alignItems: 'center' }}>
                         <h4>{t('view.User.AddressBook')}</h4>{' '}
-                        <CButton color="primary" className="ms-4" onClick={toggleAddressBook}>
+                        <CButton color="primary" className="ms-4" onClick={handleToggleAddressBook}>
                           {t('view.User.AddNewAddress')}
                         </CButton>
                       </div>
                       <CRow>
-                        <CCollapse show={collapseAddressBook}>
+                        <CCollapse visible={collapseAddressBook}>
                           <hr />
                           <CRow className="p-3">
                             <CCol sm={6} className="mb-4">
@@ -701,11 +691,9 @@ const User = ({ match }) => {
                                 {t('view.User.AddressLine1')}
                               </CFormLabel>
                               <CInputGroup>
-                                <CInputGroup>
-                                  <CInputGroupText>
-                                    <CIcon name="cil-location-pin" />
-                                  </CInputGroupText>
-                                </CInputGroup>
+                                <CInputGroupText>
+                                  <CIcon name="cil-location-pin" />
+                                </CInputGroupText>
                                 <CFormControl
                                   type="text"
                                   id="AddressLine1"
@@ -721,11 +709,9 @@ const User = ({ match }) => {
                                 {t('view.User.AddressLine2')}
                               </CFormLabel>
                               <CInputGroup>
-                                <CInputGroup>
-                                  <CInputGroupText>
-                                    <CIcon name="cil-location-pin" />
-                                  </CInputGroupText>
-                                </CInputGroup>
+                                <CInputGroupText>
+                                  <CIcon name="cil-location-pin" />
+                                </CInputGroupText>
                                 <CFormControl
                                   id="AddressLine2"
                                   name="AddressLine2"
@@ -740,11 +726,9 @@ const User = ({ match }) => {
                                 {t('view.User.AreaOrCity')}
                               </CFormLabel>
                               <CInputGroup>
-                                <CInputGroup>
-                                  <CInputGroupText>
-                                    <CIcon name="cil-location-pin" />
-                                  </CInputGroupText>
-                                </CInputGroup>
+                                <CInputGroupText>
+                                  <CIcon name="cil-location-pin" />
+                                </CInputGroupText>
                                 <RegionDropdown
                                   className="custom-multi-select-2"
                                   country={countryValue}
@@ -758,11 +742,9 @@ const User = ({ match }) => {
                                 {t('view.User.Country')}
                               </CFormLabel>
                               <CInputGroup>
-                                <CInputGroup>
-                                  <CInputGroupText>
-                                    <CIcon name="cil-map" />
-                                  </CInputGroupText>
-                                </CInputGroup>
+                                <CInputGroupText>
+                                  <CIcon name="cil-map" />
+                                </CInputGroupText>
                                 <CountryDropdown
                                   className="custom-multi-select-2"
                                   value={countryValue}
@@ -775,11 +757,9 @@ const User = ({ match }) => {
                                 {t('view.User.PostalZipCode')}
                               </CFormLabel>
                               <CInputGroup>
-                                <CInputGroup>
-                                  <CInputGroupText>
-                                    <CIcon name="cil-location-pin" />
-                                  </CInputGroupText>
-                                </CInputGroup>
+                                <CInputGroupText>
+                                  <CIcon name="cil-location-pin" />
+                                </CInputGroupText>
                                 <CFormControl
                                   id="PostalZipCode"
                                   name="PostalZipCode"
@@ -790,13 +770,15 @@ const User = ({ match }) => {
                               </CInputGroup>
                             </CCol>
                           </CRow>
-                          <CRow className="p-3 flex-center">
-                            <CButton className="me-4" color="danger" onClick={closeAddressBook}>
-                              {t('common.Close')}
-                            </CButton>
-                            <CButton color="primary" onClick={saveAddress}>
-                              {t('view.User.SaveAddress')}
-                            </CButton>
+                          <CRow className="p-3">
+                            <div className="flex-center">
+                              <CButton className="me-4" color="danger" onClick={closeAddressBook}>
+                                {t('common.Close')}
+                              </CButton>
+                              <CButton color="primary" onClick={saveAddress}>
+                                {t('view.User.SaveAddress')}
+                              </CButton>
+                            </div>
                           </CRow>
                         </CCollapse>
                       </CRow>
@@ -832,8 +814,8 @@ const User = ({ match }) => {
                   </CRow>
                 </CTabPane>
                 <CTabPane data-tab="role-mapping" visible={activeKey === 3}>
-                  <CRow>
-                    <CCol sm={12} className="mt-4">
+                  <CRow className="p-4">
+                    <CCol sm={12}>
                       <h5>{t('view.UserRole.UserRoles')}</h5>
                       <CFormLabel htmlFor="applicationRoles" className="col-form-label">
                         Application Roles
