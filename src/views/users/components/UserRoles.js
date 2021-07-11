@@ -8,7 +8,6 @@ import {
   CCardHeader,
   CCol,
   CRow,
-  CPagination,
   CButton,
   CBadge,
   CModalHeader,
@@ -19,6 +18,7 @@ import {
   CSpinner,
 } from '@coreui/react'
 import CDataTable from '../../components/widgets/table/CDataTable'
+import CPagination from '../../components/widgets/pagination/CPagination'
 import CIcon from '@coreui/icons-react'
 import { userActions } from '../actions'
 import PropTypes from 'prop-types'

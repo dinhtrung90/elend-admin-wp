@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useDispatch, useSelector } from 'react-redux'
-import { CCard, CCardBody, CCardHeader, CCol, CRow, CPagination, CButton } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CCol, CRow, CButton } from '@coreui/react'
 import CDataTable from '../../components/widgets/table/CDataTable'
 import CIcon from '@coreui/icons-react'
 import { userActions } from '../actions'
+import CPagination from '../../components/widgets/pagination/CPagination'
 
 const Customers = () => {
   const { t } = useTranslation()

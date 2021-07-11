@@ -9,7 +9,6 @@ import {
   CCardHeader,
   CCol,
   CRow,
-  CPagination,
   CButton,
   CDropdownToggle,
   CDropdownMenu,
@@ -21,6 +20,7 @@ import { authenticationActions } from '../../../actions'
 import { FaUserPlus, FaEllipsisH, FaRegCheckSquare, FaRegSquare } from 'react-icons/fa'
 import { colorHelpers } from '../../../utils/color-helper'
 import CDataTable from '../../components/widgets/table/CDataTable'
+import CPagination from '../../components/widgets/pagination/CPagination'
 
 const getBadge = (status) => {
   return colorHelpers.getColorByStatus(status, false)

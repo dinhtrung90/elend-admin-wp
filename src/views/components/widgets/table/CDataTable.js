@@ -1,8 +1,8 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react'
-import { CPagination } from '@coreui/react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import CElementCover from '../element-cover/CElementCover'
+import CPagination from '../pagination/CPagination'
 import CIcon from '@coreui/icons-react'
 import { cilArrowTop, cilBan, cilFilterX } from '@coreui/icons'
 import style from './CDataTable.module.css'
@@ -40,6 +40,7 @@ const CDataTable = (props) => {
     cleaner,
     addTableClasses,
     size,
+    widthItemsPerPage,
     dark,
     striped,
     hover,
@@ -434,6 +435,7 @@ const CDataTable = (props) => {
                 <div className="form-inline justify-content-sm-end c-datatable-items-per-page">
                   <label className="mfe-2">{paginationSelect.label}</label>
                   <select
+                    style={{ width: widthItemsPerPage }}
                     className="form-control"
                     onChange={paginationChange}
                     aria-label="changes number of visible items"
@@ -609,6 +611,7 @@ CDataTable.propTypes = {
   cleaner: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   addTableClasses: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
   size: PropTypes.string,
+  widthItemsPerPage: PropTypes.string,
   dark: PropTypes.bool,
   striped: PropTypes.bool,
   hover: PropTypes.bool,
@@ -632,6 +635,7 @@ CDataTable.propTypes = {
 
 CDataTable.defaultProps = {
   itemsPerPage: 10,
+  widthItemsPerPage: '100px',
   responsive: true,
   columnHeaderSlot: {},
   columnFilterSlot: {},
