@@ -17,7 +17,7 @@ const createAccount = (data) => {
 }
 
 const updateAccount = (data) => {
-  return axios.post(SERVICE_DOMAIN + '/api/cms/account/update', data)
+  return axios.put(SERVICE_DOMAIN + '/api/cms/account/update', data)
 }
 
 const getUserById = (userId) => {

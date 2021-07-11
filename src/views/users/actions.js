@@ -1,7 +1,6 @@
 import * as t from './actionTypes'
 import customersData from './components/UsersData'
-import { userService } from '../../services/user.service'
-import { permissionService } from '../../services/permission.service'
+import api from '../../utils/api'
 import { USERS_GET_ADDRESS_BOOK_BY_ID_FAILURE } from './actionTypes'
 
 export const userActions = {
@@ -29,7 +28,7 @@ export const userActions = {
 function getAllUsers(data) {
   return (dispatch) => {
     dispatch(request())
-    return userService
+    return api.userService
       .getAllUsers(data)
       .then((response) => {
         response.size = data.size || 5
@@ -56,7 +55,7 @@ function getAllUsers(data) {
 function createUser(data) {
   return (dispatch) => {
     dispatch(request(data))
-    return userService
+    return api.userService
       .createAccount(data)
       .then((response) => {
         dispatch(success(response.data))
@@ -82,7 +81,7 @@ function createUser(data) {
 function updateUser(data) {
   return (dispatch) => {
     dispatch(request(data))
-    return userService
+    return api.userService
       .updateAccount(data)
       .then((response) => {
         dispatch(success(response.data))
@@ -147,7 +146,7 @@ function getCustomerDetail(customerId) {
 function getUserDetail(userId) {
   return (dispatch) => {
     dispatch(request())
-    return userService
+    return api.userService
       .getUserById(userId)
       .then((response) => {
         dispatch(success(response.data))
@@ -173,7 +172,7 @@ function getUserDetail(userId) {
 function createUserRole(userRole) {
   return (dispatch) => {
     dispatch(request(userRole))
-    return permissionService
+    return api.permissionService
       .createUserRole(userRole)
       .then((response) => {
         dispatch(success(response.data))
@@ -199,7 +198,7 @@ function createUserRole(userRole) {
 function editUserRole(userRole) {
   return (dispatch) => {
     dispatch(request(userRole))
-    return permissionService
+    return api.permissionService
       .editUserRole(userRole)
       .then((response) => {
         dispatch(success(response.data))
@@ -225,7 +224,7 @@ function editUserRole(userRole) {
 function deleteUserRole(roleName) {
   return (dispatch) => {
     dispatch(request(roleName))
-    return permissionService
+    return api.permissionService
       .deleteUserRole(roleName)
       .then((response) => {
         dispatch(success(response.data))
@@ -251,7 +250,7 @@ function deleteUserRole(roleName) {
 function getAllUserRoles(data) {
   return (dispatch) => {
     dispatch(request())
-    return permissionService
+    return api.permissionService
       .getAllUserRoles(data)
       .then((response) => {
         if (response.data && response.data.length > 0) {
@@ -282,7 +281,7 @@ function getAllUserRoles(data) {
 function getUserRoleDetail(roleName) {
   return (dispatch) => {
     dispatch(request())
-    return permissionService
+    return api.permissionService
       .getUserRoleDetail(roleName)
       .then((response) => {
         dispatch(success(response.data))
@@ -337,7 +336,7 @@ function _standardizePermissions(data) {
 function getAllPermissions() {
   return (dispatch) => {
     dispatch(request())
-    return permissionService
+    return api.permissionService
       .getAllPermissions()
       .then((response) => {
         dispatch(success(_standardizePermissions(response.data)))
@@ -382,7 +381,7 @@ function _updateUserAddressList(addressList) {
 function getUserAddressBooks(data) {
   return (dispatch) => {
     dispatch(request())
-    return userService
+    return api.userService
       .getUserAddressBooks(data)
       .then((response) => {
         response.size = data.size || 5
@@ -409,7 +408,7 @@ function getUserAddressBooks(data) {
 function getUserAddressById(addressId) {
   return (dispatch) => {
     dispatch(request())
-    return userService
+    return api.userService
       .getUserAddressBookById(addressId)
       .then((response) => {
         dispatch(success(response.data))
@@ -435,7 +434,7 @@ function getUserAddressById(addressId) {
 function createUserAddress(data) {
   return (dispatch) => {
     dispatch(request(data))
-    return userService
+    return api.userService
       .createUserAddressBook(data)
       .then((response) => {
         dispatch(success(response.data))
@@ -461,7 +460,7 @@ function createUserAddress(data) {
 function updateUserAddress(data) {
   return (dispatch) => {
     dispatch(request(data))
-    return userService
+    return api.userService
       .updateUserAddressBook(data)
       .then((response) => {
         dispatch(success(response.data))
@@ -487,7 +486,7 @@ function updateUserAddress(data) {
 function deleteUserAddress(addressId) {
   return (dispatch) => {
     dispatch(request())
-    return userService
+    return api.userService
       .deleteUserAddressBook(addressId)
       .then((response) => {
         dispatch(success())
@@ -513,7 +512,7 @@ function deleteUserAddress(addressId) {
 function getClientApplications() {
   return (dispatch) => {
     dispatch(request())
-    return permissionService
+    return api.permissionService
       .getClientApplications()
       .then((response) => {
         dispatch(success(response.data))
