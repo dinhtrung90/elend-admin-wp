@@ -1,4 +1,4 @@
-import { employerService } from 'src/services/employer.service'
+import api from '../../utils/api'
 import { employerConstants } from '../../constants/index'
 
 // import { history } from '../../helpers/history';
@@ -9,7 +9,7 @@ const creatEmployer = (employer) => {
     dispatch(showLoading('sectionBar'))
     dispatch(request(employer))
 
-    employerService.createEmployer(employer).then(
+    api.employerService.createEmployer(employer).then(
       (response) => {
         dispatch(success(response.data))
         dispatch(hideLoading('sectionBar'))

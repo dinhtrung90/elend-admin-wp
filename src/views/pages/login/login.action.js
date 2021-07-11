@@ -1,5 +1,5 @@
 import * as t from './login.types'
-import { authService } from '../../../services/auth.service'
+import api from '../../../utils/api'
 import { authHelpers } from '../../../utils/auth-helper'
 
 export const authActions = {
@@ -9,7 +9,7 @@ export const authActions = {
 function login(data) {
   return (dispatch) => {
     dispatch(request(data))
-    return authService
+    return api.authService
       .authCMS(data)
       .then((response) => {
         authHelpers.setAccessToken(response.data && response.data.token ? response.data.token : '')

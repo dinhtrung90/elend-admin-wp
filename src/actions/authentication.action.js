@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 import { APP_TOKEN, APP_REFRESH_TOKEN } from 'src/constants/constants'
-import { authService } from '../services/auth.service'
+import api from '../utils/api'
 import { authConstants } from '../constants'
 
 export const clearAuthToken = () => {
@@ -11,7 +11,7 @@ export const clearAuthToken = () => {
 function resendVerifyEmail(userId, message) {
   return (dispatch) => {
     dispatch(request())
-    return authService
+    return api.authService
       .resendVerifyEmail(userId)
       .then((response) => {
         const email = response.data && response.data.response ? response.data.response.email : ''
@@ -39,7 +39,7 @@ function resendVerifyEmail(userId, message) {
 function resetPassword(userId, message) {
   return (dispatch) => {
     dispatch(request())
-    return authService
+    return api.authService
       .resetPasswordEmail(userId)
       .then((response) => {
         toast.success(message)
