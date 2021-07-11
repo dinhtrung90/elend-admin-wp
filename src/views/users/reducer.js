@@ -27,6 +27,7 @@ const initialState = {
   itemsPerPage: 5,
   totalPages: 0,
   isRedirect: false,
+  clientApps: [],
 }
 
 const convertToUserDetail = (data, userRoles) => {
@@ -353,6 +354,27 @@ const userReducer = (state = initialState, action) => {
         isFetched: true,
       })
     case t.DELETE_USER_ADDRESS_BOOK_FAILURE:
+      return Object.assign({}, state, {
+        errorFetch: action.error,
+      })
+    case t.GET_CLIENT_APPS_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        isFetched: false,
+      })
+    case t.GET_CLIENT_APPS_SUCCESS:
+      if (action.clientApps && action.clientApps.length > 0) {
+        action.clientApps.forEach((app) => {
+          app.label = app.name
+          app.value = app.id
+        })
+      }
+      return Object.assign({}, state, {
+        isFetching: false,
+        isFetched: true,
+        clientApps: action.clientApps,
+      })
+    case t.GET_CLIENT_APPS_FAILURE:
       return Object.assign({}, state, {
         errorFetch: action.error,
       })

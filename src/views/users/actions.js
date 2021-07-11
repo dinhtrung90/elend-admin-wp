@@ -1,6 +1,7 @@
 import * as t from './actionTypes'
 import customersData from './components/UsersData'
 import { userService } from '../../services/user.service'
+import { permissionService } from '../../services/permission.service'
 import { USERS_GET_ADDRESS_BOOK_BY_ID_FAILURE } from './actionTypes'
 
 export const userActions = {
@@ -22,6 +23,7 @@ export const userActions = {
   createUserAddress,
   updateUserAddress,
   deleteUserAddress,
+  getClientApplications,
 }
 
 function getAllUsers(data) {
@@ -171,7 +173,7 @@ function getUserDetail(userId) {
 function createUserRole(userRole) {
   return (dispatch) => {
     dispatch(request(userRole))
-    return userService
+    return permissionService
       .createUserRole(userRole)
       .then((response) => {
         dispatch(success(response.data))
@@ -197,7 +199,7 @@ function createUserRole(userRole) {
 function editUserRole(userRole) {
   return (dispatch) => {
     dispatch(request(userRole))
-    return userService
+    return permissionService
       .editUserRole(userRole)
       .then((response) => {
         dispatch(success(response.data))
@@ -223,7 +225,7 @@ function editUserRole(userRole) {
 function deleteUserRole(roleName) {
   return (dispatch) => {
     dispatch(request(roleName))
-    return userService
+    return permissionService
       .deleteUserRole(roleName)
       .then((response) => {
         dispatch(success(response.data))
@@ -249,7 +251,7 @@ function deleteUserRole(roleName) {
 function getAllUserRoles(data) {
   return (dispatch) => {
     dispatch(request())
-    return userService
+    return permissionService
       .getAllUserRoles(data)
       .then((response) => {
         if (response.data && response.data.length > 0) {
@@ -280,7 +282,7 @@ function getAllUserRoles(data) {
 function getUserRoleDetail(roleName) {
   return (dispatch) => {
     dispatch(request())
-    return userService
+    return permissionService
       .getUserRoleDetail(roleName)
       .then((response) => {
         dispatch(success(response.data))
@@ -335,7 +337,7 @@ function _standardizePermissions(data) {
 function getAllPermissions() {
   return (dispatch) => {
     dispatch(request())
-    return userService
+    return permissionService
       .getAllPermissions()
       .then((response) => {
         dispatch(success(_standardizePermissions(response.data)))
@@ -505,5 +507,31 @@ function deleteUserAddress(addressId) {
 
   function failure(error) {
     return { type: t.DELETE_USER_ADDRESS_BOOK_FAILURE, error }
+  }
+}
+
+function getClientApplications() {
+  return (dispatch) => {
+    dispatch(request())
+    return permissionService
+      .getClientApplications()
+      .then((response) => {
+        dispatch(success(response.data))
+      })
+      .catch((error) => {
+        dispatch(failure(error))
+      })
+  }
+
+  function request() {
+    return { type: t.GET_CLIENT_APPS_REQUEST }
+  }
+
+  function success(clientApps) {
+    return { type: t.GET_CLIENT_APPS_SUCCESS, clientApps }
+  }
+
+  function failure(error) {
+    return { type: t.GET_CLIENT_APPS_FAILURE, error }
   }
 }

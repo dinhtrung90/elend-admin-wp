@@ -45,14 +45,19 @@ const User = ({ match }) => {
   const userDetail = useSelector((state) => state.users.userDetail)
   const userAddressList = useSelector((state) => state.users.userAddressList)
   const userRoles = useSelector((state) => state.users.userRoles)
+  const clientApps = useSelector((state) => state.users.clientApps)
   const [isRevealPwd, setIsRevealPwd] = useState(false)
   const [isRevealPwdConfirm, setIsRevealPwdConfirm] = useState(false)
   const [countryValue, setCountryValue] = useState('Vietnam')
   const [collapseAddressBook, setCollapseAddressBook] = useState(false)
   const [currentAddressIndex, setCurrentAddressIndex] = useState(-1)
-
+  const [toggleAvailableRole, setToggleAvailableRole] = useState(false)
   const [cityValue, setCityValue] = useState('')
-  const isNew = !match.params.id
+  let paramId = match.params.id
+  if (paramId) {
+    paramId = paramId.split('&')[0]
+  }
+  const isNew = !paramId
 
   const genders = ['Male', 'Female', 'Unknown']
   const constGenders = {
@@ -70,6 +75,12 @@ const User = ({ match }) => {
         label: role.name,
       })
     })
+  }
+
+  const tabs = {
+    PROFILE: 1,
+    ADDRESS_BOOK: 2,
+    ROLE_MAPPING: 3,
   }
 
   const statusOptions = [
@@ -113,7 +124,7 @@ const User = ({ match }) => {
       .required(t('messages.validations.confirmPasswordRequired')),
   })
 
-  if (match.params.id) {
+  if (paramId) {
     // generate edit schema
     schema = Yup.object({
       username: Yup.string()
@@ -164,6 +175,7 @@ const User = ({ match }) => {
       city: '',
       country: '',
       zipCode: '',
+      selectedOrganizationRole: '',
     },
     enableReinitialize: true,
     validationSchema: schema,
@@ -187,7 +199,7 @@ const User = ({ match }) => {
 
   const saveAddress = (e) => {
     const addressItem = {
-      userId: match.params.id,
+      userId: paramId,
       addressLine1: formik.values.addressLine1,
       addressLine2: formik.values.addressLine2,
       city: cityValue,
@@ -206,7 +218,7 @@ const User = ({ match }) => {
   }
 
   const editAddress = (item, index) => {
-    item.userId = match.params.id
+    item.userId = paramId
     setCurrentAddressIndex(index)
     formik.setFieldValue('addressLine1', item.addressLine1)
     formik.setFieldValue('addressLine2', item.addressLine2)
@@ -248,6 +260,11 @@ const User = ({ match }) => {
     formik.setFieldValue('userStatus', option)
   }
 
+  const onSelectedOrganizations = (option) => {
+    formik.setFieldValue('selectedOrganizationRole', option)
+    setToggleAvailableRole(!toggleAvailableRole)
+  }
+
   const handleToSubmitAccount = (data) => {
     const payload = {
       id: data.id,
@@ -273,7 +290,7 @@ const User = ({ match }) => {
       payload.isTempPassword = data.temporary
     }
 
-    if (match.params.id) {
+    if (paramId) {
       dispatch(userActions.updateUser(payload))
     } else {
       dispatch(userActions.createUser(payload))
@@ -308,15 +325,16 @@ const User = ({ match }) => {
   useEffect(() => {
     const loadData = async () => {
       await dispatch(userActions.getAllUserRoles({ all: true }))
-      if (match.params.id) {
-        await dispatch(userActions.getUserDetail(match.params.id)).then(() => onUserDetailSuccess)
+      if (paramId) {
+        await dispatch(userActions.getUserDetail(paramId)).then(() => onUserDetailSuccess)
         await dispatch(
           userActions.getUserAddressBooks({
-            userId: match.params.id,
+            userId: paramId,
             page: 0,
             size: 100,
           }),
         )
+        await dispatch(userActions.getClientApplications())
       }
     }
     loadData()
@@ -324,6 +342,10 @@ const User = ({ match }) => {
 
   const handleToFormikSubmit = (e) => {
     formik.handleSubmit(e)
+  }
+
+  const handleTabSelected = (tabIndex) => {
+    setActiveKey(tabIndex)
   }
 
   return isFetching ? (
@@ -339,8 +361,8 @@ const User = ({ match }) => {
                 <CNavItem>
                   <CNavLink
                     data-tab="profile"
-                    active={activeKey === 1}
-                    onClick={() => setActiveKey(1)}
+                    active={activeKey === tabs.PROFILE}
+                    onClick={() => handleTabSelected(tabs.PROFILE)}
                   >
                     {t('common.Profile')}
                   </CNavLink>
@@ -348,8 +370,8 @@ const User = ({ match }) => {
                 <CNavItem>
                   <CNavLink
                     data-tab="address-book"
-                    active={activeKey === 2}
-                    onClick={() => setActiveKey(2)}
+                    active={activeKey === tabs.ADDRESS_BOOK}
+                    onClick={() => handleTabSelected(tabs.ADDRESS_BOOK)}
                   >
                     {t('common.AddressBook')}
                   </CNavLink>
@@ -357,8 +379,8 @@ const User = ({ match }) => {
                 <CNavItem>
                   <CNavLink
                     data-tab="role-mapping"
-                    active={activeKey === 3}
-                    onClick={() => setActiveKey(3)}
+                    active={activeKey === tabs.ROLE_MAPPING}
+                    onClick={() => handleTabSelected(tabs.ROLE_MAPPING)}
                   >
                     {t('common.RoleMapping')}
                   </CNavLink>
@@ -823,15 +845,20 @@ const User = ({ match }) => {
                     <CCol sm={12}>
                       <h5>{t('view.UserRole.UserRoles')}</h5>
                       <CFormLabel htmlFor="applicationRoles" className="col-form-label">
-                        Application Roles
+                        {t('view.User.Organizations')}
                       </CFormLabel>
-                      <CFormSelect custom name="applicationRoles" id="applicationRoles">
-                        <option value="0">{t('messages.messagePleaseSelect')}</option>
-                        <option value="app-1">APP-1</option>
-                        <option value="app-2">APP-2</option>
-                        <option value="app-3">APP-3</option>
-                      </CFormSelect>
-                      {formik.values.userRoles && formik.values.userRoles.length > 0 ? (
+                      <Select
+                        value={formik.values.selectedOrganizationRole}
+                        placeholder={<div>{t('messages.messagePleaseSelect')}</div>}
+                        name="user-org-select"
+                        options={clientApps}
+                        classNamePrefix="select"
+                        components={animatedComponents}
+                        onChange={onSelectedOrganizations}
+                      />
+                      {toggleAvailableRole &&
+                      formik.values.userRoles &&
+                      formik.values.userRoles.length > 0 ? (
                         <WidgetDragDrop
                           dataSource={formik.values.userRoles}
                           onFinish={onDropUserRoles}

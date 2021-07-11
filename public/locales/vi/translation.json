@@ -88,7 +88,8 @@
       "Country": "Quốc gia",
       "PostalZipCode": "Mã bưu điện",
       "AddressBook": "Sổ địa chỉ",
-      "AddNewAddress": "Thêm mới địa chỉ"
+      "AddNewAddress": "Thêm mới địa chỉ",
+      "Organizations": "Organizations"
     },
     "UserRoles": {
       "title": "Phân Quyền",

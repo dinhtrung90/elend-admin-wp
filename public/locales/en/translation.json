@@ -89,7 +89,8 @@
       "PostalZipCode": "Postal/ZIP Code",
       "AddressBook": "Address Book",
       "AddNewAddress": "Add New Address",
-      "SaveAddress": "Save Address"
+      "SaveAddress": "Save Address",
+      "Organizations": "Organizations"
     },
     "UserRoles": {
       "title": "User Roles",
