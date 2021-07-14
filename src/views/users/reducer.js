@@ -1,9 +1,5 @@
 import * as t from './actionTypes'
 import { colorHelpers } from '../../utils/color-helper'
-import {
-  USERS_GET_ADDRESS_BOOK_BY_ID_FAILURE,
-  USERS_GET_ADDRESS_BOOKS_BY_ID_FAILURE,
-} from './actionTypes'
 
 const initialState = {
   customers: [],
@@ -15,8 +11,10 @@ const initialState = {
   },
   userAddressList: [],
   userAddressDetail: null,
+  userApplicationRole: null,
   userRoles: [],
   userRoleDetail: {},
+  userRoleMapping: null,
   permissions: [],
   isFetched: false,
   isFetching: false,
@@ -31,14 +29,18 @@ const initialState = {
 }
 
 const convertToUserDetail = (data, userRoles) => {
+  let allUserRoles = []
   if (!data.userDto) {
     return {}
   }
 
   if (data.userDto.authorities) {
     data.userDto.authorities.forEach((role) => {
+      role.selected = false
       role.value = role.name
       role.label = role.name
+      role.category = 'effectiveRoles'
+      allUserRoles.push(role)
     })
   }
 
@@ -56,16 +58,16 @@ const convertToUserDetail = (data, userRoles) => {
   userRoles.forEach((role) => {
     role.selected = false
     role.category = 'availableRoles'
-    const selectedRoleIndex = data.userDto.authorities.findIndex((r) => r.name === role.name)
-    if (selectedRoleIndex > -1) {
-      role.category = 'effectiveRoles'
+    const selectedRoleIndex = allUserRoles.findIndex((r) => r.name === role.name)
+    if (selectedRoleIndex === -1) {
+      allUserRoles.push(role)
     }
   })
 
   return {
     id: data.userDto.id,
     username: data.userDto.email,
-    userRoles: userRoles,
+    userRoles: allUserRoles,
     email: data.userDto.email,
     firstName: data.userDto.firstName,
     lastName: data.userDto.lastName,
@@ -375,6 +377,37 @@ const userReducer = (state = initialState, action) => {
         clientApps: action.clientApps,
       })
     case t.GET_CLIENT_APPS_FAILURE:
+      return Object.assign({}, state, {
+        errorFetch: action.error,
+      })
+
+    case t.CREATE_USER_ROLE_MAPPING_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        isFetched: false,
+      })
+    case t.CREATE_USER_ROLE_MAPPING_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isFetched: true,
+        userRoleMapping: action.userRoleMapping,
+      })
+    case t.CREATE_USER_ROLE_MAPPING_FAILURE:
+      return Object.assign({}, state, {
+        errorFetch: action.error,
+      })
+    case t.UPDATE_USER_APPLICATION_ROLE_LOCAL_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        isFetched: false,
+      })
+    case t.UPDATE_USER_APPLICATION_ROLE_LOCAL_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isFetched: true,
+        userApplicationRole: action.applicationRole,
+      })
+    case t.UPDATE_USER_APPLICATION_ROLE_LOCAL_FAILURE:
       return Object.assign({}, state, {
         errorFetch: action.error,
       })

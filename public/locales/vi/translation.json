@@ -89,7 +89,7 @@
       "PostalZipCode": "Mã bưu điện",
       "AddressBook": "Sổ địa chỉ",
       "AddNewAddress": "Thêm mới địa chỉ",
-      "Organizations": "Organizations"
+      "ApplicationRoles": "Application Roles"
     },
     "UserRoles": {
       "title": "Phân Quyền",

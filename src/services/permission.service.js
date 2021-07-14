@@ -32,6 +32,10 @@ const deleteUserRole = (roleName) => {
   return axios.delete(SERVICE_DOMAIN + `/api/member-roles/${roleName}`)
 }
 
+const createUserRoleMapping = (data) => {
+  return axios.post(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/role/mapping`, data)
+}
+
 export const permissionService = {
   getClientApplications,
   getAllPermissions,
@@ -40,4 +44,5 @@ export const permissionService = {
   editUserRole,
   deleteUserRole,
   getUserRoleDetail,
+  createUserRoleMapping,
 }

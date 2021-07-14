@@ -53,6 +53,13 @@ const User = ({ match }) => {
   const [currentAddressIndex, setCurrentAddressIndex] = useState(-1)
   const [toggleAvailableRole, setToggleAvailableRole] = useState(false)
   const [cityValue, setCityValue] = useState('')
+  const [userApplicationRole, setUserApplicationRole] = useState(null)
+  const [selectedUserRoles, setSelectedUserRoles] = useState([])
+  const [userRoleMapping, setUserRoleMapping] = useState({
+    assignRoles: [],
+    accessibleApps: [],
+  })
+
   let paramId = match.params.id
   if (paramId) {
     paramId = paramId.split('&')[0]
@@ -175,7 +182,11 @@ const User = ({ match }) => {
       city: '',
       country: '',
       zipCode: '',
-      selectedOrganizationRole: '',
+      applicationRole: null,
+      userRoleMapping: {
+        assignRoles: [],
+        accessibleApps: [],
+      },
     },
     enableReinitialize: true,
     validationSchema: schema,
@@ -260,9 +271,28 @@ const User = ({ match }) => {
     formik.setFieldValue('userStatus', option)
   }
 
-  const onSelectedOrganizations = (option) => {
-    formik.setFieldValue('selectedOrganizationRole', option)
-    setToggleAvailableRole(!toggleAvailableRole)
+  const onValidateRoleMapping = (applicationRole, userRoles) => {
+    // generate assign role
+    userRoleMapping.assignRoles = userRoles
+      .filter((u) => u.category === 'effectiveRoles')
+      .map((u) => u.name)
+
+    const foundIndex = userRoleMapping.accessibleApps.findIndex(
+      (app) => app.id === applicationRole.id,
+    )
+    if (foundIndex === -1) {
+      userRoleMapping.accessibleApps.push(applicationRole)
+      formik.setFieldValue('userRoleMapping', userRoleMapping)
+    }
+    setUserRoleMapping(userRoleMapping)
+  }
+
+  const onSelectedApplicationRole = (option) => {
+    setUserApplicationRole(option)
+    setToggleAvailableRole(true)
+    setSelectedUserRoles(formik.values.userRoles)
+
+    onValidateRoleMapping(option, selectedUserRoles)
   }
 
   const handleToSubmitAccount = (data) => {
@@ -306,7 +336,14 @@ const User = ({ match }) => {
   }
 
   const onDropUserRoles = (roles) => {
-    formik.values.userRoles = roles
+    setSelectedUserRoles(roles)
+    formik.values.userRoleMapping.assignRoles = roles
+    const userRoles = roles.map((r) => {
+      r.category = 'effectiveRoles'
+      return r
+    })
+
+    onValidateRoleMapping(userApplicationRole, userRoles)
   }
 
   const onUserDetailSuccess = () => {
@@ -346,6 +383,19 @@ const User = ({ match }) => {
 
   const handleTabSelected = (tabIndex) => {
     setActiveKey(tabIndex)
+  }
+
+  const handleToSaveRoleMapping = () => {
+    if (
+      !formik.values.userRoleMapping.assignRoles ||
+      formik.values.userRoleMapping.assignRoles.length === 0
+    ) {
+      formik.values.userRoleMapping.assignRoles = formik.values.userRoles
+        .filter((u) => u.category === 'effectiveRoles')
+        .map((u) => u.name)
+    }
+    const payload = Object.assign({ userId: paramId }, formik.values.userRoleMapping)
+    dispatch(userActions.createUserRoleMapping(payload))
   }
 
   return isFetching ? (
@@ -845,16 +895,16 @@ const User = ({ match }) => {
                     <CCol sm={12}>
                       <h5>{t('view.UserRole.UserRoles')}</h5>
                       <CFormLabel htmlFor="applicationRoles" className="col-form-label">
-                        {t('view.User.Organizations')}
+                        {t('view.User.ApplicationRoles')}
                       </CFormLabel>
                       <Select
-                        value={formik.values.selectedOrganizationRole}
+                        value={userApplicationRole}
                         placeholder={<div>{t('messages.messagePleaseSelect')}</div>}
                         name="user-org-select"
                         options={clientApps}
-                        classNamePrefix="select"
+                        classNamePrefix="select-org"
                         components={animatedComponents}
-                        onChange={onSelectedOrganizations}
+                        onChange={onSelectedApplicationRole}
                       />
                       {toggleAvailableRole &&
                       formik.values.userRoles &&
@@ -864,6 +914,23 @@ const User = ({ match }) => {
                           onFinish={onDropUserRoles}
                         />
                       ) : null}
+                    </CCol>
+                    <CCol sm={12}>
+                      <hr />
+                    </CCol>
+                    <CCol sm={12}>
+                      <div className="mt-4 flex-center">
+                        {formik.values.userRoles && formik.values.userRoles.length > 0 ? (
+                          <CButton
+                            type="button"
+                            color="primary"
+                            className="text-center"
+                            onClick={handleToSaveRoleMapping}
+                          >
+                            {t('common.Save')}
+                          </CButton>
+                        ) : null}
+                      </div>
                     </CCol>
                   </CRow>
                 </CTabPane>

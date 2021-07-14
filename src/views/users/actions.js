@@ -23,6 +23,8 @@ export const userActions = {
   updateUserAddress,
   deleteUserAddress,
   getClientApplications,
+  createUserRoleMapping,
+  _updateUserApplicationRole,
 }
 
 function getAllUsers(data) {
@@ -532,5 +534,50 @@ function getClientApplications() {
 
   function failure(error) {
     return { type: t.GET_CLIENT_APPS_FAILURE, error }
+  }
+}
+
+function createUserRoleMapping(data) {
+  return (dispatch) => {
+    dispatch(request(data))
+    return api.permissionService
+      .createUserRoleMapping(data)
+      .then((response) => {
+        dispatch(success(response.data))
+      })
+      .catch((error) => {
+        dispatch(failure(error))
+      })
+  }
+
+  function request() {
+    return { type: t.CREATE_USER_ROLE_MAPPING_REQUEST }
+  }
+
+  function success(userRoleMapping) {
+    return { type: t.CREATE_USER_ROLE_MAPPING_SUCCESS, userRoleMapping }
+  }
+
+  function failure(error) {
+    return { type: t.CREATE_USER_ROLE_MAPPING_FAILURE, error }
+  }
+}
+
+function _updateUserApplicationRole(applicationRole) {
+  return (dispatch) => {
+    dispatch(request())
+    dispatch(success(applicationRole))
+  }
+
+  function request() {
+    return { type: t.UPDATE_USER_APPLICATION_ROLE_LOCAL_REQUEST }
+  }
+
+  function success(applicationRole) {
+    return { type: t.UPDATE_USER_APPLICATION_ROLE_LOCAL_SUCCESS, applicationRole }
+  }
+
+  function failure(error) {
+    return { type: t.UPDATE_USER_APPLICATION_ROLE_LOCAL_FAILURE, error }
   }
 }

@@ -90,7 +90,7 @@
       "AddressBook": "Address Book",
       "AddNewAddress": "Add New Address",
       "SaveAddress": "Save Address",
-      "Organizations": "Organizations"
+      "ApplicationRoles": "Application Roles"
     },
     "UserRoles": {
       "title": "User Roles",
