@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { CCol, CRow, CButton, CFormLabel } from '@coreui/react'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 import WidgetDragDrop from '../../../components/widgets/WidgetDragDrop'
+import { userActions } from '../../actions'
+import { useDispatch } from 'react-redux'
 
 const TabContentRoleMapping = (props) => {
   const { t } = useTranslation()
-
+  const dispatch = useDispatch()
   const { paramId, clientApps, userRoles, animatedComponents, onSubmit, ...attributes } = props
   const [selectedUserRoles, setSelectedUserRoles] = useState([])
   const [toggleAvailableRole, setToggleAvailableRole] = useState(false)
@@ -61,6 +63,10 @@ const TabContentRoleMapping = (props) => {
     onSubmit(payload)
   }
 
+  useEffect(() => {
+    dispatch(userActions.getClientApplications())
+  }, [dispatch])
+
   return (
     <CRow className="p-4">
       <CCol sm={12}>
@@ -102,7 +108,7 @@ const TabContentRoleMapping = (props) => {
   )
 }
 
-TabRoleMappingContent.propTypes = {
+TabContentRoleMapping.propTypes = {
   paramId: PropTypes.string.isRequired,
   clientApps: PropTypes.array.isRequired,
   userRoles: PropTypes.array.isRequired,
