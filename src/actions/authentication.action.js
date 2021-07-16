@@ -8,6 +8,30 @@ export const clearAuthToken = () => {
   localStorage.removeItem(APP_REFRESH_TOKEN)
 }
 
+function accountSync() {
+  return (dispatch) => {
+    dispatch(request())
+    return api.userService
+      .syncAccount()
+      .then(dispatch(success()))
+      .catch((error) => {
+        dispatch(failure(error))
+      })
+  }
+
+  function request() {
+    return { type: authConstants.ACCOUNT_SYNC_REQUEST }
+  }
+
+  function success() {
+    return { type: authConstants.ACCOUNT_SYNC_SUCCESS }
+  }
+
+  function failure(error) {
+    return { type: authConstants.ACCOUNT_SYNC_FAILURE, error }
+  }
+}
+
 function resendVerifyEmail(userId, message) {
   return (dispatch) => {
     dispatch(request())
@@ -64,6 +88,7 @@ function resetPassword(userId, message) {
 }
 
 export const authenticationActions = {
+  accountSync,
   clearAuthToken,
   resendVerifyEmail,
   resetPassword,

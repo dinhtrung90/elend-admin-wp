@@ -46,6 +46,7 @@ const User = ({ match }) => {
     const loadData = async () => {
       await dispatch(userActions.getAllUserRoles({ all: true }))
       if (paramId) {
+        await dispatch(userActions.getUserDetail(paramId))
         await dispatch(
           userActions.getUserAddressBooks({
             userId: paramId,
@@ -53,6 +54,7 @@ const User = ({ match }) => {
             size: 100,
           }),
         )
+        await dispatch(userActions.getClientApplications())
       }
     }
     loadData()

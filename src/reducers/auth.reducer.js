@@ -7,6 +7,20 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case authConstants.ACCOUNT_SYNC_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        isFetched: false,
+      })
+    case authConstants.ACCOUNT_SYNC_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isFetched: true,
+      })
+    case authConstants.ACCOUNT_SYNC_FAILURE:
+      return Object.assign({}, state, {
+        errorFetch: action.error,
+      })
     case authConstants.RESEND_VERIFY_EMAIL_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,

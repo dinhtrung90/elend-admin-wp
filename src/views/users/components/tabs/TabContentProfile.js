@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   CCol,
@@ -23,7 +23,7 @@ import { userActions } from '../../actions'
 import { useDispatch, useSelector } from 'react-redux'
 
 const TabContentProfile = (props) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const dispatch = useDispatch()
   const { paramId, isNew, isFetching, animatedComponents, ...attributes } = props
   const userDetail = useSelector((state) => state.users.userDetail)
@@ -106,18 +106,18 @@ const TabContentProfile = (props) => {
 
   const handleToSubmitAccount = (data) => {
     const payload = {
-      id: data.id,
       userId: data.id,
       login: data.email,
-      email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,
-      isEnable: false,
-      userProfileDto: {
-        phone: data.mobilePhone.toString(),
-        gender: data.gender,
-        birthDate: data.birthDate,
-      },
+      email: data.email,
+      imageUrl: '', // TODO implement avatar
+      accountStatus: data.userStatus.value.toUpperCase(),
+      langKey: i18n.language,
+      birthDate: data.birthDate,
+      gender: data.gender,
+      mobilePhone: data.mobilePhone.toString(),
+      homePhone: data.homePhone ? data.homePhone.toString() : '',
     }
 
     if (data.password && data.password.length > 0) {
@@ -208,12 +208,6 @@ const TabContentProfile = (props) => {
   const handleToFormikSubmit = (e) => {
     formik.handleSubmit(e)
   }
-
-  useEffect(() => {
-    if (paramId) {
-      dispatch(userActions.getUserDetail(paramId)).then(() => onUserDetailSuccess)
-    }
-  }, [dispatch])
 
   return (
     <CRow className="p-4">

@@ -9,14 +9,12 @@ const AppBreadcrumb = () => {
   const currentLocation = useLocation().pathname
 
   const getRouteName = (pathname, routes) => {
-    console.log('getRouteName=', pathname)
     const currentRoute = routes.find((route) => route.path === pathname)
     return currentRoute ? currentRoute.name : ''
   }
 
   const getBreadcrumbs = (location) => {
     const breadcrumbs = []
-    console.log('location=', location)
     location.split('/').reduce((prev, curr, index, array) => {
       const currentPathname = `${prev}/${curr}`
       const routeName = getRouteName(currentPathname, routes)
@@ -33,7 +31,6 @@ const AppBreadcrumb = () => {
   }
 
   const breadcrumbs = getBreadcrumbs(currentLocation)
-  console.log('breadcrumbs=', breadcrumbs)
   return (
     <CBreadcrumb className="m-0 ms-2">
       <CBreadcrumbItem href="/">Home</CBreadcrumbItem>

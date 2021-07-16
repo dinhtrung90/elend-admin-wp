@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
 import './scss/style.scss'
 import { ToastContainer, toast } from 'react-toastify'
@@ -6,7 +6,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import LoadingBar from 'react-redux-loading-bar'
 import keycloak from './keycloak'
 import { AppRouter } from './AppRouter'
-import { userService } from './services/user.service'
+import { authenticationActions } from './actions/authentication.action'
+import { useDispatch } from 'react-redux'
 
 const loading = (
   <div className="pt-3 text-center">
@@ -15,20 +16,22 @@ const loading = (
 )
 
 const AppWithRouterAccess = () => {
-  const eventLogger = (event, error) => {
-    console.log('onKeycloakEvent', event, error)
-  }
+  const dispatch = useDispatch()
+  const [token, setToken] = useState('')
+
+  const eventLogger = (event, error) => {}
 
   const tokenLogger = (tokens) => {
-    console.log('onKeycloakTokens')
     if (tokens && tokens.token) {
-      if (window.location.href.indexOf('/login') > -1) {
-        userService.syncAccount().then((res) => {
-          console.log('synced=', res)
-        })
-      }
+      setToken(tokens.token)
     }
   }
+
+  useEffect(() => {
+    if (window.location.href.indexOf('/login') > -1 && token && token.length > 0) {
+      dispatch(authenticationActions.accountSync())
+    }
+  }, [dispatch, token])
 
   return (
     <React.Suspense fallback={loading}>

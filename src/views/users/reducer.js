@@ -107,7 +107,7 @@ const userReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         isFetched: true,
-        userDetail: action.userDetail,
+        userDetail: convertToUserDetail(action.userDetail, state.userRoles),
       })
     case t.UPDATE_USER_FAILURE:
       return Object.assign({}, state, {

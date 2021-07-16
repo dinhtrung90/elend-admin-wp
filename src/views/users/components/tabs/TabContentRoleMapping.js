@@ -63,10 +63,6 @@ const TabContentRoleMapping = (props) => {
     onSubmit(payload)
   }
 
-  useEffect(() => {
-    dispatch(userActions.getClientApplications())
-  }, [dispatch])
-
   return (
     <CRow className="p-4">
       <CCol sm={12}>
