@@ -24,13 +24,17 @@ import { useSelector } from 'react-redux'
 
 const TabContentAddressBooks = (props) => {
   const { t } = useTranslation()
+  const defaultCountryValue = {
+    defaultName: 'Vietnam',
+    defaultCity: 'Hồ Chí Minh (Sài Gòn)',
+  }
   const { paramId, handleSaveAddress, handleEditAddress, handleDeleteAddress, ...attributes } =
     props
   const userAddressList = useSelector((state) => state.users.userAddressList)
-  const [countryValue, setCountryValue] = useState('Vietnam')
+  const [countryValue, setCountryValue] = useState(defaultCountryValue.defaultName)
   const [collapseAddressBook, setCollapseAddressBook] = useState(false)
   const [currentAddressIndex, setCurrentAddressIndex] = useState(-1)
-  const [cityValue, setCityValue] = useState('Hồ Chí Minh (Sài Gòn)')
+  const [cityValue, setCityValue] = useState(defaultCountryValue.defaultCity)
   const [danger, setDanger] = useState(false)
   const [deleteUserAddress, setDeleteUserAddress] = useState(false)
 
@@ -40,8 +44,8 @@ const TabContentAddressBooks = (props) => {
       userAddressList: userAddressList || [],
       addressLine1: '',
       addressLine2: '',
-      city: '',
-      country: '',
+      city: defaultCountryValue.defaultCity,
+      country: defaultCountryValue.defaultName,
       zipCode: '',
     },
     enableReinitialize: true,
@@ -49,10 +53,12 @@ const TabContentAddressBooks = (props) => {
 
   const handleToggleAddressBook = (e) => {
     e.preventDefault()
+    formik.setFieldValue('id', null)
     formik.setFieldValue('addressLine1', '')
     formik.setFieldValue('addressLine2', '')
-    formik.setFieldValue('city', '')
-    formik.setFieldValue('country', '')
+    formik.setFieldValue('city', defaultCountryValue.defaultCity)
+    setCityValue(defaultCountryValue.defaultCity)
+    formik.setFieldValue('country', defaultCountryValue.defaultName)
     formik.setFieldValue('zipCode', '')
     setCollapseAddressBook(true)
     setCurrentAddressIndex(-1)
