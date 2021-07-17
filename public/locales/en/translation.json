@@ -114,6 +114,7 @@
   "messages": {
     "messagePleaseSelect": "Please select",
     "messageConfirmDelete": "Are you sure you want to delete?",
+    "messageConfirmDeleteAddress": "Are you sure you want to delete this address?",
     "requireRoleName": "Please input the role name!",
     "requireRoleDescription": "Please input the description!",
     "validations": {

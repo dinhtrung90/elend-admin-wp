@@ -321,6 +321,7 @@ const userReducer = (state = initialState, action) => {
         isFetched: false,
       })
     case t.CREATE_USER_ADDRESS_BOOK_SUCCESS:
+      state.userAddressList.push(action.userAddressDetail)
       return Object.assign({}, state, {
         isFetching: false,
         isFetched: true,

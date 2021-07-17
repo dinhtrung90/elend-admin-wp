@@ -111,6 +111,7 @@
   "messages": {
     "messagePleaseSelect": "Vui lòng chọn",
     "messageConfirmDelete": "Bạn có chăc muốn xoá?",
+    "messageConfirmDeleteAddress": "Bạn có chăc muốn xoá địa chỉ này?",
     "requireRoleName": "Yêu cầu nhập tên phân quyền!",
     "requireRoleDescription": "Yêu cầu nhập chi tiết!",
     "validations": {

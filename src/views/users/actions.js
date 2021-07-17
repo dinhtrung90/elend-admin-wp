@@ -387,7 +387,7 @@ function getUserAddressBooks(data) {
       .getUserAddressBooks(data)
       .then((response) => {
         response.size = data.size || 5
-        dispatch(success(response))
+        dispatch(success(response.data))
       })
       .catch((error) => {
         dispatch(failure(error))
@@ -398,8 +398,8 @@ function getUserAddressBooks(data) {
     return { type: t.USERS_GET_ADDRESS_BOOKS_REQUEST }
   }
 
-  function success(response) {
-    return { type: t.USERS_GET_ADDRESS_BOOKS_SUCCESS, response }
+  function success(userAddressList) {
+    return { type: t.USERS_GET_ADDRESS_BOOKS_SUCCESS, userAddressList }
   }
 
   function failure(error) {
@@ -485,11 +485,11 @@ function updateUserAddress(data) {
   }
 }
 
-function deleteUserAddress(addressId) {
+function deleteUserAddress(data) {
   return (dispatch) => {
     dispatch(request())
     return api.userService
-      .deleteUserAddressBook(addressId)
+      .deleteUserAddressBook(data)
       .then((response) => {
         dispatch(success())
       })

@@ -9,24 +9,35 @@ import {
   CInputGroup,
   CInputGroupText,
   CFormControl,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
+  CModal,
 } from '@coreui/react'
 import { useTranslation } from 'react-i18next'
 import CIcon from '@coreui/icons-react'
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector'
 import CDataTable from '../../../components/widgets/table/CDataTable'
 import { useFormik } from 'formik'
+import { useSelector } from 'react-redux'
 
 const TabContentAddressBooks = (props) => {
   const { t } = useTranslation()
-  const { paramId, handleSaveAddress, handleEditAddress, ...attributes } = props
-
+  const { paramId, handleSaveAddress, handleEditAddress, handleDeleteAddress, ...attributes } =
+    props
+  const userAddressList = useSelector((state) => state.users.userAddressList)
   const [countryValue, setCountryValue] = useState('Vietnam')
   const [collapseAddressBook, setCollapseAddressBook] = useState(false)
   const [currentAddressIndex, setCurrentAddressIndex] = useState(-1)
-  const [cityValue, setCityValue] = useState('')
+  const [cityValue, setCityValue] = useState('Hồ Chí Minh (Sài Gòn)')
+  const [danger, setDanger] = useState(false)
+  const [deleteUserAddress, setDeleteUserAddress] = useState(false)
 
   const formik = useFormik({
     initialValues: {
+      id: null,
+      userAddressList: userAddressList || [],
       addressLine1: '',
       addressLine2: '',
       city: '',
@@ -60,26 +71,51 @@ const TabContentAddressBooks = (props) => {
       country: countryValue,
       zipCode: formik.values.zipCode,
     }
-    if (currentAddressIndex === -1) {
-      formik.values.userAddressList.push(addressItem)
-    } else {
+    if (currentAddressIndex !== -1) {
       formik.values.userAddressList[currentAddressIndex] = addressItem
     }
+
+    if (formik.values.id) {
+      addressItem.id = formik.values.id
+      handleEditAddress(addressItem)
+    } else {
+      handleSaveAddress(formik.values.userAddressList, addressItem)
+    }
+
     setCollapseAddressBook(false)
     setCurrentAddressIndex(-1)
-    handleSaveAddress(formik.values.userAddressList, addressItem)
   }
 
   const editAddress = (item, index) => {
     item.userId = paramId
     setCurrentAddressIndex(index)
+    if (item.id) {
+      formik.setFieldValue('id', item.id)
+    }
     formik.setFieldValue('addressLine1', item.addressLine1)
     formik.setFieldValue('addressLine2', item.addressLine2)
     formik.setFieldValue('city', item.city)
+    setCityValue(item.city)
     formik.setFieldValue('country', item.country)
     formik.setFieldValue('zipCode', item.zipCode)
     setCollapseAddressBook(true)
-    handleEditAddress(item)
+  }
+
+  const deleteAddress = (item) => {
+    setDanger(!danger)
+    setDeleteUserAddress(item)
+  }
+
+  const handleConfirmDeleteAddress = () => {
+    const item = deleteUserAddress
+    item.userId = paramId
+    const userAddress = formik.values.userAddressList
+    userAddress.splice(
+      userAddress.findIndex((a) => a.id === item.id),
+      1,
+    )
+    formik.setFieldValue('userAddressList', userAddress)
+    handleDeleteAddress(item)
   }
 
   const changeCountryHandler = (value) => {
@@ -218,12 +254,29 @@ const TabContentAddressBooks = (props) => {
                   <CButton className="me-1" color="primary" onClick={() => editAddress(item, i)}>
                     <CIcon name="cil-pencil" />
                   </CButton>
+                  <CButton color="danger" className="me-1" onClick={() => deleteAddress(item, i)}>
+                    <CIcon style={{ color: 'white' }} name="cil-trash" />
+                  </CButton>
                 </td>
               ),
             }}
           />
         ) : null}
       </CCol>
+      <CModal visible={danger} onClose={() => setDanger(!danger)} color="danger">
+        <CModalHeader closeButton>
+          <CModalTitle>{t('common.ConfirmDelete')}</CModalTitle>
+        </CModalHeader>
+        <CModalBody>{t('messages.messageConfirmDeleteAddress')}</CModalBody>
+        <CModalFooter>
+          <CButton color="danger" onClick={handleConfirmDeleteAddress}>
+            {t('common.Delete')}
+          </CButton>{' '}
+          <CButton color="secondary" onClick={() => setDanger(!danger)}>
+            {t('common.Cancel')}
+          </CButton>
+        </CModalFooter>
+      </CModal>
     </CRow>
   )
 }
@@ -234,6 +287,7 @@ TabContentAddressBooks.propTypes = {
   userRoles: PropTypes.array.isRequired,
   handleSaveAddress: PropTypes.func,
   handleEditAddress: PropTypes.func,
+  handleDeleteAddress: PropTypes.func,
 }
 
 export default TabContentAddressBooks

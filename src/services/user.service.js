@@ -46,9 +46,7 @@ const updateUserAddressBook = (data) => {
 }
 
 const deleteUserAddressBook = (data) => {
-  return axios.delete(
-    SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address/delete/${data.addressId}`,
-  )
+  return axios.delete(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address/delete/${data.id}`)
 }
 
 export const userService = {

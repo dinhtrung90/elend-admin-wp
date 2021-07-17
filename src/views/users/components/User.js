@@ -27,7 +27,8 @@ const User = ({ match }) => {
   const animatedComponents = makeAnimated()
   const [activeKey, setActiveKey] = useState(1)
   const isFetching = useSelector((state) => state.users.isFetching)
-  const userRoles = useSelector((state) => state.users.userRoles)
+  const defaultUserRoles = useSelector((state) => state.users.userRoles)
+  const assignedUserRoles = useSelector((state) => state.users.userDetail.userRoles)
   const clientApps = useSelector((state) => state.users.clientApps)
 
   let paramId = match.params.id
@@ -35,6 +36,7 @@ const User = ({ match }) => {
     paramId = paramId.split('&')[0]
   }
   const isNew = !paramId
+  const userRoles = isNew ? defaultUserRoles : assignedUserRoles
 
   const tabs = {
     PROFILE: 1,
@@ -65,12 +67,15 @@ const User = ({ match }) => {
   }
 
   const saveAddress = (userAddressList, addressItem) => {
-    dispatch(userActions._updateUserAddressList(userAddressList))
     dispatch(userActions.createUserAddress(addressItem))
   }
 
   const editAddress = (item) => {
     dispatch(userActions.updateUserAddress(item))
+  }
+
+  const deleteAddress = (item) => {
+    dispatch(userActions.deleteUserAddress(item))
   }
 
   const handleToSaveRoleMapping = (userRoleMapping) => {
@@ -130,6 +135,7 @@ const User = ({ match }) => {
                     paramId={paramId}
                     handleSaveAddress={saveAddress}
                     handleEditAddress={editAddress}
+                    handleDeleteAddress={deleteAddress}
                   />
                 </CTabPane>
                 <CTabPane data-tab="role-mapping" visible={activeKey === 3}>

@@ -4,12 +4,9 @@ import { CCol, CRow, CButton, CFormLabel } from '@coreui/react'
 import { useTranslation } from 'react-i18next'
 import Select from 'react-select'
 import WidgetDragDrop from '../../../components/widgets/WidgetDragDrop'
-import { userActions } from '../../actions'
-import { useDispatch } from 'react-redux'
 
 const TabContentRoleMapping = (props) => {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
   const { paramId, clientApps, userRoles, animatedComponents, onSubmit, ...attributes } = props
   const [selectedUserRoles, setSelectedUserRoles] = useState([])
   const [toggleAvailableRole, setToggleAvailableRole] = useState(false)
