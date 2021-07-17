@@ -41,7 +41,7 @@ const AppWithRouterAccess = () => {
         toastClassName="toastify-toast"
       />
       <LoadingBar
-        style={{ backgroundColor: '#636f83', height: '3px', zIndex: 1500, position: 'absolute' }}
+        style={{ backgroundColor: '#635DFF', height: '3px', zIndex: 1500, position: 'absolute' }}
         scope="sectionBar"
         className="loading-bar fluid"
         direction="ltr"

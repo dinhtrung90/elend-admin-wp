@@ -13,6 +13,7 @@ import {
   CNavLink,
   CTabContent,
   CTabPane,
+  CSpinner,
 } from '@coreui/react'
 import { userActions } from '../actions'
 import { useTranslation } from 'react-i18next'
@@ -84,7 +85,16 @@ const User = ({ match }) => {
   }
 
   return isFetching ? (
-    <CRow></CRow>
+    <CRow>
+      <CCol lg={12}>
+        <CCard>
+          <CCardHeader>{isNew ? t('common.NewUser') : t('common.EditUser')}</CCardHeader>
+          <CCardBody className="flex-center">
+            <CSpinner color="primary" />
+          </CCardBody>
+        </CCard>
+      </CCol>
+    </CRow>
   ) : (
     <CRow>
       <CCol lg={12}>

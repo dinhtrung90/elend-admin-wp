@@ -1,7 +1,7 @@
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import * as t from './actionTypes'
 import customersData from './components/UsersData'
 import api from '../../utils/api'
-import { USERS_GET_ADDRESS_BOOK_BY_ID_FAILURE } from './actionTypes'
 
 export const userActions = {
   getAllUsers,
@@ -147,13 +147,16 @@ function getCustomerDetail(customerId) {
 
 function getUserDetail(userId) {
   return (dispatch) => {
+    dispatch(showLoading('sectionBar'))
     dispatch(request())
     return api.userService
       .getUserById(userId)
       .then((response) => {
+        dispatch(hideLoading('sectionBar'))
         dispatch(success(response.data))
       })
       .catch((error) => {
+        dispatch(hideLoading('sectionBar'))
         dispatch(failure(error))
       })
   }
