@@ -91,7 +91,6 @@ const UserRole = ({ match }) => {
     //     })
     //   })
     // })
-    console.log('formik=', permissions)
     // checkboxes.forEach((item) => {
     //   const selectedItemInx = formik.values.permissionAll.findIndex((p) => p.name === item.name)
     //   if (selectedItemInx === -1) {
