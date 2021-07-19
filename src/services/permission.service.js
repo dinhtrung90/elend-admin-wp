@@ -25,7 +25,7 @@ const editUserRole = (data) => {
 }
 
 const getUserRoleDetail = (roleName) => {
-  return axios.get(SERVICE_DOMAIN + `/api/member-roles?roleName=${roleName}`)
+  return axios.get(SERVICE_DOMAIN + `/api/cms/role/getBy?name=${roleName}`)
 }
 
 const deleteUserRole = (roleName) => {

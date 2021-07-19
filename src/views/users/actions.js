@@ -309,32 +309,74 @@ function getUserRoleDetail(roleName) {
   }
 }
 
+function _getPermissionOrderIndex(name) {
+  const operations = ['ALL', 'CREATE', 'UPDATE', 'DELETE', 'READ']
+  return operations.findIndex((o) => o === name)
+}
+
 function _standardizePermissions(data) {
-  const operations = ['CREATE', 'UPDATE', 'DELETE', 'READ']
-  const permissions = []
+  const operations = ['ALL', 'CREATE', 'UPDATE', 'DELETE', 'READ']
+  const permissionObject = {}
   data.forEach((p) => {
-    const parent = p
-    parent.children = []
-    operations.forEach((o) => {
-      const descriptionCase = `${p.description} ${o.toLocaleLowerCase()}`
-        .split(' ')
-        .map((str) => {
-          const word = str.toLowerCase()
-          return word.charAt(0).toUpperCase() + word.slice(1)
-        })
-        .join(' ')
-      parent.children.push({
-        id: p.id,
-        permissionId: p.id,
-        name: `${p.name}_${o}`,
-        description: descriptionCase,
-        permissionDesc: p.description,
-        value: o,
-        permissionName: p.name,
-      })
+    const permissionName = p.name
+    const lastIndex = permissionName.lastIndexOf('_')
+    const rootPermissionName = permissionName.substr(0, lastIndex)
+    const currentOperationName = permissionName.substr(lastIndex + 1, permissionName.length)
+    operations.forEach((oItem) => {
+      if (oItem === 'ALL') {
+        // generate all permission
+        const newPermissionName = `${rootPermissionName}_ALL`
+        const descriptionCase = `${rootPermissionName
+          .replace('ROLE_PERMISSION_', 'All ')
+          .toLowerCase()}`
+          .split(' ')
+          .map((str) => {
+            const word = str.toLowerCase()
+            return word.charAt(0).toUpperCase() + word.slice(1)
+          })
+          .join(' ')
+        permissionObject[newPermissionName] = {
+          id: Math.floor(Math.random() * Date.now()),
+          name: newPermissionName,
+          value: newPermissionName,
+          permissionName: newPermissionName,
+          rootPermissionName: rootPermissionName,
+          description: descriptionCase,
+          operation: oItem,
+          orderIndex: _getPermissionOrderIndex(oItem),
+        }
+
+        // add the next permission after creating the ALL ones.
+        p.operation = currentOperationName
+        p.rootPermissionName = rootPermissionName
+        p.orderIndex = _getPermissionOrderIndex(currentOperationName)
+        permissionObject[permissionName] = p
+      } else {
+        p.operation = currentOperationName
+        p.rootPermissionName = rootPermissionName
+        p.orderIndex = _getPermissionOrderIndex(currentOperationName)
+        permissionObject[permissionName] = p
+      }
     })
-    permissions.push(parent)
   })
+
+  const permissions = []
+  Object.keys(permissionObject).map((key) => {
+    const item = permissionObject[key]
+    if (item.operation === 'ALL') {
+      item.children = []
+      permissions.push(item)
+    } else {
+      const currentParentIndex = permissions.findIndex(
+        (p) => p.rootPermissionName === item.rootPermissionName,
+      )
+      permissions[currentParentIndex].children.push(item)
+    }
+  })
+  permissions.forEach((p) => {
+    p.children.sort((a, b) => a.orderIndex - b.orderIndex)
+  })
+  console.log('permissions=', permissions)
   return permissions
 }
 

@@ -17,7 +17,7 @@ const TheHeaderDropdownLanguage = () => {
     return languages[i18n.language]
   }
   return (
-    <CDropdown inNav className="c-header-nav-item mx-2" size="sm">
+    <CDropdown className="c-header-nav-item mx-2" size="sm">
       <CDropdownToggle className="c-header-nav-link" caret>
         <span>{getCurrentLanguage()}</span>
       </CDropdownToggle>
