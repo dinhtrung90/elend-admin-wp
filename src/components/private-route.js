@@ -13,13 +13,19 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   }
 
   const renderRedirect = (props) => {
+    let defaultUrl = '/login'
     if (initialized && keycloak.authenticated) {
       return <Component {...props} />
+    }
+
+    const subdomain = window.location.hostname.split('.')[0]
+    if (subdomain === 'quatang') {
+      defaultUrl = '/register'
     }
     return (
       <Redirect
         to={{
-          pathname: '/login',
+          pathname: defaultUrl,
         }}
       />
     )

@@ -10,6 +10,17 @@ const Login = () => {
   const { keycloak } = useKeycloak()
   if (keycloak?.authenticated) return <Redirect to={currentLocationState?.from} />
 
+  const subdomain = window.location.hostname.split('.')[0]
+  if (subdomain === 'quatang') {
+    return (
+      <Redirect
+        to={{
+          pathname: 'register',
+        }}
+      />
+    )
+  }
+
   keycloak?.login()
   return <div></div>
 }
