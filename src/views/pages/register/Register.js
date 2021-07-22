@@ -113,7 +113,7 @@ const Register = () => {
       className="bg-light min-vh-100 d-flex flex-row align-items-center reward-container"
       style={{
         background: `url('${process.env.PUBLIC_URL}/images/bg-covid.jpeg') no-repeat`,
-        backgroundSize: `100% 100%`,
+        backgroundSize: `cover`,
       }}
     >
       <CContainer>
@@ -239,7 +239,7 @@ const Register = () => {
                         {formik.errors.fullName}
                       </CFormFeedback>
                     </CCol>
-                    <CCol sm={12} className="mb-4">
+                    <CCol sm={6} className="mb-4">
                       <CFormLabel htmlFor="MobileNumber" className="col-form-label">
                         Số điện thoại <span className="form-required"> *</span>
                       </CFormLabel>
@@ -269,7 +269,7 @@ const Register = () => {
                         {formik.errors.mobilePhone}
                       </CFormFeedback>
                     </CCol>
-                    <CCol sm={12} className="mb-4">
+                    <CCol sm={6} className="mb-4">
                       <CFormLabel htmlFor="ssn" className="col-form-label">
                         CMND / CCCD <span className="form-required"> *</span>
                       </CFormLabel>
@@ -295,7 +295,7 @@ const Register = () => {
                         {formik.errors.ssn}
                       </CFormFeedback>
                     </CCol>
-                    <CCol sm={12} className="mb-4">
+                    <CCol sm={6} className="mb-4">
                       <CFormLabel htmlFor="beforeIdentityCard" className="col-form-label">
                         Mặt trước CMND/CCCD <span className="form-required"> *</span>
                       </CFormLabel>
@@ -321,7 +321,7 @@ const Register = () => {
                         {formik.errors.fileBeforeCard}
                       </CFormFeedback>
                     </CCol>
-                    <CCol sm={12} className="mb-4">
+                    <CCol sm={6} className="mb-4">
                       <CFormLabel htmlFor="afterIdentityCard" className="col-form-label">
                         Mặt sau CMND/CCCD <span className="form-required"> *</span>
                       </CFormLabel>
@@ -393,7 +393,7 @@ const Register = () => {
                         />
                       </CInputGroup>
                     </CCol>
-                    <CCol sm={12} className="mb-4">
+                    <CCol sm={6} className="mb-4">
                       <CFormLabel htmlFor="UserRole" className="col-form-label">
                         Giới tính
                       </CFormLabel>
@@ -409,7 +409,7 @@ const Register = () => {
                         </CFormSelect>
                       </CInputGroup>
                     </CCol>
-                    <CCol sm={12} className="mb-4">
+                    <CCol sm={6} className="mb-4">
                       <CFormLabel htmlFor="DateOfBirth" className="col-form-label">
                         Ngày sinh
                       </CFormLabel>
