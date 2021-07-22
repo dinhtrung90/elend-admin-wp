@@ -49,6 +49,20 @@ const deleteUserAddressBook = (data) => {
   return axios.delete(SERVICE_DOMAIN + `/api/cms/account/${data.userId}/address/delete/${data.id}`)
 }
 
+const uploadImage = (file) => {
+  const formData = new FormData()
+  formData.append('file', file)
+  return axios.post(SERVICE_DOMAIN + `/api/public/eligibility/upload`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+}
+
+const signupEligibility = (data) => {
+  return axios.post(SERVICE_DOMAIN + `/api/public/eligibility/createAccount`, data)
+}
+
 export const userService = {
   createAccount,
   updateAccount,
@@ -60,4 +74,6 @@ export const userService = {
   getUserAddressBooks,
   getUserAddressBookById,
   syncAccount,
+  uploadImage,
+  signupEligibility,
 }

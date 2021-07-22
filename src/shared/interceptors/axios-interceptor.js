@@ -16,6 +16,7 @@ const addErrorAlert = (message, key, data) => {
 
 const setupAxiosInterceptors = (onUnauthenticated) => {
   const onRequestSuccess = (config) => {
+    if (config.url.indexOf('api/public') > -1) return config
     const token = localStorage.getItem(APP_TOKEN)
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
