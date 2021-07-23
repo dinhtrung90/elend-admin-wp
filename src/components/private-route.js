@@ -20,7 +20,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
     const subdomain = window.location.hostname.split('.')[0]
     if (subdomain === 'quatang') {
-      defaultUrl = window.location.hash.replace('#', '')
+      defaultUrl = '/register'
     }
     return (
       <Redirect

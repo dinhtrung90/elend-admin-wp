@@ -5,6 +5,8 @@ import { useKeycloak } from '@react-keycloak/web'
 
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 const Login = React.lazy(() => import('./views/pages/login/Login'))
+
+const HomeQRCode = React.lazy(() => import('./views/pages/register/HomeQRCode'))
 const Register = React.lazy(() => import('./views/pages/register/Register'))
 const RewardConfirm = React.lazy(() => import('./views/pages/register/RewardConfirm'))
 const Thanks = React.lazy(() => import('./views/pages/register/Thanks'))
@@ -19,6 +21,7 @@ export const AppRouter = () => {
 
   return (
     <Switch>
+      <Route exact path="/qrcode" component={HomeQRCode} />
       <Route exact path="/register" render={() => <Register />} />
       <Route exact path="/thanks" component={Thanks} />
       <Route exact path="/thanks/:id" component={Thanks} />
