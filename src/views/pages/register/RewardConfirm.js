@@ -19,8 +19,10 @@ import CIcon from '@coreui/icons-react'
 import * as Yup from 'yup'
 import { userService } from '../../../services/user.service'
 import { toast } from 'react-toastify'
+import { useHistory } from 'react-router-dom'
 
 const RewardConfirm = () => {
+  const history = useHistory()
   let schema = Yup.object({
     phoneOrEmployeeId: Yup.string().required('Vui lòng nhập mã nhân viên (số điện thoại)'),
     code: Yup.string().required('Vui lòng nhập mã nhận quà'),
@@ -41,8 +43,7 @@ const RewardConfirm = () => {
     userService
       .receivedPresent(formik.values)
       .then((result) => {
-        console.log('result=', result.data)
-        toast.success('Chúc mừng bạn xác nhận thành công!')
+        history.push('/thanks')
       })
       .catch((error) => {
         if (error.errorCode === 'ELIGIBILITY_NOT_FOUND') {
