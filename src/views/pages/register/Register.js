@@ -21,6 +21,7 @@ import { FaAddressCard, FaRegIdCard } from 'react-icons/fa'
 import * as Yup from 'yup'
 import { userService } from '../../../services/user.service'
 import FileUploader from '../../components/widgets/FileUploader'
+import { toast } from 'react-toastify'
 
 const Register = () => {
   const history = useHistory()
@@ -91,32 +92,47 @@ const Register = () => {
     payload.eligibilityMetadata.push(formik.values.thumbBeforeCardUrl)
     payload.eligibilityMetadata.push(formik.values.thumbAfterCardUrl)
 
-    userService.signupEligibility(payload).then((result) => {
-      const code = result.data.code
-      history.push(`/thanks/${code}`)
-    })
+    userService
+      .signupEligibility(payload)
+      .then((result) => {
+        const code = result.data.code
+        history.push(`/thanks/${code}`)
+      })
+      .catch((error) => {
+        toast.error('Đăng ký không thành công. Vui lòng thử lại.')
+      })
   }
 
   const uploadFileBeforeCard = (file) => {
     formik.values.fileBeforeCard = file
-    userService.uploadImage(file).then((result) => {
-      formik.values.thumbBeforeCardUrl = {
-        signature: result.data.public_id,
-        thumbUrl: result.data.url,
-        fileName: file.name,
-      }
-    })
+    userService
+      .uploadImage(file)
+      .then((result) => {
+        formik.values.thumbBeforeCardUrl = {
+          signature: result.data.public_id,
+          thumbUrl: result.data.url,
+          fileName: file.name,
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   const uploadFileAfterCard = (file) => {
     formik.values.fileAfterCard = file
-    userService.uploadImage(file).then((result) => {
-      formik.values.thumbAfterCardUrl = {
-        signature: result.data.public_id,
-        thumbUrl: result.data.url,
-        fileName: file.name,
-      }
-    })
+    userService
+      .uploadImage(file)
+      .then((result) => {
+        formik.values.thumbAfterCardUrl = {
+          signature: result.data.public_id,
+          thumbUrl: result.data.url,
+          fileName: file.name,
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   const resetForm = () => {

@@ -35,6 +35,10 @@ const setupAxiosInterceptors = (onUnauthenticated) => {
         addErrorAlert('Server not reachable', 'error.server.not.reachable')
         break
       case 400: {
+        const subdomain = window.location.hostname.split('.')[0]
+        if (subdomain === 'quatang') {
+          return Promise.reject({ errorCode: data.errorKey })
+        }
         const headers = Object.entries(response.headers)
         let errorHeader = null
         let entityKey = null

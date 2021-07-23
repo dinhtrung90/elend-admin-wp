@@ -18,6 +18,7 @@ import { FaAddressCard, FaGift } from 'react-icons/fa'
 import CIcon from '@coreui/icons-react'
 import * as Yup from 'yup'
 import { userService } from '../../../services/user.service'
+import { toast } from 'react-toastify'
 
 const RewardConfirm = () => {
   let schema = Yup.object({
@@ -41,8 +42,12 @@ const RewardConfirm = () => {
       .receivedPresent(formik.values)
       .then((result) => {
         console.log('result=', result.data)
+        toast.success('Chúc mừng bạn xác nhận thành công!')
       })
       .catch((error) => {
+        if (error.errorCode === 'ELIGIBILITY_NOT_FOUND') {
+          toast.error('Mã nhân viên hoặc mã nhận quà không hợp lệ!')
+        }
         console.log('error=', error)
       })
   }
