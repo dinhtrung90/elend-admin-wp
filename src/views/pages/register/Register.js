@@ -101,7 +101,7 @@ const Register = () => {
     formik.values.fileBeforeCard = file
     userService.uploadImage(file).then((result) => {
       formik.values.thumbBeforeCardUrl = {
-        signature: result.data.signature,
+        signature: result.data.public_id,
         thumbUrl: result.data.url,
         fileName: file.name,
       }
@@ -112,7 +112,7 @@ const Register = () => {
     formik.values.fileAfterCard = file
     userService.uploadImage(file).then((result) => {
       formik.values.thumbAfterCardUrl = {
-        signature: result.data.signature,
+        signature: result.data.public_id,
         thumbUrl: result.data.url,
         fileName: file.name,
       }

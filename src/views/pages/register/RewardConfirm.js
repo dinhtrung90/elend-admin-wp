@@ -14,8 +14,10 @@ import {
   CButton,
 } from '@coreui/react'
 import { useFormik } from 'formik'
+import { FaAddressCard, FaGift } from 'react-icons/fa'
 import CIcon from '@coreui/icons-react'
 import * as Yup from 'yup'
+import { userService } from '../../../services/user.service'
 
 const RewardConfirm = () => {
   let schema = Yup.object({
@@ -33,7 +35,17 @@ const RewardConfirm = () => {
     onSubmit: (values) => handleConfirmReward(values),
   })
 
-  const handleConfirmReward = (values) => {}
+  const handleConfirmReward = (values) => {
+    console.log('values=', values)
+    userService
+      .receivedPresent(formik.values)
+      .then((result) => {
+        console.log('result=', result.data)
+      })
+      .catch((error) => {
+        console.log('error=', error)
+      })
+  }
 
   return (
     <div
@@ -97,7 +109,7 @@ const RewardConfirm = () => {
                       </CFormLabel>
                       <CInputGroup>
                         <CInputGroupText>
-                          <CIcon name="cil-user" />
+                          <FaGift />
                         </CInputGroupText>
                         <CFormControl
                           id="phoneOrEmployeeId"
