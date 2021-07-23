@@ -130,9 +130,16 @@ const RewardConfirm = () => {
                       </CFormFeedback>
                     </CCol>
                   </CRow>
-                  <CButton type="submit" color="success">
-                    Xác nhận
-                  </CButton>
+                  <CRow>
+                    <hr />
+                  </CRow>
+                  <CRow>
+                    <CCol className="flex-center">
+                      <CButton type="submit" color="success">
+                        Xác nhận
+                      </CButton>
+                    </CCol>
+                  </CRow>
                 </CForm>
               </CCardBody>
             </CCard>

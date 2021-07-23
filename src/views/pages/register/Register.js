@@ -141,7 +141,7 @@ const Register = () => {
       ></div>
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md="9" lg="7" xl="6">
+          <CCol md="9" lg="9" xl="8">
             <CCard className="mx-4">
               <CCardBody className="p-4">
                 <CForm onSubmit={formik.handleSubmit}>
@@ -451,7 +451,10 @@ const Register = () => {
                     </CCol>
                   </CRow>
                   <CRow>
-                    <CCol>
+                    <hr />
+                  </CRow>
+                  <CRow>
+                    <CCol className="flex-center">
                       <CButton type="submit" color="success">
                         Đăng ký
                       </CButton>
