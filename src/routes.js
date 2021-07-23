@@ -47,6 +47,7 @@ const Toasts = React.lazy(() => import('./views/components/notifications/toasts/
 
 // const Login = React.lazy(() => import('./views/examples/pages/login/Login'))
 const Register = React.lazy(() => import('./views/pages/register/Register'))
+const Thanks = React.lazy(() => import('./views/pages/register/Thanks'))
 // const Page404 = React.lazy(() => import('./views/examples/pages/page404/Page404'))
 // const Page500 = React.lazy(() => import('./views/examples/pages/page500/Page500'))
 
@@ -114,6 +115,8 @@ const routes = [
   { path: '/notifications/toasts', name: 'Toasts', component: Toasts },
   // { path: '/login', name: 'Login', component: Login },
   { path: '/register', name: 'Register', component: Register },
+  { path: '/thanks/', exact: true, name: 'Thanks', component: Thanks },
+  { path: '/thanks/:id', exact: true, name: 'Thanks', component: Thanks },
   // { path: '/404', name: '404', component: Page404 },
   // { path: '/500', name: '500', component: Page500 },
   { path: '/widgets', name: 'Widgets', component: Widgets },

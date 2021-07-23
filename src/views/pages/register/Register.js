@@ -1,5 +1,6 @@
 import React from 'react'
 import { useFormik } from 'formik'
+import { useHistory } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -22,6 +23,8 @@ import { userService } from '../../../services/user.service'
 import FileUploader from '../../components/widgets/FileUploader'
 
 const Register = () => {
+  const history = useHistory()
+
   const companies = {
     NONE: 'NONE',
     GRAB: 'Grab',
@@ -39,7 +42,6 @@ const Register = () => {
   }
   let schema = Yup.object({
     company: Yup.string().required('Vui lòng chọn nơi công tác').oneOf(companyFilter),
-    otherCompany: Yup.string().required('Vui lòng nhập nơi công tác'),
     employeeId: Yup.string().required('Vui lòng nhập ID (Mã nhân viên)'),
     fullName: Yup.string().required('Vui lòng nhập họ tên'),
     mobilePhone: Yup.string().required('Vui lòng nhập số điện thoại'),
@@ -73,49 +75,73 @@ const Register = () => {
 
   const handleToSubmitAccount = (values) => {
     console.log('submit=', values)
+    debugger
     const payload = {
       eligibilityDTO: {
+        employeeId: formik.values.employeeId,
+        company: formik.values.company || formik.values.otherCompany,
         email: formik.values.email,
-        phone: '0915626262',
-        fullName: 'Vu Dinh',
-        birthDay: '1990-01-01',
-        ssn: '123490812893823',
+        phone: formik.values.mobilePhone,
+        fullName: formik.values.fullName,
+        birthDay: formik.values.birthDate,
+        ssn: formik.values.ssn,
+        fullAddress: formik.values.fullAddress,
+        gender: formik.values.gender,
       },
-      eligibilityMetadata: [
-        {
-          signature: '7dcd706d7419fc2c57621745f2d6a8d05c1d5379',
-          thumbUrl:
-            'http://res.cloudinary.com/tvsales/image/upload/v1626929115/dr74ureqxoujow1vmqs9.jpg',
-          fileName: 'test0011.jpg',
-        },
-      ],
+      eligibilityMetadata: [],
     }
+    payload.eligibilityMetadata.push(formik.values.thumbBeforeCardUrl)
+    payload.eligibilityMetadata.push(formik.values.thumbAfterCardUrl)
+
+    userService.signupEligibility(payload).then((result) => {
+      console.log('payload=', result.data)
+      const code = result.data.code
+      history.push(`/thanks/${code}`)
+    })
   }
 
   const uploadFileBeforeCard = (file) => {
     formik.values.fileBeforeCard = file
-    // userService.uploadImage(file).then((result) => {
-    //   console.log('uploadFileBeforeCard result=', result)
-    //   formik.values.thumbBeforeCardUrl = result
-    // })
+    userService.uploadImage(file).then((result) => {
+      formik.values.thumbBeforeCardUrl = {
+        signature: result.data.signature,
+        thumbUrl: result.data.url,
+        fileName: file.name,
+      }
+    })
   }
 
   const uploadFileAfterCard = (file) => {
     formik.values.fileAfterCard = file
-    // userService.uploadImage(file).then((result) => {
-    //   console.log('uploadFileAfterCard result=', result)
-    //   formik.values.thumbAfterCardUrl = result
-    // })
+    userService.uploadImage(file).then((result) => {
+      formik.values.thumbAfterCardUrl = {
+        signature: result.data.signature,
+        thumbUrl: result.data.url,
+        fileName: file.name,
+      }
+    })
+  }
+
+  const resetForm = () => {
+    formik.resetForm()
   }
 
   return (
     <div
       className="bg-light min-vh-100 d-flex flex-row align-items-center reward-container"
-      style={{
-        background: `url('${process.env.PUBLIC_URL}/images/bg-covid.jpeg') no-repeat`,
-        backgroundSize: `cover`,
-      }}
+      style={{ position: 'relative' }}
     >
+      <div
+        style={{
+          background: `url('${process.env.PUBLIC_URL}/images/bg-covid.jpeg') no-repeat`,
+          backgroundSize: `cover`,
+          opacity: 0.3,
+          zIndex: 0,
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+        }}
+      ></div>
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md="9" lg="7" xl="6">
@@ -427,9 +453,16 @@ const Register = () => {
                       </CInputGroup>
                     </CCol>
                   </CRow>
-                  <CButton type="submit" color="success">
-                    Đăng ký
-                  </CButton>
+                  <CRow>
+                    <CCol>
+                      <CButton type="submit" color="success">
+                        Đăng ký
+                      </CButton>
+                      <CButton className="ms-4" onClick={resetForm}>
+                        Xoá
+                      </CButton>
+                    </CCol>
+                  </CRow>
                 </CForm>
               </CCardBody>
             </CCard>
