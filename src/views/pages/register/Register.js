@@ -74,8 +74,6 @@ const Register = () => {
   })
 
   const handleToSubmitAccount = (values) => {
-    console.log('submit=', values)
-    debugger
     const payload = {
       eligibilityDTO: {
         employeeId: formik.values.employeeId,
@@ -94,7 +92,6 @@ const Register = () => {
     payload.eligibilityMetadata.push(formik.values.thumbAfterCardUrl)
 
     userService.signupEligibility(payload).then((result) => {
-      console.log('payload=', result.data)
       const code = result.data.code
       history.push(`/thanks/${code}`)
     })

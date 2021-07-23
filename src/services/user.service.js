@@ -63,6 +63,10 @@ const signupEligibility = (data) => {
   return axios.post(SERVICE_DOMAIN + `/api/public/eligibility/createAccount`, data)
 }
 
+const receivedPresent = (data) => {
+  return axios.post(SERVICE_DOMAIN + `/api/public/eligibility/receivedPresent`, data)
+}
+
 export const userService = {
   createAccount,
   updateAccount,
@@ -76,4 +80,5 @@ export const userService = {
   syncAccount,
   uploadImage,
   signupEligibility,
+  receivedPresent,
 }
