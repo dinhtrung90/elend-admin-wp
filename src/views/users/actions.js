@@ -11,7 +11,7 @@ export const userActions = {
   createUserRole,
   editUserRole,
   deleteUserRole,
-  getAllUserRoles,
+  getAllRoles,
   getUserRoleDetail,
   getAllPermissions,
   getAllCustomers,
@@ -252,11 +252,11 @@ function deleteUserRole(roleName) {
   }
 }
 
-function getAllUserRoles(data) {
+function getAllRoles(data) {
   return (dispatch) => {
     dispatch(request())
     return api.permissionService
-      .getAllUserRoles(data)
+      .getAllRoles(data)
       .then((response) => {
         if (response.data && response.data.length > 0) {
           response.data.forEach((item) => {

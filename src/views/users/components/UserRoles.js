@@ -9,20 +9,16 @@ import {
   CCol,
   CRow,
   CButton,
-  CBadge,
   CModalHeader,
   CModalTitle,
   CModalBody,
   CModalFooter,
   CModal,
-  CSpinner,
 } from '@coreui/react'
 import CDataTable from '../../components/widgets/table/CDataTable'
 import CPagination from '../../components/widgets/pagination/CPagination'
 import CIcon from '@coreui/icons-react'
 import { userActions } from '../actions'
-import PropTypes from 'prop-types'
-import User from './User'
 
 const UserRoles = () => {
   const { t } = useTranslation()
@@ -45,7 +41,7 @@ const UserRoles = () => {
 
   useEffect(() => {
     const loadData = async () => {
-      await getAllUserRoles()
+      await getAllRoles()
     }
     loadData()
   }, [dispatch, currentPage, page])
@@ -54,9 +50,9 @@ const UserRoles = () => {
     history.push(`/users/role/create`)
   }
 
-  const getAllUserRoles = async () => {
+  const getAllRoles = async () => {
     await dispatch(
-      userActions.getAllUserRoles({
+      userActions.getAllRoles({
         page: currentPage > 1 ? currentPage - 1 : 0,
         size: itemsPerPage,
       }),
@@ -68,7 +64,7 @@ const UserRoles = () => {
     setDanger(!danger)
     if (!deleteRoleName || deleteRoleName.length === 0) return
     await dispatch(userActions.deleteUserRole(deleteRoleName))
-    await getAllUserRoles()
+    await getAllRoles()
   }
 
   return (

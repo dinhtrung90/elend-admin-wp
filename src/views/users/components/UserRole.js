@@ -21,30 +21,29 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { FaExchangeAlt } from 'react-icons/fa'
 import PropTypes from 'prop-types'
+import WidgetDragDrop from '../../components/widgets/WidgetDragDrop'
 
 const UserRole = ({ match }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  let allRoles = useSelector((state) => state.users.userRoles)
   const userRoleData = useSelector((state) => state.users.userRoleDetail)
   const isRedirect = useSelector((state) => state.users.isRedirect)
   const permissions = useSelector((state) => state.users.permissions)
-  const [defaultRoles, setDefaultRoles] = useState([
-    { name: 'Role 1', category: 'availableRoles', selected: false },
-    { name: 'Role 2', category: 'availableRoles', selected: false },
-    { name: 'Role 3', category: 'availableRoles', selected: false },
-    { name: 'Role 4', category: 'availableRoles', selected: false },
-    { name: 'Role 5', category: 'availableRoles', selected: false },
-    { name: 'Role 6', category: 'availableRoles', selected: false },
-    { name: 'Role 7', category: 'associatedRoles', selected: false },
-  ])
+  const [selectedUserRoles, setSelectedUserRoles] = useState([])
+
+  if (allRoles && allRoles.length > 0) {
+    allRoles.forEach((role) => {
+      role.selected = false
+      role.category = 'availableRoles'
+    })
+  }
 
   const formik = useFormik({
     initialValues: {
-      name: userRoleData.roleName || '',
       roleName: userRoleData.roleName || '',
       description: userRoleData.description || '',
-      // permissionDetails: userRoleData.permissionDetails || [],
-      permissionAll: [],
+      availablePrivileges: [],
       permissions: permissions || [],
       allChecked: false,
     },
@@ -52,7 +51,6 @@ const UserRole = ({ match }) => {
     validationSchema: Yup.object({
       name: Yup.string().required(t('messages.requireRoleName')),
       description: Yup.string().required(t('messages.requireRoleDescription')),
-      // permissionDetails: Yup.array().required('messages.requireAtLeastPermission'),
     }),
     onSubmit: (values) => {
       handleToSubmit(values)
@@ -61,7 +59,7 @@ const UserRole = ({ match }) => {
 
   // populate data in edit mode
   if (match.params.id) {
-    if (formik.values.name.length === 0 && userRoleData && userRoleData.name) {
+    if (formik.values.roleName.length === 0 && userRoleData && userRoleData.roleName) {
       formik.setValues(userRoleData)
     }
   } else {
@@ -92,11 +90,11 @@ const UserRole = ({ match }) => {
     //   })
     // })
     // checkboxes.forEach((item) => {
-    //   const selectedItemInx = formik.values.permissionAll.findIndex((p) => p.name === item.name)
+    //   const selectedItemInx = formik.values.availablePrivileges.findIndex((p) => p.name === item.name)
     //   if (selectedItemInx === -1) {
-    //     formik.values.permissionAll.push(item)
+    //     formik.values.availablePrivileges.push(item)
     //   } else {
-    //     formik.values.permissionAll[selectedItemInx] = item
+    //     formik.values.availablePrivileges[selectedItemInx] = item
     //   }
     // })
   }
@@ -113,6 +111,7 @@ const UserRole = ({ match }) => {
 
   useEffect(() => {
     const loadData = async () => {
+      await dispatch(userActions.getAllRoles({ all: true }))
       await dispatch(userActions.getAllPermissions())
       if (match.params.id) {
         await dispatch(userActions.getUserRoleDetail(match.params.id))
@@ -121,7 +120,21 @@ const UserRole = ({ match }) => {
     loadData()
   }, [dispatch])
 
+  const onDropUserRoles = (roles) => {
+    console.log('onDropUserRoles=', roles)
+    setSelectedUserRoles(roles)
+  }
+
   const handleToSubmit = (values) => {
+    const payload = {
+      roleName: values.roleName,
+      description: values.description,
+      effectiveRoles: ['ROLE_ADMIN', 'ROLE_USER'],
+      availablePrivileges: values.availablePrivileges,
+    }
+
+    console.log('payload==', payload)
+
     /*
     const payload = {
       name: values.name,
@@ -130,7 +143,7 @@ const UserRole = ({ match }) => {
     }
     payload.permissionDetails = payload.permissionDetails.concat(values.permissionDetails)
 
-    values.permissionAll.forEach((item) => {
+    values.availablePrivileges.forEach((item) => {
       if (!item.checked) {
         return
       }
@@ -161,40 +174,40 @@ const UserRole = ({ match }) => {
     */
   }
 
-  // init drag roles
-  const onDragStart = (ev, id) => {
-    ev.dataTransfer.setData('id', id)
-  }
-
-  const onDragOver = (ev) => {
-    ev.preventDefault()
-  }
-
-  const onDrop = (ev, cat) => {
-    let id = ev.dataTransfer.getData('id')
-
-    let roles = defaultRoles.filter((role) => {
-      if (role.name === id) {
-        role.category = cat
-      }
-      return role
-    })
-
-    setDefaultRoles(roles)
-  }
-
-  const dragRoles = {
-    availableRoles: [],
-    associatedRoles: [],
-  }
-
-  defaultRoles.forEach((t) => {
-    dragRoles[t.category].push(
-      <div key={t.name} onDragStart={(e) => onDragStart(e, t.name)} draggable className="draggable">
-        {t.name}
-      </div>,
-    )
-  })
+  // // init drag roles
+  // const onDragStart = (ev, id) => {
+  //   ev.dataTransfer.setData('id', id)
+  // }
+  //
+  // const onDragOver = (ev) => {
+  //   ev.preventDefault()
+  // }
+  //
+  // const onDrop = (ev, cat) => {
+  //   let id = ev.dataTransfer.getData('id')
+  //
+  //   let roles = defaultRoles.filter((role) => {
+  //     if (role.name === id) {
+  //       role.category = cat
+  //     }
+  //     return role
+  //   })
+  //
+  //   setDefaultRoles(roles)
+  // }
+  //
+  // const dragRoles = {
+  //   availableRoles: [],
+  //   associatedRoles: [],
+  // }
+  //
+  // defaultRoles.forEach((t) => {
+  //   dragRoles[t.category].push(
+  //     <div key={t.name} onDragStart={(e) => onDragStart(e, t.name)} draggable className="draggable">
+  //       {t.name}
+  //     </div>,
+  //   )
+  // })
 
   return isRedirect ? (
     <Redirect to={{ pathname: '/users/role' }} />
@@ -213,14 +226,14 @@ const UserRole = ({ match }) => {
               <div>
                 <CFormLabel htmlFor="userRoleName">{t('view.UserRoles.UserRoleName')}</CFormLabel>
                 <CFormControl
-                  invalid={formik.errors.name && formik.touched.name}
+                  invalid={formik.errors.roleName && formik.touched.roleName}
                   id="userRoleName"
                   name="roleName"
-                  value={formik.values.name}
+                  value={formik.values.roleName}
                   onChange={formik.handleChange}
-                  {...formik.getFieldProps('name')}
+                  {...formik.getFieldProps('roleName')}
                 />
-                <CFormFeedback>{formik.errors.name}</CFormFeedback>
+                <CFormFeedback>{formik.errors.roleName}</CFormFeedback>
               </div>
               <div>
                 <CFormLabel htmlFor="description">{t('common.Description')}</CFormLabel>
@@ -236,31 +249,7 @@ const UserRole = ({ match }) => {
               </div>
               <div>
                 <h5>{t('view.UserRole.CompositeRoles')}</h5>
-                <CRow className="role-container-drag">
-                  <CCol
-                    className="available-role"
-                    onDragOver={(e) => onDragOver(e)}
-                    onDrop={(e) => {
-                      onDrop(e, 'availableRoles')
-                    }}
-                  >
-                    <span className="drag-role-header font-weight-bold">
-                      {t('view.UserRole.AvailableRoles')}
-                    </span>
-                    <div className="drag-role-list">{dragRoles.availableRoles}</div>
-                  </CCol>
-                  <FaExchangeAlt className="drag-icon" />
-                  <CCol
-                    className="droppable"
-                    onDragOver={(e) => onDragOver(e)}
-                    onDrop={(e) => onDrop(e, 'associatedRoles')}
-                  >
-                    <span className="drag-role-header font-weight-bold">
-                      {t('view.UserRole.AssociatedRoles')}
-                    </span>
-                    <div className="drag-role-list">{dragRoles.associatedRoles}</div>
-                  </CCol>
-                </CRow>
+                <WidgetDragDrop dataSource={allRoles} onFinish={onDropUserRoles} />
               </div>
               <div>
                 <h5>{t('common.Permission')}</h5>

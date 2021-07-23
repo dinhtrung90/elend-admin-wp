@@ -9,7 +9,7 @@ const getAllPermissions = () => {
   return axios.get(SERVICE_DOMAIN + '/api/permissions')
 }
 
-const getAllUserRoles = (data) => {
+const getAllRoles = (data) => {
   if (data && data.all) {
     return axios.get(SERVICE_DOMAIN + `/api/cms/role/get`)
   }
@@ -17,11 +17,11 @@ const getAllUserRoles = (data) => {
 }
 
 const createUserRole = (data) => {
-  return axios.post(SERVICE_DOMAIN + '/api/member-roles/create-roles', data)
+  return axios.post(SERVICE_DOMAIN + '/api/cms/role/create', data)
 }
 
 const editUserRole = (data) => {
-  return axios.post(SERVICE_DOMAIN + '/api/member-roles/edit', data)
+  return axios.put(SERVICE_DOMAIN + '/api/cms/role/update', data)
 }
 
 const getUserRoleDetail = (roleName) => {
@@ -29,7 +29,7 @@ const getUserRoleDetail = (roleName) => {
 }
 
 const deleteUserRole = (roleName) => {
-  return axios.delete(SERVICE_DOMAIN + `/api/member-roles/${roleName}`)
+  return axios.delete(SERVICE_DOMAIN + `/api/cms/role/delete/${roleName}`)
 }
 
 const createUserRoleMapping = (data) => {
@@ -39,7 +39,7 @@ const createUserRoleMapping = (data) => {
 export const permissionService = {
   getClientApplications,
   getAllPermissions,
-  getAllUserRoles,
+  getAllRoles,
   createUserRole,
   editUserRole,
   deleteUserRole,

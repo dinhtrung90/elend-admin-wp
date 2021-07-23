@@ -47,7 +47,7 @@ const User = ({ match }) => {
 
   useEffect(() => {
     const loadData = async () => {
-      await dispatch(userActions.getAllUserRoles({ all: true }))
+      await dispatch(userActions.getAllRoles({ all: true }))
       if (paramId) {
         await dispatch(userActions.getUserDetail(paramId))
         await dispatch(
