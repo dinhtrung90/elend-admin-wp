@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 const FileUploader = ({ invalid, onFileSelectError, onFileSelectSuccess }) => {
   const handleFileInput = (e) => {
-    debugger
     // handle validations
     const file = e.target.files[0]
     const fileSize = file.size / 1024 / 1024 // in MiB
