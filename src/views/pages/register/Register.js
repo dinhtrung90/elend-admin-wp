@@ -85,7 +85,7 @@ const Register = () => {
         birthDay: formik.values.birthDate,
         ssn: formik.values.ssn,
         fullAddress: formik.values.fullAddress,
-        gender: formik.values.gender,
+        gender: formik.values.gender || constGenders.UNKNOWN,
       },
       eligibilityMetadata: [],
     }
