@@ -31,7 +31,7 @@ const Thanks = ({ match }) => {
                     <div style={{ display: !rewardCode || rewardCode === 0 ? 'none' : 'block' }}>
                       <p>Mã đổi quà</p>
                       <h2>{rewardCode}</h2>
-                      <p>Quý khách lưu ý mã code và xuất trình khi đến nhận quà.</p>
+                      <p>Quý khách lưu ý ghi lại mã code và xuất trình khi đến nhận quà.</p>
                       <small>Chú ý: mã này chỉ có hiệu lực trong vòng 30 ngày</small>
                     </div>
                   </CCol>
