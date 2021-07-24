@@ -99,40 +99,52 @@ const Register = () => {
         history.push(`/thanks/${code}`)
       })
       .catch((error) => {
+        if (
+          error.errorCode === 'EMPLOYEE_ID_HAS_EXISTED' ||
+          error.errorCode === 'EMAIL_HAS_EXISTED' ||
+          error.errorCode === 'PHONE_HAS_EXISTED'
+        ) {
+          toast.error('Mã nhân viên đã được đăng ký.')
+          return
+        }
         toast.error('Đăng ký không thành công. Vui lòng thử lại.')
       })
   }
 
   const uploadFileBeforeCard = (file) => {
     formik.values.fileBeforeCard = file
-    userService
-      .uploadImage(file)
-      .then((result) => {
-        formik.values.thumbBeforeCardUrl = {
-          signature: result.data.public_id,
-          thumbUrl: result.data.url,
-          fileName: file.name,
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    setTimeout(() => {
+      userService
+        .uploadImage(file)
+        .then((result) => {
+          formik.values.thumbBeforeCardUrl = {
+            signature: result.data.public_id,
+            thumbUrl: result.data.url,
+            fileName: file.name,
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }, 400)
   }
 
   const uploadFileAfterCard = (file) => {
     formik.values.fileAfterCard = file
-    userService
-      .uploadImage(file)
-      .then((result) => {
-        formik.values.thumbAfterCardUrl = {
-          signature: result.data.public_id,
-          thumbUrl: result.data.url,
-          fileName: file.name,
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    setTimeout(() => {
+      userService
+        .uploadImage(file)
+        .then((result) => {
+          formik.values.thumbAfterCardUrl = {
+            signature: result.data.public_id,
+            thumbUrl: result.data.url,
+            fileName: file.name,
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }, 400)
   }
 
   const resetForm = () => {
