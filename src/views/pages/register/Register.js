@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import { useHistory } from 'react-router-dom'
 import {
@@ -25,6 +25,8 @@ import { toast } from 'react-toastify'
 
 const Register = () => {
   const history = useHistory()
+  const [thumbBeforeCardUrl, setThumbBeforeCardUrl] = useState('')
+  const [thumbAfterCardUrl, setThumbAfterCardUrl] = useState('')
 
   const companies = {
     NONE: 'NONE',
@@ -89,8 +91,8 @@ const Register = () => {
       },
       eligibilityMetadata: [],
     }
-    payload.eligibilityMetadata.push(formik.values.thumbBeforeCardUrl)
-    payload.eligibilityMetadata.push(formik.values.thumbAfterCardUrl)
+    payload.eligibilityMetadata.push(thumbBeforeCardUrl)
+    payload.eligibilityMetadata.push(thumbAfterCardUrl)
 
     userService
       .signupEligibility(payload)
@@ -117,11 +119,13 @@ const Register = () => {
       userService
         .uploadImage(file)
         .then((result) => {
-          formik.values.thumbBeforeCardUrl = {
+          const data = {
             signature: result.data.public_id,
             thumbUrl: result.data.url,
             fileName: file.name,
           }
+          setThumbBeforeCardUrl(data)
+          formik.values.thumbBeforeCardUrl = data
         })
         .catch((error) => {
           console.error(error)
@@ -135,11 +139,13 @@ const Register = () => {
       userService
         .uploadImage(file)
         .then((result) => {
-          formik.values.thumbAfterCardUrl = {
+          const data = {
             signature: result.data.public_id,
             thumbUrl: result.data.url,
             fileName: file.name,
           }
+          setThumbAfterCardUrl(data)
+          formik.values.thumbAfterCardUrl = data
         })
         .catch((error) => {
           console.error(error)
