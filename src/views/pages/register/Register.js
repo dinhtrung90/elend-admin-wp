@@ -17,7 +17,7 @@ import {
   CFormFeedback,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { FaAddressCard, FaRegIdCard } from 'react-icons/fa'
+import { FaAddressCard, FaCheckCircle, FaRegIdCard } from 'react-icons/fa'
 import * as Yup from 'yup'
 import { userService } from '../../../services/user.service'
 import FileUploader from '../../components/widgets/FileUploader'
@@ -26,7 +26,7 @@ import DatePicker from 'react-mobile-datepicker'
 
 const Register = () => {
   const history = useHistory()
-  const [thumbBeforeCardUrl, setThumbBeforeCardUrl] = useState('')
+  const [thumbBeforeCardUrl, setThumbBeforeCardUrl] = useState(null)
   const [thumbAfterCardUrl, setThumbAfterCardUrl] = useState('')
   const [isDatePickerOpen, setDatePickerOpen] = useState(false)
   const [selectedBirthDate, setSelectedBirthDate] = useState('')
@@ -88,7 +88,7 @@ const Register = () => {
     mobilePhone: Yup.string().required('Vui lòng nhập số điện thoại'),
     ssn: Yup.string().required('Vui lòng nhập CMND hay CCCD'),
     fullAddress: Yup.string().required('Vui lòng địa chỉ'),
-    fileBeforeCard: Yup.mixed().required('Vui lòng chụp mặt trước CMND/CCCD'),
+    thumbBeforeCardUrl: Yup.mixed().required('Vui lòng chụp mặt trước CMND/CCCD'),
   })
 
   const formik = useFormik({
@@ -153,24 +153,15 @@ const Register = () => {
       })
   }
 
-  const uploadFileBeforeCard = (file) => {
-    formik.values.fileBeforeCard = file
-    setTimeout(() => {
-      userService
-        .uploadImage(file)
-        .then((result) => {
-          const data = {
-            signature: result.data.public_id,
-            thumbUrl: result.data.url,
-            fileName: file.name,
-          }
-          setThumbBeforeCardUrl(data)
-          formik.values.thumbBeforeCardUrl = data
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }, 400)
+  const uploadFileBeforeCard = (result) => {
+    console.log('uploadImageByCloudinary=', result)
+    const data = {
+      signature: result.public_id,
+      thumbUrl: result.url,
+      fileName: result.original_filename,
+    }
+    setThumbBeforeCardUrl(data)
+    formik.values.thumbBeforeCardUrl = data
   }
 
   const uploadFileAfterCard = (file) => {
@@ -210,6 +201,48 @@ const Register = () => {
     formik.values.birthDate = convertedDate
     setSelectedBirthDate(convertedDate)
     setDatePickerOpen(false)
+  }
+
+  const showCloudinaryWidget = () => {
+    const cloudinaryWidget = window.cloudinary.openUploadWidget(
+      {
+        cloudName: 'tvsales',
+        uploadPreset: 'quatang',
+        sources: ['local', 'camera'],
+        showAdvancedOptions: false,
+        cropping: false,
+        multiple: false,
+        defaultSource: 'local',
+        styles: {
+          palette: {
+            window: '#FFFFFF',
+            windowBorder: '#90A0B3',
+            tabIcon: '#0078FF',
+            menuIcons: '#5A616A',
+            textDark: '#000000',
+            textLight: '#FFFFFF',
+            link: '#0078FF',
+            action: '#FF620C',
+            inactiveTabIcon: '#0E2F5A',
+            error: '#F44235',
+            inProgress: '#0078FF',
+            complete: '#20B832',
+            sourceBg: '#E4EBF1',
+          },
+          fonts: {
+            default: {
+              active: true,
+            },
+          },
+        },
+      },
+      (err, result) => {
+        if (!err) {
+          uploadFileBeforeCard(result)
+        }
+      },
+    )
+    cloudinaryWidget.open()
   }
 
   return (
@@ -415,11 +448,15 @@ const Register = () => {
                         <CInputGroupText>
                           <FaAddressCard />
                         </CInputGroupText>
-                        <FileUploader
-                          invalid={formik.errors.fileBeforeCard && formik.touched.fileBeforeCard}
-                          onFileSelectSuccess={(file) => uploadFileBeforeCard(file)}
-                          onFileSelectError={({ error }) => alert(error)}
-                        />
+                        <CButton
+                          className="button-cloudinary-upload"
+                          onClick={showCloudinaryWidget}
+                        >
+                          Chọn File
+                        </CButton>
+                        <CInputGroupText>
+                          <FaCheckCircle color={thumbBeforeCardUrl ? '#2eb85c' : 'gray'} />
+                        </CInputGroupText>
                       </CInputGroup>
                       <CFormFeedback
                         invalid
@@ -438,14 +475,10 @@ const Register = () => {
                         Ngày sinh
                       </CFormLabel>
                       <CInputGroup>
-                        <CInputGroupText>
+                        <CInputGroupText onClick={handleDatePickerClick}>
                           <CIcon name="cil-calendar" />
                         </CInputGroupText>
-                        <CFormControl
-                          value={selectedBirthDate}
-                          placeholder="MM/DD/YYYY"
-                          onClick={handleDatePickerClick}
-                        />
+                        <CFormControl value={selectedBirthDate} placeholder="MM/DD/YYYY" disabled />
                         <DatePicker
                           isOpen={isDatePickerOpen}
                           dateConfig={dateConfig}
@@ -454,13 +487,6 @@ const Register = () => {
                           confirmText="Chọn"
                           cancelText="Huỷ"
                         />
-                        {/*<CFormControl*/}
-                        {/*  type="date"*/}
-                        {/*  id="DateOfBirth"*/}
-                        {/*  name="DateOfBirth"*/}
-                        {/*  value={formik.values.birthDate}*/}
-                        {/*  {...formik.getFieldProps('birthDate')}*/}
-                        {/*/>*/}
                       </CInputGroup>
                     </CCol>
                     <CCol sm={12} className="mb-4">
