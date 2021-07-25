@@ -1,5 +1,6 @@
 const initialState = {
   sidebarShow: 'responsive',
+  sidebarUnfoldable: false,
 }
 
 export const changeStateReducer = (state = initialState, { type, ...rest }) => {

@@ -21,8 +21,8 @@ const AppSidebar = () => {
   const { t } = useTranslation()
 
   const dispatch = useDispatch()
-  const unfoldable = useSelector((state) => state.sidebarUnfoldable)
-  const sidebarShow = useSelector((state) => state.sidebarShow)
+  const unfoldable = useSelector((state) => state.changeState.sidebarUnfoldable)
+  const sidebarShow = useSelector((state) => state.changeState.sidebarShow)
 
   navigation.forEach((item) => {
     if (item.translatename) {
@@ -36,7 +36,6 @@ const AppSidebar = () => {
       })
     }
   })
-
   return (
     <CSidebar
       position="fixed"
@@ -47,6 +46,7 @@ const AppSidebar = () => {
       onHide={() => {
         dispatch({ type: 'set', sidebarShow: false })
       }}
+      visible={true}
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
         <CIcon className="sidebar-brand-full" name="logo-negative" height={35} />
