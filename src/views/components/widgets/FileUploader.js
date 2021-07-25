@@ -15,7 +15,6 @@ const FileUploader = ({ invalid, onFileSelectError, onFileSelectSuccess }) => {
       <input
         type="file"
         accept="image/*"
-        capture="camera"
         className={`form-control ${invalid ? 'is-invalid' : ''}`}
         onChange={handleFileInput}
       />
