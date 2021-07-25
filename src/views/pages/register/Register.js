@@ -154,7 +154,7 @@ const Register = () => {
   }
 
   const uploadFileBeforeCard = (result) => {
-    console.log('uploadImageByCloudinary=', result)
+    if (result.event !== 'success') return
     const data = {
       signature: result.public_id,
       thumbUrl: result.url,
