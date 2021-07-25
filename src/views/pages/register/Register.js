@@ -22,11 +22,14 @@ import * as Yup from 'yup'
 import { userService } from '../../../services/user.service'
 import FileUploader from '../../components/widgets/FileUploader'
 import { toast } from 'react-toastify'
+import DatePicker from 'react-mobile-datepicker'
 
 const Register = () => {
   const history = useHistory()
   const [thumbBeforeCardUrl, setThumbBeforeCardUrl] = useState('')
   const [thumbAfterCardUrl, setThumbAfterCardUrl] = useState('')
+  const [isDatePickerOpen, setDatePickerOpen] = useState(false)
+  const [selectedBirthDate, setSelectedBirthDate] = useState('')
 
   const companies = {
     NONE: 'NONE',
@@ -43,6 +46,41 @@ const Register = () => {
     FEMALE: 'Female',
     UNKNOWN: 'Unknown',
   }
+
+  // date picker
+  const monthMap = {
+    1: 'Jan',
+    2: 'Feb',
+    3: 'Mar',
+    4: 'Apr',
+    5: 'May',
+    6: 'Jun',
+    7: 'Jul',
+    8: 'Aug',
+    9: 'Sep',
+    10: 'Oct',
+    11: 'Nov',
+    12: 'Dec',
+  }
+
+  const dateConfig = {
+    year: {
+      format: 'YYYY',
+      caption: 'Year',
+      step: 1,
+    },
+    month: {
+      format: (value) => monthMap[value.getMonth() + 1],
+      caption: 'Mon',
+      step: 1,
+    },
+    date: {
+      format: 'DD',
+      caption: 'Day',
+      step: 1,
+    },
+  }
+
   let schema = Yup.object({
     company: Yup.string().required('Vui lòng chọn nơi công tác').oneOf(companyFilter),
     employeeId: Yup.string().required('Vui lòng nhập ID (Mã nhân viên)'),
@@ -51,7 +89,6 @@ const Register = () => {
     ssn: Yup.string().required('Vui lòng nhập CMND hay CCCD'),
     fullAddress: Yup.string().required('Vui lòng địa chỉ'),
     fileBeforeCard: Yup.mixed().required('Vui lòng chụp mặt trước CMND/CCCD'),
-    fileAfterCard: Yup.mixed().required('Vui lòng chụp mặt sau CMND/CCCD'),
   })
 
   const formik = useFormik({
@@ -84,7 +121,10 @@ const Register = () => {
         email: formik.values.email,
         phone: formik.values.mobilePhone,
         fullName: formik.values.fullName,
-        birthDay: formik.values.birthDate,
+        birthDay:
+          formik.values.birthDate && formik.values.birthDate.length > 0
+            ? formik.values.birthDate
+            : selectedBirthDate,
         ssn: formik.values.ssn,
         fullAddress: formik.values.fullAddress,
         gender: formik.values.gender || constGenders.UNKNOWN,
@@ -92,7 +132,7 @@ const Register = () => {
       eligibilityMetadata: [],
     }
     payload.eligibilityMetadata.push(thumbBeforeCardUrl)
-    payload.eligibilityMetadata.push(thumbAfterCardUrl)
+    // payload.eligibilityMetadata.push(thumbAfterCardUrl)
 
     userService
       .signupEligibility(payload)
@@ -155,6 +195,21 @@ const Register = () => {
 
   const resetForm = () => {
     formik.resetForm()
+  }
+
+  const handleDatePickerClick = () => {
+    setDatePickerOpen(true)
+  }
+
+  const handleDatePickerCancel = () => {
+    setDatePickerOpen(false)
+  }
+
+  const handleDatePickerSelect = (selectedDate) => {
+    const convertedDate = selectedDate.toISOString().split('T')[0]
+    formik.values.birthDate = convertedDate
+    setSelectedBirthDate(convertedDate)
+    setDatePickerOpen(false)
   }
 
   return (
@@ -379,30 +434,34 @@ const Register = () => {
                       </CFormFeedback>
                     </CCol>
                     <CCol sm={6} className="mb-4">
-                      <CFormLabel htmlFor="afterIdentityCard" className="col-form-label">
-                        Mặt sau CMND/CCCD <span className="form-required"> *</span>
+                      <CFormLabel htmlFor="DateOfBirth" className="col-form-label">
+                        Ngày sinh
                       </CFormLabel>
                       <CInputGroup>
                         <CInputGroupText>
-                          <FaAddressCard />
+                          <CIcon name="cil-calendar" />
                         </CInputGroupText>
-                        <FileUploader
-                          invalid={formik.errors.fileAfterCard && formik.touched.fileAfterCard}
-                          onFileSelectSuccess={(file) => uploadFileAfterCard(file)}
-                          onFileSelectError={({ error }) => alert(error)}
+                        <CFormControl
+                          value={selectedBirthDate}
+                          placeholder="MM/DD/YYYY"
+                          onClick={handleDatePickerClick}
                         />
+                        <DatePicker
+                          isOpen={isDatePickerOpen}
+                          dateConfig={dateConfig}
+                          onSelect={handleDatePickerSelect}
+                          onCancel={handleDatePickerCancel}
+                          confirmText="Chọn"
+                          cancelText="Huỷ"
+                        />
+                        {/*<CFormControl*/}
+                        {/*  type="date"*/}
+                        {/*  id="DateOfBirth"*/}
+                        {/*  name="DateOfBirth"*/}
+                        {/*  value={formik.values.birthDate}*/}
+                        {/*  {...formik.getFieldProps('birthDate')}*/}
+                        {/*/>*/}
                       </CInputGroup>
-                      <CFormFeedback
-                        invalid
-                        style={{
-                          display:
-                            formik.errors.fileAfterCard && formik.touched.fileAfterCard
-                              ? 'block'
-                              : 'none',
-                        }}
-                      >
-                        {formik.errors.fileAfterCard}
-                      </CFormFeedback>
                     </CCol>
                     <CCol sm={12} className="mb-4">
                       <CFormLabel htmlFor="fullAddress" className="col-form-label">
@@ -433,23 +492,6 @@ const Register = () => {
                         {formik.errors.fullAddress}
                       </CFormFeedback>
                     </CCol>
-                    <CCol sm={12} className="mb-4">
-                      <CFormLabel htmlFor="email" className="col-form-label">
-                        Email
-                      </CFormLabel>
-                      <CInputGroup>
-                        <CInputGroupText>
-                          <CIcon name="cil-user" />
-                        </CInputGroupText>
-                        <CFormControl
-                          id="email"
-                          name="email"
-                          placeholder="Email"
-                          value={formik.values.email}
-                          {...formik.getFieldProps('email')}
-                        />
-                      </CInputGroup>
-                    </CCol>
                     <CCol sm={6} className="mb-4">
                       <CFormLabel htmlFor="UserRole" className="col-form-label">
                         Giới tính
@@ -467,19 +509,19 @@ const Register = () => {
                       </CInputGroup>
                     </CCol>
                     <CCol sm={6} className="mb-4">
-                      <CFormLabel htmlFor="DateOfBirth" className="col-form-label">
-                        Ngày sinh
+                      <CFormLabel htmlFor="email" className="col-form-label">
+                        Email
                       </CFormLabel>
                       <CInputGroup>
                         <CInputGroupText>
-                          <CIcon name="cil-calendar" />
+                          <CIcon name="cil-user" />
                         </CInputGroupText>
                         <CFormControl
-                          type="date"
-                          id="DateOfBirth"
-                          name="DateOfBirth"
-                          value={formik.values.birthDate}
-                          {...formik.getFieldProps('birthDate')}
+                          id="email"
+                          name="email"
+                          placeholder="Email"
+                          value={formik.values.email}
+                          {...formik.getFieldProps('email')}
                         />
                       </CInputGroup>
                     </CCol>
