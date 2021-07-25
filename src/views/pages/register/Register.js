@@ -49,34 +49,34 @@ const Register = () => {
 
   // date picker
   const monthMap = {
-    1: 'Jan',
-    2: 'Feb',
-    3: 'Mar',
-    4: 'Apr',
-    5: 'May',
-    6: 'Jun',
-    7: 'Jul',
-    8: 'Aug',
-    9: 'Sep',
-    10: 'Oct',
-    11: 'Nov',
-    12: 'Dec',
+    1: '1',
+    2: '2',
+    3: '3',
+    4: '4',
+    5: '5',
+    6: '6',
+    7: '7',
+    8: '8',
+    9: '9',
+    10: '10',
+    11: '11',
+    12: '12',
   }
 
   const dateConfig = {
     year: {
       format: 'YYYY',
-      caption: 'Year',
+      caption: 'Năm',
       step: 1,
     },
     month: {
       format: (value) => monthMap[value.getMonth() + 1],
-      caption: 'Mon',
+      caption: 'Tháng',
       step: 1,
     },
     date: {
       format: 'DD',
-      caption: 'Day',
+      caption: 'Ngày',
       step: 1,
     },
   }
@@ -504,12 +504,14 @@ const Register = () => {
                         </CInputGroupText>
                         <CFormControl value={selectedBirthDate} placeholder="MM/DD/YYYY" disabled />
                         <DatePicker
+                          showCaption={true}
                           isOpen={isDatePickerOpen}
                           dateConfig={dateConfig}
                           onSelect={handleDatePickerSelect}
                           onCancel={handleDatePickerCancel}
                           confirmText="Chọn"
                           cancelText="Huỷ"
+                          headerFormat="DD/MM/YYYY"
                         />
                       </CInputGroup>
                     </CCol>
