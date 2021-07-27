@@ -156,9 +156,9 @@ const Register = () => {
   const uploadFileBeforeCard = (result) => {
     if (result.event !== 'success') return
     const data = {
-      signature: result.public_id,
-      thumbUrl: result.url,
-      fileName: result.original_filename,
+      signature: result.info.public_id,
+      thumbUrl: result.info.url,
+      fileName: result.info.original_filename,
     }
     setThumbBeforeCardUrl(data)
     formik.values.thumbBeforeCardUrl = data
@@ -209,6 +209,7 @@ const Register = () => {
         cloudName: 'tvsales',
         uploadPreset: 'quatang',
         sources: ['local', 'camera'],
+        language: 'vi',
         showAdvancedOptions: false,
         cropping: false,
         multiple: false,
