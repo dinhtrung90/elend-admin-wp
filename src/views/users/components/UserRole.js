@@ -19,7 +19,6 @@ import CIcon from '@coreui/icons-react'
 import { Redirect } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { FaExchangeAlt } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 import WidgetDragDrop from '../../components/widgets/WidgetDragDrop'
 
@@ -32,13 +31,6 @@ const UserRole = ({ match }) => {
   const permissions = useSelector((state) => state.users.permissions)
   const [selectedUserRoles, setSelectedUserRoles] = useState([])
 
-  if (allRoles && allRoles.length > 0) {
-    allRoles.forEach((role) => {
-      role.selected = false
-      role.category = 'availableRoles'
-    })
-  }
-
   const formik = useFormik({
     initialValues: {
       roleName: userRoleData.roleName || '',
@@ -49,7 +41,7 @@ const UserRole = ({ match }) => {
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
-      name: Yup.string().required(t('messages.requireRoleName')),
+      roleName: Yup.string().required(t('messages.requireRoleName')),
       description: Yup.string().required(t('messages.requireRoleDescription')),
     }),
     onSubmit: (values) => {
@@ -121,7 +113,6 @@ const UserRole = ({ match }) => {
   }, [dispatch])
 
   const onDropUserRoles = (roles) => {
-    console.log('onDropUserRoles=', roles)
     setSelectedUserRoles(roles)
   }
 
@@ -129,85 +120,32 @@ const UserRole = ({ match }) => {
     const payload = {
       roleName: values.roleName,
       description: values.description,
-      effectiveRoles: ['ROLE_ADMIN', 'ROLE_USER'],
-      availablePrivileges: values.availablePrivileges,
+      effectiveRoles:
+        selectedUserRoles && selectedUserRoles.length
+          ? selectedUserRoles.map((role) => role.name)
+          : userRoleData.effectiveRoles,
     }
+    const availablePrivileges = []
 
-    console.log('payload==', payload)
-
-    /*
-    const payload = {
-      name: values.name,
-      description: values.description,
-      permissionDetails: [],
-    }
-    payload.permissionDetails = payload.permissionDetails.concat(values.permissionDetails)
-
-    values.availablePrivileges.forEach((item) => {
-      if (!item.checked) {
-        return
-      }
-      const detailItemIdx = payload.permissionDetails.findIndex(
-        (p) => item.checked && p.permissionId === item.id,
-      )
-      if (detailItemIdx === -1) {
-        const detailItem = {
-          permissionId: item.id,
-          permissionName: item.permission_name,
-          permissionDesc: item.description,
-          operations: [item.value],
+    formik.values.permissions.forEach((parent) => {
+      if (!parent.children || parent.children.length === 0) return
+      parent.children.forEach((child) => {
+        if (child.checked) {
+          availablePrivileges.push({
+            name: child.name,
+            description: child.description,
+            selected: true,
+          })
         }
-
-        payload.permissionDetails.push(detailItem)
-      } else if (
-        item.checked &&
-        !payload.permissionDetails[detailItemIdx].operations.includes(item.value)
-      ) {
-        payload.permissionDetails[detailItemIdx].operations.push(item.value)
-      }
+      })
     })
+    payload.availablePrivileges = availablePrivileges
     if (match.params.id) {
       dispatch(userActions.editUserRole(payload))
     } else {
       dispatch(userActions.createUserRole(payload))
     }
-    */
   }
-
-  // // init drag roles
-  // const onDragStart = (ev, id) => {
-  //   ev.dataTransfer.setData('id', id)
-  // }
-  //
-  // const onDragOver = (ev) => {
-  //   ev.preventDefault()
-  // }
-  //
-  // const onDrop = (ev, cat) => {
-  //   let id = ev.dataTransfer.getData('id')
-  //
-  //   let roles = defaultRoles.filter((role) => {
-  //     if (role.name === id) {
-  //       role.category = cat
-  //     }
-  //     return role
-  //   })
-  //
-  //   setDefaultRoles(roles)
-  // }
-  //
-  // const dragRoles = {
-  //   availableRoles: [],
-  //   associatedRoles: [],
-  // }
-  //
-  // defaultRoles.forEach((t) => {
-  //   dragRoles[t.category].push(
-  //     <div key={t.name} onDragStart={(e) => onDragStart(e, t.name)} draggable className="draggable">
-  //       {t.name}
-  //     </div>,
-  //   )
-  // })
 
   return isRedirect ? (
     <Redirect to={{ pathname: '/users/role' }} />
@@ -223,93 +161,110 @@ const UserRole = ({ match }) => {
               </button>
             </CCardHeader>
             <CCardBody>
-              <div>
-                <CFormLabel htmlFor="userRoleName">{t('view.UserRoles.UserRoleName')}</CFormLabel>
-                <CFormControl
-                  invalid={formik.errors.roleName && formik.touched.roleName}
-                  id="userRoleName"
-                  name="roleName"
-                  value={formik.values.roleName}
-                  onChange={formik.handleChange}
-                  {...formik.getFieldProps('roleName')}
-                />
-                <CFormFeedback>{formik.errors.roleName}</CFormFeedback>
-              </div>
-              <div>
-                <CFormLabel htmlFor="description">{t('common.Description')}</CFormLabel>
-                <CFormControl
-                  invalid={formik.errors.description && formik.touched.description}
-                  id="description"
-                  name="description"
-                  value={formik.values.description}
-                  onChange={formik.handleChange}
-                  {...formik.getFieldProps('description')}
-                />
-                <CFormFeedback>{formik.errors.description}</CFormFeedback>
-              </div>
-              <div>
-                <h5>{t('view.UserRole.CompositeRoles')}</h5>
-                <WidgetDragDrop dataSource={allRoles} onFinish={onDropUserRoles} />
-              </div>
-              <div>
-                <h5>{t('common.Permission')}</h5>
-                <table className="table table-bordered table-role">
-                  <thead className="thead-light">
-                    <tr>
-                      <th>
-                        <Checkbox
-                          onChange={onCheckboxAllChange}
-                          checked={formik.values.allChecked}
-                        />{' '}
-                        {t('common.All')}
-                      </th>
-                      <th>{t('view.UserRole.Create')}</th>
-                      <th>{t('view.UserRole.Update')}</th>
-                      <th>{t('view.UserRole.Delete')}</th>
-                      <th>{t('view.UserRole.Read')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {formik.values.permissions &&
-                      formik.values.permissions.map((permission) => {
-                        return (
-                          <tr key={'tr-permission-id' + permission.id}>
-                            <CheckboxGroup
-                              name={`group-${permission.name}`}
-                              onChange={onCheckboxChange}
-                            >
-                              <td>
-                                <label>
-                                  <AllCheckerCheckbox />
-                                  <span className="ms-2">{permission.description}</span>
-                                </label>
-                              </td>
-                              {permission.children.map((childPermission) => {
-                                return (
-                                  <td
-                                    key={`${permission.id}-${childPermission.id}-${childPermission.value}`}
-                                  >
-                                    <label>
-                                      <Checkbox
-                                        id={childPermission.id}
-                                        name={childPermission.name}
-                                        permission_name={childPermission.permissionName}
-                                        description={childPermission.permissionDesc}
-                                        value={childPermission.value}
-                                        checked={childPermission.checked}
-                                      />
-                                      <span className="ms-2">{childPermission.description}</span>
-                                    </label>
-                                  </td>
-                                )
-                              })}
-                            </CheckboxGroup>
-                          </tr>
-                        )
-                      })}
-                  </tbody>
-                </table>
-              </div>
+              <CRow>
+                <CCol sm={12} className="mb-4">
+                  <CFormLabel htmlFor="userRoleName">{t('view.UserRoles.UserRoleName')}</CFormLabel>
+                  <CFormControl
+                    invalid={formik.errors.roleName && formik.touched.roleName}
+                    id="userRoleName"
+                    name="roleName"
+                    value={formik.values.roleName}
+                    onChange={formik.handleChange}
+                    {...formik.getFieldProps('roleName')}
+                  />
+                  <CFormFeedback
+                    invalid
+                    style={{
+                      display: formik.errors.roleName && formik.touched.roleName ? 'block' : 'none',
+                    }}
+                  >
+                    {formik.errors.roleName}
+                  </CFormFeedback>
+                </CCol>
+                <CCol sm={12} className="mb-4">
+                  <CFormLabel htmlFor="description">{t('common.Description')}</CFormLabel>
+                  <CFormControl
+                    invalid={formik.errors.description && formik.touched.description}
+                    id="description"
+                    name="description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    {...formik.getFieldProps('description')}
+                  />
+                  <CFormFeedback
+                    invalid
+                    style={{
+                      display:
+                        formik.errors.description && formik.touched.description ? 'block' : 'none',
+                    }}
+                  >
+                    {formik.errors.description}
+                  </CFormFeedback>
+                </CCol>
+                <CCol sm={12} className="mb-4">
+                  <h5>{t('view.UserRole.CompositeRoles')}</h5>
+                  <WidgetDragDrop dataSource={allRoles} onFinish={onDropUserRoles} />
+                </CCol>
+                <CCol sm={12} className="mb-4">
+                  <h5>{t('common.Permission')}</h5>
+                  <table className="table table-bordered table-role">
+                    <thead className="thead-light">
+                      <tr>
+                        <th>
+                          <Checkbox
+                            onChange={onCheckboxAllChange}
+                            checked={formik.values.allChecked}
+                          />{' '}
+                          {t('common.All')}
+                        </th>
+                        <th>{t('view.UserRole.Create')}</th>
+                        <th>{t('view.UserRole.Update')}</th>
+                        <th>{t('view.UserRole.Delete')}</th>
+                        <th>{t('view.UserRole.Read')}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {formik.values.permissions &&
+                        formik.values.permissions.map((permission) => {
+                          return (
+                            <tr key={'tr-permission-id' + permission.id}>
+                              <CheckboxGroup
+                                name={`group-${permission.name}`}
+                                onChange={onCheckboxChange}
+                              >
+                                <td>
+                                  <label>
+                                    <AllCheckerCheckbox />
+                                    <span className="ms-2">{permission.description}</span>
+                                  </label>
+                                </td>
+                                {permission.children.map((childPermission) => {
+                                  return (
+                                    <td
+                                      key={`${permission.id}-${childPermission.id}-${childPermission.value}`}
+                                    >
+                                      <label>
+                                        <Checkbox
+                                          id={childPermission.id}
+                                          name={childPermission.name}
+                                          permission_name={childPermission.permissionName}
+                                          description={childPermission.permissionDesc}
+                                          value={childPermission.value}
+                                          checked={childPermission.checked}
+                                        />
+                                        <span className="ms-2">{childPermission.description}</span>
+                                      </label>
+                                    </td>
+                                  )
+                                })}
+                              </CheckboxGroup>
+                            </tr>
+                          )
+                        })}
+                    </tbody>
+                  </table>
+                </CCol>
+              </CRow>
             </CCardBody>
           </CCard>
           <div className="text-center mb-3 mt-4">

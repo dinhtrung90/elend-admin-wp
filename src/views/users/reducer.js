@@ -199,7 +199,14 @@ const userReducer = (state = initialState, action) => {
         isRedirect: false,
       })
     case t.USER_ROLE_DETAIL_GET_SUCCESS:
-      action.userRole.permissionAll = []
+      const allRoles = state.userRoles
+      allRoles.forEach((role) => {
+        role.selected = false
+        role.category = action.userRole.effectiveRoles.includes(role.name)
+          ? 'effectiveRoles'
+          : 'availableRoles'
+      })
+
       // state.permissions.forEach((parent) => {
       //   parent.children.forEach((child) => {
       //     child.checked = false
@@ -222,6 +229,7 @@ const userReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         isFetched: true,
+        userRoles: allRoles,
         userRoleDetail: action.userRole,
       })
     case t.USER_ROLE_DETAIL_GET_FAILURE:

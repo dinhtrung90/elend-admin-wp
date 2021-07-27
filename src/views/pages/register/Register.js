@@ -20,14 +20,12 @@ import CIcon from '@coreui/icons-react'
 import { FaAddressCard, FaCheckCircle, FaRegIdCard } from 'react-icons/fa'
 import * as Yup from 'yup'
 import { userService } from '../../../services/user.service'
-import FileUploader from '../../components/widgets/FileUploader'
 import { toast } from 'react-toastify'
 import DatePicker from 'react-mobile-datepicker'
 
 const Register = () => {
   const history = useHistory()
   const [thumbBeforeCardUrl, setThumbBeforeCardUrl] = useState(null)
-  const [thumbAfterCardUrl, setThumbAfterCardUrl] = useState('')
   const [isDatePickerOpen, setDatePickerOpen] = useState(false)
   const [selectedBirthDate, setSelectedBirthDate] = useState('')
 
@@ -101,9 +99,7 @@ const Register = () => {
       email: '',
       ssn: '', // CMND or CCCD
       fileBeforeCard: '',
-      fileAfterCard: '',
       thumbBeforeCardUrl: '',
-      thumbAfterCardUrl: '',
       gender: '',
       birthDate: '',
       fullAddress: '',
@@ -132,7 +128,6 @@ const Register = () => {
       eligibilityMetadata: [],
     }
     payload.eligibilityMetadata.push(thumbBeforeCardUrl)
-    // payload.eligibilityMetadata.push(thumbAfterCardUrl)
 
     userService
       .signupEligibility(payload)
@@ -162,26 +157,6 @@ const Register = () => {
     }
     setThumbBeforeCardUrl(data)
     formik.values.thumbBeforeCardUrl = data
-  }
-
-  const uploadFileAfterCard = (file) => {
-    formik.values.fileAfterCard = file
-    setTimeout(() => {
-      userService
-        .uploadImage(file)
-        .then((result) => {
-          const data = {
-            signature: result.data.public_id,
-            thumbUrl: result.data.url,
-            fileName: file.name,
-          }
-          setThumbAfterCardUrl(data)
-          formik.values.thumbAfterCardUrl = data
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    }, 400)
   }
 
   const resetForm = () => {

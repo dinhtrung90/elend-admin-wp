@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { CCol, CRow, CButton } from '@coreui/react'
 import { FaExchangeAlt } from 'react-icons/fa'
@@ -9,7 +9,7 @@ const WidgetDragDrop = (props) => {
 
   const { dataSource, onFinish, ...attributes } = props
 
-  const [defaultRoles, setDefaultRoles] = useState(dataSource)
+  const [defaultRoles, setDefaultRoles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
   const roleEnum = {
@@ -23,6 +23,10 @@ const WidgetDragDrop = (props) => {
     availableRoles: 'availableRoles',
     effectiveRoles: 'effectiveRoles',
   }
+
+  useEffect(() => {
+    setDefaultRoles(dataSource)
+  }, [dataSource])
 
   const assignEffectiveRole = (selectedRole, newCategory) => {
     switch (selectedRole.name) {
