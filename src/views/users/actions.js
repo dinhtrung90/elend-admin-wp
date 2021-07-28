@@ -25,6 +25,7 @@ export const userActions = {
   getClientApplications,
   createUserRoleMapping,
   _updateUserApplicationRole,
+  getAllEligibility,
 }
 
 function getAllUsers(data) {
@@ -624,5 +625,31 @@ function _updateUserApplicationRole(applicationRole) {
 
   function failure(error) {
     return { type: t.UPDATE_USER_APPLICATION_ROLE_LOCAL_FAILURE, error }
+  }
+}
+
+function getAllEligibility(data) {
+  return (dispatch) => {
+    dispatch(request())
+    return api.userService
+      .getAllEligibility(data)
+      .then((response) => {
+        dispatch(success(response))
+      })
+      .catch((error) => {
+        dispatch(failure(error))
+      })
+  }
+
+  function request() {
+    return { type: t.GET_ALL_ELIGIBILITY_REQUEST }
+  }
+
+  function success(response) {
+    return { type: t.GET_ALL_ELIGIBILITY_SUCCESS, response }
+  }
+
+  function failure(error) {
+    return { type: t.GET_ALL_ELIGIBILITY_FAILURE, error }
   }
 }

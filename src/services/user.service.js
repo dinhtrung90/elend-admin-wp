@@ -67,6 +67,13 @@ const receivedPresent = (data) => {
   return axios.post(SERVICE_DOMAIN + `/api/public/eligibility/receivedPresent`, data)
 }
 
+const getAllEligibility = (data) => {
+  if (data && data.all) {
+    return axios.get(SERVICE_DOMAIN + `/api/cms/eligibility`)
+  }
+  return axios.get(SERVICE_DOMAIN + `/api/cms/eligibility?page=${data.page}&size=${data.size}`)
+}
+
 export const userService = {
   createAccount,
   updateAccount,
@@ -81,4 +88,5 @@ export const userService = {
   uploadImage,
   signupEligibility,
   receivedPresent,
+  getAllEligibility,
 }

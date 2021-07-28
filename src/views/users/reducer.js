@@ -26,6 +26,7 @@ const initialState = {
   totalPages: 0,
   isRedirect: false,
   clientApps: [],
+  eligibilities: [],
 }
 
 const convertToUserDetail = (data, userRoles) => {
@@ -85,6 +86,21 @@ const convertToUserDetail = (data, userRoles) => {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case t.GET_ALL_ELIGIBILITY_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+      })
+    case t.GET_ALL_ELIGIBILITY_SUCCESS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        isFetched: true,
+        eligibilities: action.response.data,
+        totalPages: Math.ceil(action.response.headers['x-total-count'] / state.itemsPerPage),
+      })
+    case t.GET_ALL_ELIGIBILITY_FAILURE:
+      return Object.assign({}, state, {
+        errorFetch: action.error,
+      })
     case t.CREATE_USER_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,

@@ -89,6 +89,7 @@
       "PostalZipCode": "Mã bưu điện",
       "AddressBook": "Sổ địa chỉ",
       "AddNewAddress": "Thêm mới địa chỉ",
+      "SaveAddress": "Save Address",
       "ApplicationRoles": "Application Roles"
     },
     "UserRoles": {
@@ -104,8 +105,16 @@
       "Read": "Xem",
       "CompositeRoles": "Composite Roles",
       "AvailableRoles": "Available Roles",
+      "AssignedRoles": "Assigned Roles",
       "AssociatedRoles": "Associated Roles",
-      "EffectiveRoles": "Effective Roles"
+      "EffectiveRoles": "Effective Roles",
+      "UserRoles": "User Roles"
+    },
+    "Eligibilities": {
+      "Company": "Company",
+      "Fullname": "Fullname",
+      "SSN": "CMND/CCCD",
+      "Phone": "Phone"
     }
   },
   "messages": {

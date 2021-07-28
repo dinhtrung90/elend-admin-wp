@@ -109,6 +109,12 @@
       "AssociatedRoles": "Associated Roles",
       "EffectiveRoles": "Effective Roles",
       "UserRoles": "User Roles"
+    },
+    "Eligibilities": {
+      "Company": "Company",
+      "Fullname": "Fullname",
+      "SSN": "SSN",
+      "Phone": "Phone"
     }
   },
   "messages": {
