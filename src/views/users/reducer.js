@@ -182,12 +182,12 @@ const userReducer = (state = initialState, action) => {
         isFetching: false,
         isFetched: true,
         userRoleDetail: {}, // reset detail item
-        userRoles: action.userRoles,
+        userRoles: action.response.data,
         userDetail: {
           userRoles: [],
           userAddressList: [],
         },
-        totalPages: action.userRoles.totalPage,
+        totalPages: Math.ceil(action.response.headers['x-total-count'] / state.itemsPerPage),
       })
     case t.USER_ROLES_GET_ALL_FAILURE:
       return Object.assign({}, state, {

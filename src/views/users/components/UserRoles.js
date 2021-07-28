@@ -36,8 +36,14 @@ const UserRoles = () => {
   const [page, setPage] = useState(currentPage)
   const specialRoles = ['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER']
 
+  console.log('isFetching=', isFetching)
+
   const pageChange = (newPage) => {
     currentPage !== newPage && history.push(`/users/role?page=${newPage === 0 ? 1 : newPage}`)
+  }
+
+  const onPaginationChange = (numberItemsPerPage) => {
+    dispatch(userActions.getAllRoles({ page: 0, size: numberItemsPerPage }))
   }
 
   useEffect(() => {
@@ -107,6 +113,9 @@ const UserRoles = () => {
               hover
               striped
               itemsPerPage={itemsPerPage}
+              activePage={currentPage - 1}
+              clickableRows
+              onPaginationChange={onPaginationChange}
               scopedSlots={{
                 action: (item) => (
                   <td>

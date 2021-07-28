@@ -263,7 +263,7 @@ function getAllRoles(data) {
             item.description = item.description || ''
           })
         }
-        dispatch(success(response.data))
+        dispatch(success(response))
       })
       .catch((error) => {
         dispatch(failure(error))
@@ -274,8 +274,8 @@ function getAllRoles(data) {
     return { type: t.USER_ROLES_GET_ALL_REQUEST }
   }
 
-  function success(userRoles) {
-    return { type: t.USER_ROLES_GET_ALL_SUCCESS, userRoles }
+  function success(response) {
+    return { type: t.USER_ROLES_GET_ALL_SUCCESS, response }
   }
 
   function failure(error) {
