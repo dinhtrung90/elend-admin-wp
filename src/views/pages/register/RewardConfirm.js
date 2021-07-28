@@ -14,7 +14,7 @@ import {
   CButton,
 } from '@coreui/react'
 import { useFormik } from 'formik'
-import { FaAddressCard, FaGift } from 'react-icons/fa'
+import { FaGift } from 'react-icons/fa'
 import CIcon from '@coreui/icons-react'
 import * as Yup from 'yup'
 import { userService } from '../../../services/user.service'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { CAvatar, CCard, CCardBody, CCol, CContainer, CRow } from '@coreui/react'
+import { CCard, CCardBody, CCol, CContainer, CRow } from '@coreui/react'
 
 const HomeQRCode = () => {
   return (
@@ -27,7 +27,7 @@ const HomeQRCode = () => {
                 <p className="text-medium-emphasis">Đăng ký nhận quà, tránh xa Covid </p>
                 <CRow>
                   <CCol sm="12" className="text-center">
-                    <img src="/images/quatang-qr-code.png" height="300px" />
+                    <img alt="reward-qr-code" src="/images/quatang-qr-code.png" height="300px" />
                     <p>Vui lòng dùng Zalo hoặc QR app để xác nhận quà tặng.</p>
                   </CCol>
                 </CRow>

@@ -61,7 +61,7 @@ const User = ({ match }) => {
       }
     }
     loadData()
-  }, [dispatch])
+  }, [dispatch, paramId])
 
   const handleTabSelected = (tabIndex) => {
     setActiveKey(tabIndex)

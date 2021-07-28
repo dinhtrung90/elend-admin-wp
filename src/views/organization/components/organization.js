@@ -44,7 +44,7 @@ const Organization = () => {
     LogoDesc:
       'If set, this is the logo that will be displayed to end-users for this organization in any interaction with them.',
     PrimaryColor: 'Primary Color',
-    PrimaryColorDesc: `If set, this will be the primary color for CTAs that will be displayed to end-users for this organization in your application\'s authentication flows.`,
+    PrimaryColorDesc: `If set, this will be the primary color for CTAs that will be displayed to end-users for this organization in your application's authentication flows.`,
     DeleteOrg: 'Delete this organization',
     DeleteOrgDesc: `All user membership to this organization will be removed. Users won't be removed. Once confirmed, this operation can't be undone!`,
     Save: 'Save',

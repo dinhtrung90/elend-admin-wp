@@ -17,7 +17,7 @@ import {
   CFormFeedback,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { FaAddressCard, FaCheckCircle, FaRegIdCard } from 'react-icons/fa'
+import { FaAddressCard, FaCheckCircle } from 'react-icons/fa'
 import * as Yup from 'yup'
 import { userService } from '../../../services/user.service'
 import { toast } from 'react-toastify'

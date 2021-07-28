@@ -30,6 +30,7 @@ const UserRole = ({ match }) => {
   const isRedirect = useSelector((state) => state.users.isRedirect)
   const permissions = useSelector((state) => state.users.permissions)
   const [selectedUserRoles, setSelectedUserRoles] = useState([])
+  const paramId = match.params.id
 
   const formik = useFormik({
     initialValues: {
@@ -50,17 +51,10 @@ const UserRole = ({ match }) => {
   })
 
   // populate data in edit mode
-  if (match.params.id) {
+  if (paramId) {
     if (formik.values.roleName.length === 0 && userRoleData && userRoleData.roleName) {
       formik.setValues(userRoleData)
     }
-  } else {
-    // reset permissions
-    // permissions.forEach((parent) => {
-    //   parent.children.forEach((child) => {
-    //     child.checked = false
-    //   })
-    // })
   }
 
   const onCheckboxChange = (checkboxes) => {
@@ -70,25 +64,6 @@ const UserRole = ({ match }) => {
         child.checked = foundChild ? foundChild.checked : false
       })
     })
-    // checkboxes.forEach((item) => {
-    //   permissions.forEach((p) => {
-    //     p.children.forEach((child) => {
-    //       if (item.name === child.name) {
-    //         child.checked = item.checked
-    //       } else {
-    //         child.checked = false
-    //       }
-    //     })
-    //   })
-    // })
-    // checkboxes.forEach((item) => {
-    //   const selectedItemInx = formik.values.availablePrivileges.findIndex((p) => p.name === item.name)
-    //   if (selectedItemInx === -1) {
-    //     formik.values.availablePrivileges.push(item)
-    //   } else {
-    //     formik.values.availablePrivileges[selectedItemInx] = item
-    //   }
-    // })
   }
 
   const onCheckboxAllChange = () => {
@@ -105,12 +80,12 @@ const UserRole = ({ match }) => {
     const loadData = async () => {
       await dispatch(userActions.getAllRoles({ all: true }))
       await dispatch(userActions.getAllPermissions())
-      if (match.params.id) {
-        await dispatch(userActions.getUserRoleDetail(match.params.id))
+      if (paramId) {
+        await dispatch(userActions.getUserRoleDetail(paramId))
       }
     }
     loadData()
-  }, [dispatch])
+  }, [dispatch, paramId])
 
   const onDropUserRoles = (roles) => {
     setSelectedUserRoles(roles)
@@ -140,7 +115,7 @@ const UserRole = ({ match }) => {
       })
     })
     payload.availablePrivileges = availablePrivileges
-    if (match.params.id) {
+    if (paramId) {
       dispatch(userActions.editUserRole(payload))
     } else {
       dispatch(userActions.createUserRole(payload))
@@ -155,7 +130,7 @@ const UserRole = ({ match }) => {
         <CForm onSubmit={formik.handleSubmit}>
           <CCard>
             <CCardHeader>
-              {match.params.id ? t('view.UserRoles.EditUserRole') : t('view.UserRoles.NewUserRole')}
+              {paramId ? t('view.UserRoles.EditUserRole') : t('view.UserRoles.NewUserRole')}
               <button type="submit" className="float-end btn btn-primary btn-sm">
                 <CIcon name="cil-save" alt="btn-save" />
               </button>

@@ -372,6 +372,7 @@ function _standardizePermissions(data) {
       )
       permissions[currentParentIndex].children.push(item)
     }
+    return item
   })
   permissions.forEach((p) => {
     p.children.sort((a, b) => a.orderIndex - b.orderIndex)
