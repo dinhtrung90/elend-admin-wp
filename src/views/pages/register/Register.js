@@ -242,24 +242,23 @@ const Register = () => {
           <CCol sm={12} className="mt-4 mb-4">
             <div className="reward-description-content mx-4">
               <p>
-                Cùng Chung Tay đánh bay covid Công ty cổ phần phần TND Technology Solution hỗ trợ{' '}
-                <strong>1000 phần quà</strong> chia sẻ khó khăn cùng anh em lái xe công nghệ vượt
-                qua đợt dịch covid này
+                <strong>1000 phần quà</strong> tặng cho anh em lái xe công nghệ từ Cty cổ phần TND Technology Solution
+                Hỗ trợ ae lái xe vượt qua khó khăn trong đại dịch.
               </p>
               <p>Cách thức nhận quà:</p>
               <p>
-                <strong>Bước 1:</strong> Cung cấp thông tin theo đường link bên dưới Sau khi cung
-                cấp thông tin sẽ có nhân viên liên lạc xác nhận ngày các bạn sẽ nhận quà
+                <strong>Bước 1:</strong> Cung cấp thông tin theo đường link/mã QR bên dưới
+                Sau khi cung cấp thông tin sẽ có nhân viên liên lạc xác nhận ngày các bạn sẽ nhận quà.
               </p>
               <p>
-                <strong>Bước 2:</strong> Để đảm bảo an toàn phòng dịch khi tới nhận quà các bạn chỉ
-                cần Mở Zalo và quét mã QR tại điểm nhận quà.
+                <strong>Bước 2:</strong> Để đảm bảo an toàn phòng dịch khi tới nhận quà các bạn chỉ cần
+                Mở Zalo và quét mã QR tại điểm nhận quà.
               </p>
               <p>Nhân viên tại điểm nhận quà sẽ kiểm tra đúng thông tin</p>
               <p>Anh/Chị tự lấy quà tại điểm trao quà (không tiếp xúc)</p>
               <p>
-                Dự kiến ngày <strong>28-29-30/7</strong> (mỗi ngày 300 phần quà) tại địa chỉ 198
-                Nguyễn Văn Luông Phường 11 Quận 6
+                Dự kiến ngày <strong>06-07-08/08</strong> (mỗi ngày 300 phần quà) tại địa chỉ 198
+                Nguyễn Văn Luông Phường 11 Quận 6.
               </p>
             </div>
           </CCol>
