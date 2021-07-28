@@ -213,8 +213,6 @@ const userReducer = (state = initialState, action) => {
           child.checked = foundChild ? foundChild.selected : false
         })
       })
-      console.log('state.permissions=', state.permissions)
-      console.log('action.userRole=', action.userRole)
       return Object.assign({}, state, {
         isFetching: false,
         isFetched: true,
