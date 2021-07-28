@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 const WidgetDragDrop = (props) => {
   const { t } = useTranslation()
 
-  const { dataSource, onFinish, ...attributes } = props
+  const { dataSource, onFinish } = props
 
   const [defaultRoles, setDefaultRoles] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -109,27 +109,11 @@ const WidgetDragDrop = (props) => {
     ev.currentTarget.classList.remove('selected')
   }
 
-  const handleAddSelectedRole = (ev) => {
+  const handleToSwitchRole = (ev) => {
     setIsLoading(true)
-    defaultRoles.filter((role) => {
+    defaultRoles.forEach((role) => {
       if (role.selected && role.category === categoryEnum.availableRoles) {
         assignEffectiveRole(role, categoryEnum.effectiveRoles)
-      }
-    })
-    setDefaultRoles(defaultRoles)
-    setTimeout(() => {
-      setIsLoading(false)
-      handleOnDropCompleted(
-        defaultRoles.filter((role) => role.category === categoryEnum.effectiveRoles),
-      )
-    }, 200)
-  }
-
-  const handleRemoveSelectedRole = (ev) => {
-    setIsLoading(true)
-    defaultRoles.filter((role) => {
-      if (role.selected && role.category === categoryEnum.effectiveRoles) {
-        assignEffectiveRole(role, categoryEnum.availableRoles)
       }
     })
     setDefaultRoles(defaultRoles)
@@ -171,7 +155,7 @@ const WidgetDragDrop = (props) => {
               ) : null
             })}
         </div>
-        <CButton color="primary mt-3" onClick={(e) => handleAddSelectedRole(e)}>
+        <CButton color="primary mt-3" onClick={(e) => handleToSwitchRole(e)}>
           {t('common.AddSelected')}
         </CButton>
       </CCol>
@@ -202,7 +186,7 @@ const WidgetDragDrop = (props) => {
               ) : null
             })}
         </div>
-        <CButton color="secondary mt-3" onClick={(e) => handleRemoveSelectedRole(e)}>
+        <CButton color="secondary mt-3" onClick={(e) => handleToSwitchRole(e)}>
           {t('common.RemoveSelected')}
         </CButton>
       </CCol>

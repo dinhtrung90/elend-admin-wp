@@ -90,7 +90,7 @@ const User = ({ match }) => {
         <CCard>
           <CCardHeader>{isNew ? t('common.NewUser') : t('common.EditUser')}</CCardHeader>
           <CCardBody className="flex-center">
-            <CSpinner color="primary" />
+            <CSpinner color="primary" size="sm" />
           </CCardBody>
         </CCard>
       </CCol>

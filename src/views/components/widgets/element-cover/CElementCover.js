@@ -73,7 +73,7 @@ const CElementCover = (props) => {
             transform: 'translateX(-50%) translateY(-50%)',
           }}
         >
-          <CSpinner grow size="lg" color="primary" />
+          <CSpinner size="sm" color="primary" />
         </div>
       )}
     </div>

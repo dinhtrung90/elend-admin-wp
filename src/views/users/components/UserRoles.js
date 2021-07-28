@@ -19,6 +19,7 @@ import CDataTable from '../../components/widgets/table/CDataTable'
 import CPagination from '../../components/widgets/pagination/CPagination'
 import CIcon from '@coreui/icons-react'
 import { userActions } from '../actions'
+import { FaPlus } from 'react-icons/fa'
 
 const UserRoles = () => {
   const { t } = useTranslation()
@@ -84,8 +85,7 @@ const UserRoles = () => {
                   className="float-end"
                   onClick={navigationToUserRoleCreation}
                 >
-                  <CIcon name="cil-plus" />
-                  New User Role
+                  <FaPlus /> New User Role
                 </CButton>
               </CCol>
             </CRow>
