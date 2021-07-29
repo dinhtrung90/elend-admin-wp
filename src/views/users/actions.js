@@ -26,6 +26,8 @@ export const userActions = {
   createUserRoleMapping,
   _updateUserApplicationRole,
   getAllEligibility,
+  getAllPublicEligibility,
+  getPublicEligibilityDetail,
 }
 
 function getAllUsers(data) {
@@ -651,5 +653,57 @@ function getAllEligibility(data) {
 
   function failure(error) {
     return { type: t.GET_ALL_ELIGIBILITY_FAILURE, error }
+  }
+}
+
+function getAllPublicEligibility(data) {
+  return (dispatch) => {
+    dispatch(request())
+    return api.userService
+      .getAllPublishEligibility(data)
+      .then((response) => {
+        dispatch(success(response))
+      })
+      .catch((error) => {
+        dispatch(failure(error))
+      })
+  }
+
+  function request() {
+    return { type: t.GET_ALL_PUBLIC_ELIGIBILITY_REQUEST }
+  }
+
+  function success(response) {
+    return { type: t.GET_ALL_PUBLIC_ELIGIBILITY_SUCCESS, response }
+  }
+
+  function failure(error) {
+    return { type: t.GET_ALL_PUBLIC_ELIGIBILITY_FAILURE, error }
+  }
+}
+
+function getPublicEligibilityDetail(item) {
+  return (dispatch) => {
+    dispatch(request(item))
+    return api.userService
+      .getPublishEligibilityDetail(item.id)
+      .then((response) => {
+        dispatch(success(response.data))
+      })
+      .catch((error) => {
+        dispatch(failure(error))
+      })
+  }
+
+  function request() {
+    return { type: t.GET_PUBLIC_ELIGIBILITY_DETAIL_REQUEST }
+  }
+
+  function success(rewardEligibilityDetail) {
+    return { type: t.GET_PUBLIC_ELIGIBILITY_DETAIL_SUCCESS, rewardEligibilityDetail }
+  }
+
+  function failure(error) {
+    return { type: t.GET_PUBLIC_ELIGIBILITY_DETAIL_FAILURE, error }
   }
 }

@@ -27,6 +27,9 @@ const initialState = {
   isRedirect: false,
   clientApps: [],
   eligibilities: [],
+  rewardEligibilities: [],
+  rewardEligibilityDetail: null,
+  itemsPerPageReward: 100,
 }
 
 const convertToUserDetail = (data, userRoles) => {
@@ -98,6 +101,65 @@ const userReducer = (state = initialState, action) => {
         totalPages: Math.ceil(action.response.headers['x-total-count'] / state.itemsPerPage),
       })
     case t.GET_ALL_ELIGIBILITY_FAILURE:
+      return Object.assign({}, state, {
+        errorFetch: action.error,
+      })
+    case t.GET_ALL_PUBLIC_ELIGIBILITY_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+      })
+    case t.GET_ALL_PUBLIC_ELIGIBILITY_SUCCESS:
+      const list = action.response.data.map((eligibility) => {
+        return {
+          id: eligibility.id,
+          phone: eligibility.phone,
+          fullName: eligibility.fullName,
+          address: eligibility.fullAddress,
+          company: eligibility.company || eligibility.otherCompany,
+          ssn: eligibility.ssn,
+          employeeId: eligibility.employeeId,
+        }
+      })
+      return Object.assign({}, state, {
+        isFetching: false,
+        isFetched: true,
+        rewardEligibilities: list,
+        totalPages: Math.ceil(action.response.headers['x-total-count'] / state.itemsPerPageReward),
+      })
+    case t.GET_ALL_PUBLIC_ELIGIBILITY_FAILURE:
+      return Object.assign({}, state, {
+        errorFetch: action.error,
+      })
+    case t.GET_PUBLIC_ELIGIBILITY_DETAIL_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+      })
+    case t.GET_PUBLIC_ELIGIBILITY_DETAIL_SUCCESS:
+      const customer = action.rewardEligibilityDetail
+      const eligibility = customer.eligibility
+      const metadata =
+        customer.metadata && action.rewardEligibilityDetail.metadata.length > 0
+          ? customer.metadata[0]
+          : {}
+      const progress = customer.progress && customer.progress.length > 0 ? customer.progress[0] : {}
+
+      return Object.assign({}, state, {
+        isFetching: false,
+        isFetched: true,
+        rewardEligibilityDetail: {
+          id: eligibility.id,
+          phone: eligibility.phone,
+          fullName: eligibility.fullName,
+          address: eligibility.fullAddress,
+          company: eligibility.company || eligibility.otherCompany,
+          ssn: eligibility.ssn,
+          employeeId: eligibility.employeeId,
+          ssnURL: metadata.thumbUrl || '',
+          rewardCode: progress.code.toUpperCase() || '',
+          hasPresent: progress.hasPresent || false,
+        },
+      })
+    case t.GET_PUBLIC_ELIGIBILITY_DETAIL_FAILURE:
       return Object.assign({}, state, {
         errorFetch: action.error,
       })

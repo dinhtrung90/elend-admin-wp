@@ -67,6 +67,19 @@ const receivedPresent = (data) => {
   return axios.post(SERVICE_DOMAIN + `/api/public/eligibility/receivedPresent`, data)
 }
 
+const getAllPublishEligibility = (data) => {
+  if (data && data.all) {
+    return axios.get(SERVICE_DOMAIN + `/api/public/eligibility/list`)
+  }
+  return axios.get(
+    SERVICE_DOMAIN + `/api/public/eligibility/list?page=${data.page}&size=${data.size}`,
+  )
+}
+
+const getPublishEligibilityDetail = (eligibityId) => {
+  return axios.get(SERVICE_DOMAIN + `/api/public/eligibility/get/${eligibityId}`)
+}
+
 const getAllEligibility = (data) => {
   if (data && data.all) {
     return axios.get(SERVICE_DOMAIN + `/api/cms/eligibility`)
@@ -89,4 +102,6 @@ export const userService = {
   signupEligibility,
   receivedPresent,
   getAllEligibility,
+  getAllPublishEligibility,
+  getPublishEligibilityDetail,
 }

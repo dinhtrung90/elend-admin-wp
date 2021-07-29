@@ -45,6 +45,7 @@ const Badges = React.lazy(() => import('./views/components/notifications/badges/
 const Modals = React.lazy(() => import('./views/components/notifications/modals/Modals'))
 const Toasts = React.lazy(() => import('./views/components/notifications/toasts/Toasts'))
 
+const RewardEligibilities = React.lazy(() => import('./views/pages/register/Eligibilities'))
 // const Login = React.lazy(() => import('./views/examples/pages/login/Login'))
 // const Register = React.lazy(() => import('./views/pages/register/Register'))
 // const RewardConfirm = React.lazy(() => import('./views/pages/register/RewardConfirm'))
@@ -114,6 +115,7 @@ const routes = [
   { path: '/notifications/badges', name: 'Badges', component: Badges },
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/notifications/toasts', name: 'Toasts', component: Toasts },
+  { path: '/danhsach', name: 'Eligibilities', component: RewardEligibilities },
   // { path: '/login', name: 'Login', component: Login },
   // { path: '/register', name: 'Register', component: Register },
   // { path: '/confirm-reward', name: 'Register', component: RewardConfirm },
