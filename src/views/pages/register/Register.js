@@ -85,7 +85,6 @@ const Register = () => {
     fullName: Yup.string().required('Vui lòng nhập họ tên'),
     mobilePhone: Yup.string().required('Vui lòng nhập số điện thoại'),
     ssn: Yup.string().required('Vui lòng nhập CMND hay CCCD'),
-    fullAddress: Yup.string().required('Vui lòng địa chỉ'),
   })
 
   const formik = useFormik({
@@ -121,7 +120,10 @@ const Register = () => {
             ? formik.values.birthDate
             : selectedBirthDate,
         ssn: formik.values.ssn && formik.values.ssn.length > 0 ? formik.values.ssn : 'Unknown',
-        fullAddress: formik.values.fullAddress,
+        fullAddress:
+          formik.values.fullAddress && formik.values.fullAddress.length
+            ? formik.values.fullAddress
+            : 'Unknown',
         gender: formik.values.gender || constGenders.UNKNOWN,
       },
       eligibilityMetadata: [],
@@ -508,35 +510,35 @@ const Register = () => {
                         />
                       </CInputGroup>
                     </CCol>
-                    <CCol sm={12} className="mb-4">
-                      <CFormLabel htmlFor="fullAddress" className="col-form-label">
-                        Địa chỉ <span className="form-required"> *</span>
-                      </CFormLabel>
-                      <CInputGroup>
-                        <CInputGroupText>
-                          <CIcon name="cil-location-pin" />
-                        </CInputGroupText>
-                        <CFormControl
-                          id="fullAddress"
-                          name="fullAddress"
-                          placeholder="Địa chỉ nhà"
-                          invalid={formik.errors.fullAddress && formik.touched.fullAddress}
-                          value={formik.values.fullAddress}
-                          {...formik.getFieldProps('fullAddress')}
-                        />
-                      </CInputGroup>
-                      <CFormFeedback
-                        invalid
-                        style={{
-                          display:
-                            formik.errors.fullAddress && formik.touched.fullAddress
-                              ? 'block'
-                              : 'none',
-                        }}
-                      >
-                        {formik.errors.fullAddress}
-                      </CFormFeedback>
-                    </CCol>
+                    {/*<CCol sm={12} className="mb-4">*/}
+                    {/*  <CFormLabel htmlFor="fullAddress" className="col-form-label">*/}
+                    {/*    Địa chỉ <span className="form-required"> *</span>*/}
+                    {/*  </CFormLabel>*/}
+                    {/*  <CInputGroup>*/}
+                    {/*    <CInputGroupText>*/}
+                    {/*      <CIcon name="cil-location-pin" />*/}
+                    {/*    </CInputGroupText>*/}
+                    {/*    <CFormControl*/}
+                    {/*      id="fullAddress"*/}
+                    {/*      name="fullAddress"*/}
+                    {/*      placeholder="Địa chỉ nhà"*/}
+                    {/*      invalid={formik.errors.fullAddress && formik.touched.fullAddress}*/}
+                    {/*      value={formik.values.fullAddress}*/}
+                    {/*      {...formik.getFieldProps('fullAddress')}*/}
+                    {/*    />*/}
+                    {/*  </CInputGroup>*/}
+                    {/*  <CFormFeedback*/}
+                    {/*    invalid*/}
+                    {/*    style={{*/}
+                    {/*      display:*/}
+                    {/*        formik.errors.fullAddress && formik.touched.fullAddress*/}
+                    {/*          ? 'block'*/}
+                    {/*          : 'none',*/}
+                    {/*    }}*/}
+                    {/*  >*/}
+                    {/*    {formik.errors.fullAddress}*/}
+                    {/*  </CFormFeedback>*/}
+                    {/*</CCol>*/}
                     {/*<CCol sm={6} className="mb-4">*/}
                     {/*  <CFormLabel htmlFor="email" className="col-form-label">*/}
                     {/*    Email*/}
