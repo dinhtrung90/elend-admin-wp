@@ -86,7 +86,6 @@ const Register = () => {
     mobilePhone: Yup.string().required('Vui lòng nhập số điện thoại'),
     ssn: Yup.string().required('Vui lòng nhập CMND hay CCCD'),
     fullAddress: Yup.string().required('Vui lòng địa chỉ'),
-    thumbBeforeCardUrl: Yup.mixed().required('Vui lòng chụp mặt trước CMND/CCCD'),
   })
 
   const formik = useFormik({
@@ -121,13 +120,16 @@ const Register = () => {
           formik.values.birthDate && formik.values.birthDate.length > 0
             ? formik.values.birthDate
             : selectedBirthDate,
-        ssn: formik.values.ssn,
+        ssn: formik.values.ssn && formik.values.ssn.length > 0 ? formik.values.ssn : 'Unknown',
         fullAddress: formik.values.fullAddress,
         gender: formik.values.gender || constGenders.UNKNOWN,
       },
       eligibilityMetadata: [],
     }
-    payload.eligibilityMetadata.push(thumbBeforeCardUrl)
+
+    if (thumbBeforeCardUrl) {
+      payload.eligibilityMetadata.push(thumbBeforeCardUrl)
+    }
 
     userService
       .signupEligibility(payload)
@@ -439,35 +441,51 @@ const Register = () => {
                         {formik.errors.ssn}
                       </CFormFeedback>
                     </CCol>
+                    {/*<CCol sm={6} className="mb-4">*/}
+                    {/*  <CFormLabel htmlFor="beforeIdentityCard" className="col-form-label">*/}
+                    {/*    Mặt trước CMND/CCCD <span className="form-required"> *</span>*/}
+                    {/*  </CFormLabel>*/}
+                    {/*  <CInputGroup>*/}
+                    {/*    <CInputGroupText>*/}
+                    {/*      <FaAddressCard />*/}
+                    {/*    </CInputGroupText>*/}
+                    {/*    <CButton*/}
+                    {/*      className="button-cloudinary-upload"*/}
+                    {/*      onClick={showCloudinaryWidget}*/}
+                    {/*    >*/}
+                    {/*      Chọn File*/}
+                    {/*    </CButton>*/}
+                    {/*    <CInputGroupText>*/}
+                    {/*      <FaCheckCircle color={thumbBeforeCardUrl ? '#2eb85c' : 'gray'} />*/}
+                    {/*    </CInputGroupText>*/}
+                    {/*  </CInputGroup>*/}
+                    {/*  <CFormFeedback*/}
+                    {/*    invalid*/}
+                    {/*    style={{*/}
+                    {/*      display:*/}
+                    {/*        formik.errors.fileBeforeCard && formik.touched.fileBeforeCard*/}
+                    {/*          ? 'block'*/}
+                    {/*          : 'none',*/}
+                    {/*    }}*/}
+                    {/*  >*/}
+                    {/*    {formik.errors.fileBeforeCard}*/}
+                    {/*  </CFormFeedback>*/}
+                    {/*</CCol>*/}
                     <CCol sm={6} className="mb-4">
-                      <CFormLabel htmlFor="beforeIdentityCard" className="col-form-label">
-                        Mặt trước CMND/CCCD <span className="form-required"> *</span>
+                      <CFormLabel htmlFor="UserRole" className="col-form-label">
+                        Giới tính
                       </CFormLabel>
                       <CInputGroup>
                         <CInputGroupText>
-                          <FaAddressCard />
+                          <CIcon name="cil-people" />
                         </CInputGroupText>
-                        <CButton
-                          className="button-cloudinary-upload"
-                          onClick={showCloudinaryWidget}
-                        >
-                          Chọn File
-                        </CButton>
-                        <CInputGroupText>
-                          <FaCheckCircle color={thumbBeforeCardUrl ? '#2eb85c' : 'gray'} />
-                        </CInputGroupText>
+                        <CFormSelect name="Gender" id="Gender" {...formik.getFieldProps('gender')}>
+                          <option value={constGenders.NONE}>Chọn giới tính</option>
+                          <option value={constGenders.MALE}>Nam</option>
+                          <option value={constGenders.FEMALE}>Nữ</option>
+                          <option value={constGenders.UNKNOWN}>Khác</option>
+                        </CFormSelect>
                       </CInputGroup>
-                      <CFormFeedback
-                        invalid
-                        style={{
-                          display:
-                            formik.errors.fileBeforeCard && formik.touched.fileBeforeCard
-                              ? 'block'
-                              : 'none',
-                        }}
-                      >
-                        {formik.errors.fileBeforeCard}
-                      </CFormFeedback>
                     </CCol>
                     <CCol sm={6} className="mb-4">
                       <CFormLabel htmlFor="DateOfBirth" className="col-form-label">
@@ -519,39 +537,23 @@ const Register = () => {
                         {formik.errors.fullAddress}
                       </CFormFeedback>
                     </CCol>
-                    <CCol sm={6} className="mb-4">
-                      <CFormLabel htmlFor="UserRole" className="col-form-label">
-                        Giới tính
-                      </CFormLabel>
-                      <CInputGroup>
-                        <CInputGroupText>
-                          <CIcon name="cil-people" />
-                        </CInputGroupText>
-                        <CFormSelect name="Gender" id="Gender" {...formik.getFieldProps('gender')}>
-                          <option value={constGenders.NONE}>Chọn giới tính</option>
-                          <option value={constGenders.MALE}>Nam</option>
-                          <option value={constGenders.FEMALE}>Nữ</option>
-                          <option value={constGenders.UNKNOWN}>Khác</option>
-                        </CFormSelect>
-                      </CInputGroup>
-                    </CCol>
-                    <CCol sm={6} className="mb-4">
-                      <CFormLabel htmlFor="email" className="col-form-label">
-                        Email
-                      </CFormLabel>
-                      <CInputGroup>
-                        <CInputGroupText>
-                          <CIcon name="cil-user" />
-                        </CInputGroupText>
-                        <CFormControl
-                          id="email"
-                          name="email"
-                          placeholder="Email"
-                          value={formik.values.email}
-                          {...formik.getFieldProps('email')}
-                        />
-                      </CInputGroup>
-                    </CCol>
+                    {/*<CCol sm={6} className="mb-4">*/}
+                    {/*  <CFormLabel htmlFor="email" className="col-form-label">*/}
+                    {/*    Email*/}
+                    {/*  </CFormLabel>*/}
+                    {/*  <CInputGroup>*/}
+                    {/*    <CInputGroupText>*/}
+                    {/*      <CIcon name="cil-user" />*/}
+                    {/*    </CInputGroupText>*/}
+                    {/*    <CFormControl*/}
+                    {/*      id="email"*/}
+                    {/*      name="email"*/}
+                    {/*      placeholder="Email"*/}
+                    {/*      value={formik.values.email}*/}
+                    {/*      {...formik.getFieldProps('email')}*/}
+                    {/*    />*/}
+                    {/*  </CInputGroup>*/}
+                    {/*</CCol>*/}
                   </CRow>
                   <CRow>
                     <hr />
